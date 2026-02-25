@@ -1,0 +1,2654 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>edgen+</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230a0a0a'/><text x='16' y='22' text-anchor='middle' fill='%231ed1e9' font-size='16' font-weight='700'>e+</text></svg>">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  <style>
+    /* === RESET & BASE === */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-card: #141414;
+      --bg-elevated: #1e1e1e;
+      --border: #333;
+      --border-subtle: #222;
+      --accent-teal: #1cbcd4;
+      --accent-green: #34d399;
+      --accent-red: #f87171;
+      --accent-warning: #fbbf24;
+      --accent-lime: #bef264;
+      --text-primary: #f5f5f5;
+      --text-secondary: rgba(255,255,255,0.72);
+      --text-muted: rgba(255,255,255,0.36);
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 10px;
+      --radius-xl: 14px;
+      --radius-full: 9999px;
+      --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.04);
+      --shadow-elevated: 0 4px 12px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06);
+    }
+
+    body {
+      font-family: 'Satoshi', -apple-system, 'PingFang TC', 'Noto Sans TC', sans-serif;
+      background: #000;
+      color: var(--text-primary);
+      overflow: hidden;
+      height: 100dvh;
+    }
+
+    /* === PHONE FRAME === */
+    .phone-frame {
+      width: 393px;
+      height: 852px;
+      margin: 20px auto;
+      background: var(--bg-primary);
+      border-radius: 44px;
+      border: 2px solid #222;
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    @media (max-width: 430px) {
+      .phone-frame {
+        width: 100%;
+        height: 100dvh;
+        margin: 0;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+      }
+    }
+
+    /* === STATUS BAR === */
+    .status-bar {
+      height: 54px;
+      padding: 14px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .status-bar .time { font-size: 15px; font-weight: 600; letter-spacing: 0.2px; }
+    .status-bar .icons { display: flex; gap: 5px; align-items: center; }
+    .status-bar .icons svg { width: 16px; height: 16px; fill: var(--text-primary); }
+
+    /* === SCREENS === */
+    .screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+    .screen.active { display: flex; }
+    .screen-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .screen-content::-webkit-scrollbar { display: none; }
+
+    /* === SCREEN HEADER === */
+    .screen-header {
+      padding: 8px 20px 14px;
+      flex-shrink: 0;
+    }
+    .screen-header h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .screen-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+    .screen-header-with-back {
+      padding: 6px 16px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      cursor: pointer;
+      padding: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .back-btn svg { width: 20px; height: 20px; }
+
+    /* === TAB BAR === */
+    .tab-bar {
+      height: 82px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-around;
+      padding-top: 8px;
+      padding-bottom: 24px;
+      flex-shrink: 0;
+    }
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      min-width: 56px;
+      position: relative;
+      transition: color 0.15s;
+    }
+    .tab-item:active { transform: scale(0.92); }
+    .tab-item.active { color: var(--accent-teal); }
+    .tab-icon {
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .tab-icon svg { width: 22px; height: 22px; fill: currentColor; }
+    .tab-label { font-size: 10px; font-weight: 500; }
+    .tab-badge {
+      position: absolute;
+      top: -2px;
+      right: -6px;
+      width: 8px;
+      height: 8px;
+      background: var(--accent-red);
+      border-radius: 50%;
+      border: 2px solid var(--bg-card);
+    }
+
+    /* === SEARCH BAR === */
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 10px 12px;
+      margin-bottom: 14px;
+    }
+    .search-bar svg { width: 16px; height: 16px; fill: var(--text-muted); flex-shrink: 0; }
+    .search-bar input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      outline: none;
+      font-weight: 400;
+    }
+    .search-bar input::placeholder { color: var(--text-muted); }
+
+    /* === SKILLS STORE (Tab 2) === */
+    .category-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 0 0 14px;
+      overflow-x: auto;
+    }
+    .category-tabs::-webkit-scrollbar { display: none; }
+    .cat-tab {
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      transition: all 0.15s;
+    }
+    .cat-tab:active { transform: scale(0.96); }
+    .cat-tab.active {
+      background: var(--accent-teal);
+      color: #0a0a0a;
+      border-color: var(--accent-teal);
+      font-weight: 600;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: transform 0.12s, box-shadow 0.12s;
+      box-shadow: var(--shadow-card);
+    }
+    .skill-card:active { transform: scale(0.98); box-shadow: var(--shadow-elevated); }
+    .skill-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .skill-icon-box {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .skill-card-info { flex: 1; margin-left: 10px; }
+    .skill-card-name {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 1px;
+    }
+    .skill-card-creator {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .skill-badge {
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .skill-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      margin-bottom: 10px;
+      font-weight: 400;
+    }
+    .skill-card-stats {
+      display: flex;
+      gap: 16px;
+    }
+    .skill-stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .skill-stat-value {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .skill-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* === SKILL DETAIL === */
+    .detail-hero {
+      text-align: center;
+      padding: 20px 0;
+    }
+    .detail-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 700;
+      margin: 0 auto 10px;
+    }
+    .detail-name {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .detail-creator {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .detail-stats-row {
+      display: flex;
+      justify-content: space-around;
+      padding: 14px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      margin: 14px 0;
+    }
+    .detail-stat {
+      text-align: center;
+    }
+    .detail-stat-value {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .detail-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+    .subscribe-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--accent-teal);
+      color: #0a0a0a;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      margin-bottom: 20px;
+      transition: transform 0.1s, opacity 0.1s;
+    }
+    .subscribe-btn:active { transform: scale(0.98); opacity: 0.9; }
+    .subscribe-btn.subscribed {
+      background: rgba(28,188,212,0.1);
+      color: var(--accent-teal);
+      border: 1px solid rgba(28,188,212,0.3);
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .track-record-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-card);
+    }
+    .track-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .track-row:last-child { border-bottom: none; }
+    .track-left { display: flex; align-items: center; gap: 10px; }
+    .track-ticker {
+      font-size: 14px;
+      font-weight: 600;
+      min-width: 48px;
+    }
+    .track-date {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .track-sparkline { width: 48px; height: 20px; }
+    .track-return {
+      font-size: 14px;
+      font-weight: 600;
+      min-width: 58px;
+      text-align: right;
+    }
+    .text-green { color: var(--accent-green); }
+    .text-red { color: var(--accent-red); }
+    .text-teal { color: var(--accent-teal); }
+    .text-warning { color: var(--accent-warning); }
+
+    /* === AI CIO (Tab 4) — Unified Chat === */
+    .cio-header {
+      padding: 8px 20px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .cio-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .cio-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--accent-teal), #0b8a9a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .cio-header-info h1 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+    }
+    .cio-header-info p {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .cio-header-action {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 6px;
+      display: flex;
+    }
+    .cio-header-action svg { width: 20px; height: 20px; fill: currentColor; }
+
+    .cio-pinned-bar {
+      margin: 0 16px 8px;
+      padding: 8px 12px;
+      background: rgba(28,188,212,0.06);
+      border: 1px solid rgba(28,188,212,0.15);
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: transform 0.12s;
+    }
+    .cio-pinned-bar:active { transform: scale(0.98); }
+    .cio-pinned-icon { font-size: 12px; flex-shrink: 0; }
+    .cio-pinned-text {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-teal);
+      flex: 1;
+    }
+    .cio-pinned-status {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .cio-pinned-arrow { color: var(--text-muted); display: flex; }
+    .cio-pinned-arrow svg { width: 14px; height: 14px; fill: currentColor; }
+
+    .chat-date-sep {
+      text-align: center;
+      padding: 16px 0 10px;
+    }
+    .chat-date-sep span {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      background: var(--bg-primary);
+      padding: 2px 10px;
+      border-radius: var(--radius-full);
+    }
+
+    .msg-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 14px;
+      align-items: flex-start;
+    }
+    .msg-row-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--accent-teal), #0b8a9a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .msg-row-content { flex: 1; min-width: 0; }
+    .msg-row-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      font-weight: 400;
+    }
+    .msg-row-meta strong {
+      color: var(--accent-teal);
+      font-weight: 500;
+    }
+    .msg-row-text {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      font-weight: 400;
+    }
+    .msg-row-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 12px 14px;
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: transform 0.12s;
+    }
+    .msg-row-card:active { transform: scale(0.98); }
+    .msg-row-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .msg-row-card-preview {
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      font-weight: 400;
+    }
+    .msg-row-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+    }
+
+    .timeline-section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 14px;
+    }
+
+    /* === ACCORDION EXPAND === */
+    .msg-row-card-expand {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, opacity 0.25s ease;
+      opacity: 0;
+    }
+    .msg-row-card.expanded .msg-row-card-expand {
+      max-height: 600px;
+      opacity: 1;
+    }
+    .msg-row-card.expanded {
+      border-color: rgba(52,211,153,0.3);
+    }
+    .msg-row-card-expand-inner {
+      padding-top: 10px;
+      margin-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .expand-toggle-text {
+      font-size: 11px;
+      color: var(--accent-teal);
+      transition: opacity 0.15s;
+    }
+    .msg-row-card.expanded .expand-toggle-text::after {
+      content: '收合 ▴';
+    }
+    .msg-row-card:not(.expanded) .expand-toggle-text::after {
+      content: '查看完整分析 →';
+    }
+
+    /* === UNREAD SEPARATOR === */
+    .unread-sep {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 16px 0 12px;
+    }
+    .unread-sep::before,
+    .unread-sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--accent-teal);
+      opacity: 0.4;
+    }
+    .unread-sep span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-teal);
+      white-space: nowrap;
+    }
+
+    /* === URGENT ALERT BAR === */
+    .urgent-alert {
+      padding: 10px 16px;
+      background: rgba(248,113,113,0.12);
+      border-bottom: 1px solid rgba(248,113,113,0.25);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .urgent-alert:active { opacity: 0.8; }
+    .urgent-alert-icon {
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .urgent-alert-text {
+      flex: 1;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent-red);
+      line-height: 1.3;
+    }
+    .urgent-alert-sub {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .urgent-alert-action {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-red);
+      padding: 4px 10px;
+      border: 1px solid rgba(248,113,113,0.3);
+      border-radius: var(--radius-full);
+      background: transparent;
+      cursor: pointer;
+      white-space: nowrap;
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      flex-shrink: 0;
+    }
+    .urgent-alert.warning {
+      background: rgba(251,191,36,0.10);
+      border-bottom-color: rgba(251,191,36,0.25);
+    }
+    .urgent-alert.warning .urgent-alert-text { color: var(--accent-warning); }
+    .urgent-alert.warning .urgent-alert-action {
+      color: var(--accent-warning);
+      border-color: rgba(251,191,36,0.3);
+    }
+
+    /* === USER IMAGE MESSAGE === */
+    .msg-user-image {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 16px;
+    }
+    .msg-image-wrap {
+      max-width: 75%;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+    .msg-image-wrap .chart-mock {
+      width: 100%;
+      aspect-ratio: 16/10;
+      background: #1a1a2e;
+      position: relative;
+      overflow: hidden;
+      padding: 8px;
+    }
+    .chart-mock-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .chart-mock-ticker {
+      font-size: 11px;
+      font-weight: 700;
+      color: #e0e0e0;
+      letter-spacing: 0.5px;
+    }
+    .chart-mock-price {
+      font-size: 10px;
+      color: #34d399;
+      font-weight: 600;
+    }
+    .chart-mock-label {
+      position: absolute;
+      font-size: 8px;
+      color: rgba(255,255,255,0.5);
+      font-weight: 500;
+    }
+    .msg-image-caption {
+      font-size: 13px;
+      color: #0a0a0a;
+      padding: 8px 12px;
+      background: var(--accent-teal);
+      font-weight: 500;
+    }
+
+    /* === CIO SEGMENT TABS === */
+    .cio-segment-tabs {
+      display: flex;
+      padding: 0 16px 8px;
+      gap: 0;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .cio-segment-tab {
+      flex: 1;
+      padding: 8px 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      transition: color 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .cio-segment-tab.active {
+      color: var(--accent-teal);
+    }
+    .cio-segment-tab.active::after {
+      content: '';
+      position: absolute;
+      bottom: -1px;
+      left: 20%;
+      right: 20%;
+      height: 2px;
+      background: var(--accent-teal);
+      border-radius: 1px;
+    }
+    .cio-segment-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--accent-teal);
+      color: #0a0a0a;
+      padding: 1px 5px;
+      border-radius: var(--radius-full);
+      min-width: 16px;
+      text-align: center;
+    }
+
+    /* === CIO TAB CONTENT === */
+    .cio-tab-content {
+      display: none;
+      flex: 1;
+      overflow-y: auto;
+      flex-direction: column;
+    }
+    .cio-tab-content.active {
+      display: flex;
+    }
+    .cio-tab-content::-webkit-scrollbar { display: none; }
+
+    /* === DEEP CHAT INDICATOR === */
+    .deep-chat-indicator {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: rgba(28,188,212,0.06);
+      border: 1px solid rgba(28,188,212,0.15);
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.12s;
+    }
+    .deep-chat-indicator:active { transform: scale(0.98); opacity: 0.8; }
+    .deep-chat-indicator-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-teal);
+      flex-shrink: 0;
+    }
+    .deep-chat-indicator-text {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-teal);
+    }
+    .deep-chat-indicator-preview {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .deep-chat-indicator-arrow {
+      font-size: 11px;
+      color: var(--accent-teal);
+      flex-shrink: 0;
+    }
+
+    /* === CARD ACTION BUTTONS === */
+    .card-actions {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .card-action-btn {
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      transition: all 0.12s;
+    }
+    .card-action-btn:active { transform: scale(0.96); }
+    .card-action-btn.primary {
+      background: rgba(28,188,212,0.12);
+      color: var(--accent-teal);
+      border-color: rgba(28,188,212,0.25);
+    }
+
+    /* === DEEP CHAT LIST === */
+    .deep-chat-item {
+      display: flex;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      cursor: pointer;
+      transition: opacity 0.12s;
+    }
+    .deep-chat-item:active { opacity: 0.7; }
+    .deep-chat-item:last-child { border-bottom: none; }
+    .deep-chat-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .deep-chat-info { flex: 1; min-width: 0; }
+    .deep-chat-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .deep-chat-preview {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 400;
+    }
+    .deep-chat-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-align: right;
+      flex-shrink: 0;
+      font-weight: 400;
+    }
+    .deep-chat-pin {
+      font-size: 10px;
+    }
+    .new-chat-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 12px;
+      background: rgba(28,188,212,0.08);
+      border: 1px dashed rgba(28,188,212,0.3);
+      border-radius: var(--radius-lg);
+      color: var(--accent-teal);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      margin-bottom: 16px;
+      transition: all 0.12s;
+    }
+    .new-chat-btn:active { transform: scale(0.98); }
+    .new-chat-btn svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* === CHAT THREAD HEADER === */
+    .chat-thread-header {
+      padding: 6px 16px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .chat-thread-title { font-size: 15px; font-weight: 600; }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .chat-messages::-webkit-scrollbar { display: none; }
+
+    .msg { margin-bottom: 16px; }
+    .msg-agent .msg-sender {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--accent-teal);
+      margin-bottom: 6px;
+    }
+    .msg-user { display: flex; justify-content: flex-end; }
+    .msg-user .msg-bubble {
+      background: var(--accent-teal);
+      color: #0a0a0a;
+      border-radius: 18px 18px 4px 18px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      max-width: 80%;
+    }
+
+    .msg-card {
+      background: var(--bg-card);
+      border-radius: var(--radius-xl);
+      padding: 14px 16px;
+      max-width: 100%;
+      box-shadow: var(--shadow-card);
+    }
+
+    /* Skill output components */
+    .skill-output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .skill-output-title { font-size: 15px; font-weight: 600; }
+    .skill-output-badge {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .tone-meter { margin-bottom: 12px; }
+    .tone-meter-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+    .tone-meter-bar {
+      height: 5px;
+      background: var(--bg-elevated);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .tone-meter-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.8s ease;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 13px;
+    }
+    .metric-row:last-child { border-bottom: none; }
+    .metric-label { color: var(--text-muted); font-weight: 400; }
+    .metric-value { font-weight: 600; }
+
+    .personal-context {
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .personal-context-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      font-weight: 400;
+    }
+    .personal-highlight { color: var(--accent-teal); font-weight: 500; }
+
+    .skill-source {
+      margin-top: 8px;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .skill-source a {
+      color: var(--accent-teal);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* Risk items */
+    .risk-item {
+      display: flex;
+      gap: 8px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .risk-item:last-child { border-bottom: none; }
+    .risk-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .risk-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      font-weight: 400;
+    }
+
+    .chat-input-bar {
+      padding: 10px 16px 28px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      gap: 8px;
+      align-items: flex-end;
+      flex-shrink: 0;
+    }
+    .chat-input-wrap {
+      flex: 1;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .chat-input-wrap input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      outline: none;
+      font-weight: 400;
+    }
+    .chat-input-wrap input::placeholder { color: var(--text-muted); }
+    .chat-attach-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      padding: 0;
+    }
+    .chat-attach-btn svg { width: 18px; height: 18px; fill: var(--text-muted); }
+    .chat-send-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      background: var(--accent-teal);
+      border: none;
+      color: #0a0a0a;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s;
+      flex-shrink: 0;
+    }
+    .chat-send-btn:active { transform: scale(0.9); }
+    .chat-send-btn svg { width: 16px; height: 16px; fill: #0a0a0a; }
+
+    /* === MINI APP EMBEDDED === */
+    .mini-app-embed {
+      background: var(--bg-elevated);
+      border: 1px solid rgba(28,188,212,0.25);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .mini-app-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      background: rgba(28,188,212,0.06);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .mini-app-title { font-size: 12px; font-weight: 600; color: var(--accent-teal); }
+    .mini-app-collapse { font-size: 11px; color: var(--text-muted); cursor: pointer; font-weight: 400; }
+    .mini-app-body { padding: 12px; }
+    .mini-app-filter-row { display: flex; gap: 6px; margin-bottom: 8px; }
+    .mini-app-filter {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 7px 10px;
+      font-size: 12px;
+      color: var(--text-primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .mini-app-filter:active { border-color: var(--accent-teal); }
+    .mini-app-filter .label { color: var(--text-muted); font-size: 10px; font-weight: 400; }
+    .mini-app-filter .value { font-weight: 500; font-size: 12px; }
+    .mini-app-result {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 13px;
+    }
+    .mini-app-result:last-child { border-bottom: none; }
+    .mini-app-result-ticker { font-weight: 600; font-size: 13px; }
+    .mini-app-result-meta { color: var(--text-muted); font-size: 11px; font-weight: 400; }
+    .mini-app-result-yield { font-weight: 600; font-size: 13px; }
+    .mini-app-result-count {
+      font-size: 11px;
+      color: var(--text-muted);
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 2px;
+      font-weight: 400;
+    }
+
+    /* Skill pill */
+    .skill-pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(28,188,212,0.12);
+      color: var(--accent-teal);
+    }
+
+    /* === TYPING INDICATOR === */
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 8px 0;
+    }
+    .typing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      animation: typingBounce 1.2s infinite;
+    }
+    .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+      30% { transform: translateY(-4px); opacity: 1; }
+    }
+
+    /* === WEEKLY CHART === */
+    .weekly-chart { margin-bottom: 10px; }
+    .weekly-chart svg { width: 100%; height: 48px; }
+
+    /* === ANIMATIONS === */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .screen.active .screen-content > *,
+    .screen.active .chat-messages > * {
+      animation: fadeIn 0.25s ease both;
+    }
+    .screen.active .screen-content > *:nth-child(1),
+    .screen.active .chat-messages > *:nth-child(1) { animation-delay: 0s; }
+    .screen.active .screen-content > *:nth-child(2),
+    .screen.active .chat-messages > *:nth-child(2) { animation-delay: 0.04s; }
+    .screen.active .screen-content > *:nth-child(3),
+    .screen.active .chat-messages > *:nth-child(3) { animation-delay: 0.08s; }
+    .screen.active .screen-content > *:nth-child(4),
+    .screen.active .chat-messages > *:nth-child(4) { animation-delay: 0.12s; }
+    .screen.active .screen-content > *:nth-child(5),
+    .screen.active .chat-messages > *:nth-child(5) { animation-delay: 0.16s; }
+    .screen.active .screen-content > *:nth-child(6),
+    .screen.active .chat-messages > *:nth-child(6) { animation-delay: 0.2s; }
+    .screen.active .screen-content > *:nth-child(7),
+    .screen.active .chat-messages > *:nth-child(7) { animation-delay: 0.24s; }
+    .screen.active .screen-content > *:nth-child(8),
+    .screen.active .chat-messages > *:nth-child(8) { animation-delay: 0.28s; }
+    .screen.active .screen-content > *:nth-child(9),
+    .screen.active .chat-messages > *:nth-child(9) { animation-delay: 0.32s; }
+    .screen.active .screen-content > *:nth-child(10),
+    .screen.active .chat-messages > *:nth-child(10) { animation-delay: 0.36s; }
+
+    /* Weekly summary */
+    .weekly-card {
+      background: linear-gradient(135deg, rgba(28,188,212,0.08), rgba(52,211,153,0.04));
+      border: 1px solid rgba(28,188,212,0.2);
+      border-radius: var(--radius-xl);
+      padding: 14px 16px;
+      margin-bottom: 8px;
+      box-shadow: var(--shadow-card);
+    }
+    .weekly-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-teal);
+      margin-bottom: 8px;
+    }
+    .weekly-holdings {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    .weekly-holding { flex: 1; text-align: center; }
+    .weekly-ticker { font-size: 12px; font-weight: 600; margin-bottom: 1px; }
+    .weekly-return { font-size: 15px; font-weight: 700; }
+    .weekly-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+      font-weight: 400;
+    }
+
+    /* SVG icon helper */
+    .icon { display: inline-flex; align-items: center; justify-content: center; }
+
+    /* === SKILLS: Live output scroll === */
+    .skills-live-scroll {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 16px;
+    }
+    .skills-live-scroll::-webkit-scrollbar { display: none; }
+    .skills-live-card {
+      min-width: 180px;
+      max-width: 200px;
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.12s;
+      position: relative;
+      border: 1px solid var(--border);
+    }
+    .skills-live-card:active { transform: scale(0.97); }
+
+    /* === SKILLS: Compact grid === */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .skill-compact {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 12px;
+      cursor: pointer;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.12s;
+      position: relative;
+    }
+    .skill-compact:active { transform: scale(0.97); }
+    .skill-compact-top {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+    .skill-compact-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .skill-compact-name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: var(--text-primary);
+    }
+    .skill-compact-sub {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .skill-compact-metric {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .skill-compact-metric strong {
+      font-weight: 600;
+    }
+
+    /* Live dot */
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      display: inline-block;
+      animation: livePulse 2s infinite;
+    }
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* Section header for skills */
+    .skills-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      margin-top: 18px;
+    }
+    .skills-section-header:first-of-type { margin-top: 0; }
+    .skills-section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .skills-section-count {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    /* Running skills section */
+    .skill-running-section {
+      background: var(--bg-card);
+      border-radius: var(--radius-lg);
+      padding: 12px 14px;
+      margin-bottom: 4px;
+      box-shadow: var(--shadow-card);
+    }
+    .skill-running-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .skill-status-text {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+    .skill-status-link {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent-teal);
+      cursor: pointer;
+    }
+    .skill-running-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    /* Skill chip */
+    .skill-chip {
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 500;
+      background: rgba(255,255,255,0.04);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+    .skill-chip:active { transform: scale(0.95); }
+    .skill-chip.active {
+      background: rgba(28,188,212,0.08);
+      color: var(--accent-teal);
+      border-color: rgba(28,188,212,0.2);
+    }
+
+    /* Skill emoji icon */
+    .skill-emoji {
+      font-size: 16px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    /* Skill description (one-liner, what it DOES) */
+    .skill-compact-desc {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.35;
+      font-weight: 400;
+    }
+
+    /* Social proof */
+    .skill-social {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* AI recommendation reason */
+    .skill-context {
+      font-size: 10px;
+      color: rgba(255,255,255,0.48);
+      font-weight: 400;
+      margin-top: 6px;
+      line-height: 1.35;
+      padding: 5px 0 0;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .skill-context .personal-highlight {
+      color: var(--accent-teal);
+      font-weight: 600;
+    }
+
+    /* Add/enable badge */
+    .skill-add-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--bg-elevated);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border);
+    }
+    /* Language switcher */
+    .lang-switcher {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      gap: 2px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-full);
+      padding: 3px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+      z-index: 9999;
+    }
+    .lang-btn {
+      padding: 5px 10px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: var(--text-muted);
+      font-family: 'Satoshi', 'PingFang TC', sans-serif;
+      transition: all 0.15s;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+    .lang-btn:hover { color: var(--text-secondary); }
+    .lang-btn.active {
+      background: var(--accent-teal);
+      color: #0a0a0a;
+    }
+  </style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="icons">
+      <!-- Signal -->
+      <svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="0.5" fill="currentColor"/><rect x="4" y="5" width="3" height="7" rx="0.5" fill="currentColor"/><rect x="8" y="2" width="3" height="10" rx="0.5" fill="currentColor"/><rect x="12" y="0" width="3" height="12" rx="0.5" fill="currentColor"/></svg>
+      <!-- Wifi -->
+      <svg viewBox="0 0 16 12"><path d="M8 10.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM3.4 7.2a6.5 6.5 0 019.2 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M0.8 4a10.5 10.5 0 0114.4 0" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <!-- Battery -->
+      <svg viewBox="0 0 28 13"><rect x="0" y="0.5" width="24" height="12" rx="2.5" stroke="currentColor" stroke-width="1" fill="none"/><rect x="1.5" y="2" width="20" height="9" rx="1" fill="currentColor"/><path d="M26 4.5v4a2 2 0 000-4z" fill="currentColor" opacity="0.4"/></svg>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 1: Skills Library ========== -->
+  <div class="screen active" id="screen-skills-store">
+    <div class="screen-header" style="padding-bottom: 4px;">
+      <h1>技能庫</h1>
+      <p style="color: var(--text-muted); font-size: 12px; margin-top: 2px;">CIO 已根據你嘅持倉配置咗 9 個技能</p>
+    </div>
+    <div class="screen-content">
+
+      <!-- Search -->
+      <div class="search-bar" style="margin-bottom: 16px;">
+        <svg viewBox="0 0 20 20"><path d="M8.5 3a5.5 5.5 0 014.383 8.823l3.896 3.9a.75.75 0 01-1.06 1.06l-3.9-3.896A5.5 5.5 0 118.5 3zm0 1.5a4 4 0 100 8 4 4 0 000-8z"/></svg>
+        <input placeholder="搜尋技能..." />
+      </div>
+
+      <!-- ===== Running skills with chips ===== -->
+      <div class="skill-running-section">
+        <div class="skill-running-header">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="live-dot"></span>
+            <span class="skill-status-text">運行中 (9)</span>
+          </div>
+          <span class="skill-status-link">管理 →</span>
+        </div>
+        <div class="skill-running-chips">
+          <span class="skill-chip active" onclick="showScreen('screen-skill-detail')">🛡️ 風險雷達</span>
+          <span class="skill-chip active" onclick="showScreen('screen-skill-detail')">📉 技術分析師</span>
+          <span class="skill-chip active" onclick="showScreen('screen-mini-app-detail')">📊 組合分析儀</span>
+          <span class="skill-chip active" onclick="showScreen('screen-skill-detail')">💰 股息追蹤</span>
+          <span class="skill-chip active" onclick="showScreen('screen-skill-detail')">📈 板塊掃描</span>
+          <span class="skill-chip active" onclick="showScreen('screen-skill-detail')">🇨🇳 北水雷達</span>
+          <span class="skill-chip active" onclick="showScreen('screen-skill-detail')">🔍 業績解碼器</span>
+          <span class="skill-chip active" onclick="showScreen('screen-skill-detail')">🌐 宏觀翻譯器</span>
+          <span class="skill-chip active" onclick="showScreen('screen-skill-detail')">💼 組合管家</span>
+        </div>
+      </div>
+
+      <!-- ===== CIO 建議你加 ===== -->
+      <div class="skills-section-header" style="margin-top: 14px;">
+        <div class="skills-section-title">CIO 建議你再加</div>
+      </div>
+
+      <div class="skills-grid">
+        <div class="skill-compact" onclick="showScreen('screen-skill-detail')">
+          <div class="skill-add-badge">+ 啟用</div>
+          <div class="skill-compact-top">
+            <span class="skill-emoji">⚖️</span>
+            <div class="skill-compact-name">比較工具</div>
+          </div>
+          <div class="skill-compact-desc">對比兩隻股票嘅基本面同技術面</div>
+          <div class="skill-context">你同時持有 <span class="personal-highlight">NVDA</span> 同 <span class="personal-highlight">TSMC</span>，可以直接對比</div>
+          <div class="skill-social">4,200 人啟用</div>
+        </div>
+
+        <div class="skill-compact" onclick="showScreen('screen-skill-detail')">
+          <div class="skill-add-badge">+ 啟用</div>
+          <div class="skill-compact-top">
+            <span class="skill-emoji">🔔</span>
+            <div class="skill-compact-name">到價提醒</div>
+          </div>
+          <div class="skill-compact-desc">自訂目標價，到價即時通知</div>
+          <div class="skill-context"><span class="personal-highlight">NVDA</span> 接近你之前提過嘅目標 PE <span class="personal-highlight">38x</span></div>
+          <div class="skill-social">3,800 人啟用</div>
+        </div>
+
+        <div class="skill-compact" onclick="showScreen('screen-skill-detail')">
+          <div class="skill-add-badge">+ 啟用</div>
+          <div class="skill-compact-top">
+            <span class="skill-emoji">🆕</span>
+            <div class="skill-compact-name">IPO 速報</div>
+          </div>
+          <div class="skill-compact-desc">追蹤新股上市同配售資訊</div>
+          <div class="skill-context">你 watchlist 入面有 <span class="personal-highlight">2 隻相關新股</span></div>
+          <div class="skill-social">2,100 人啟用</div>
+        </div>
+
+        <div class="skill-compact" onclick="showScreen('screen-mini-app-detail')">
+          <div class="skill-add-badge">+ 啟用</div>
+          <div class="skill-compact-top">
+            <span class="skill-emoji">🔎</span>
+            <div class="skill-compact-name">股票篩選器</div>
+          </div>
+          <div class="skill-compact-desc">按條件篩選全球股票</div>
+          <div class="skill-context">你上次搜過 <span class="personal-highlight">半導體</span>，可以設條件追蹤</div>
+          <div class="skill-social">2,900 人啟用</div>
+        </div>
+      </div>
+
+      <!-- ===== 探索更多 ===== -->
+      <div class="skills-section-header">
+        <div class="skills-section-title">探索更多</div>
+        <div class="skills-section-count">全部 18 個 →</div>
+      </div>
+
+      <!-- Horizontal scroll — all not-yet-enabled, all personal context -->
+      <div class="skills-live-scroll">
+        <div class="skills-live-card" onclick="showScreen('screen-skill-detail')">
+          <div class="skill-add-badge">+ 啟用</div>
+          <div class="skill-compact-top" style="margin-bottom: 6px;">
+            <span class="skill-emoji">📊</span>
+            <div>
+              <div class="skill-compact-name">5+2 評分</div>
+              <div class="skill-compact-sub">by StockLab</div>
+            </div>
+          </div>
+          <div class="skill-compact-desc">5 個基本面 + 2 個技術面綜合評分</div>
+          <div class="skill-context">可以幫你嘅 <span class="personal-highlight">5 隻持倉</span>逐隻評分</div>
+          <div class="skill-social">2,400 人啟用</div>
+        </div>
+
+        <div class="skills-live-card" onclick="showScreen('screen-skill-detail')">
+          <div class="skill-add-badge">+ 啟用</div>
+          <div class="skill-compact-top" style="margin-bottom: 6px;">
+            <span class="skill-emoji">📈</span>
+            <div>
+              <div class="skill-compact-name">期權策略師</div>
+              <div class="skill-compact-sub">by OptionPro</div>
+            </div>
+          </div>
+          <div class="skill-compact-desc">分析 IV Rank，推薦期權策略</div>
+          <div class="skill-context"><span class="personal-highlight">TSMC</span> 同 <span class="personal-highlight">NVDA</span> 都有活躍期權市場</div>
+          <div class="skill-social">1,800 人啟用</div>
+        </div>
+
+        <div class="skills-live-card" onclick="showScreen('screen-skill-detail')">
+          <div class="skill-add-badge">+ 啟用</div>
+          <div class="skill-compact-top" style="margin-bottom: 6px;">
+            <span class="skill-emoji">🐋</span>
+            <div>
+              <div class="skill-compact-name">大戶追蹤</div>
+              <div class="skill-compact-sub">by WhaleAlert</div>
+            </div>
+          </div>
+          <div class="skill-compact-desc">監測大宗交易同機構持倉變動</div>
+          <div class="skill-context"><span class="personal-highlight">NVDA</span> 近期有 <span class="personal-highlight">$1.8B</span> 大宗交易</div>
+          <div class="skill-social">3,100 人啟用</div>
+        </div>
+
+        <div class="skills-live-card" onclick="showScreen('screen-skill-detail')">
+          <div class="skill-add-badge">+ 啟用</div>
+          <div class="skill-compact-top" style="margin-bottom: 6px;">
+            <span class="skill-emoji">🌱</span>
+            <div>
+              <div class="skill-compact-name">ESG 評分</div>
+              <div class="skill-compact-sub">by GreenFin</div>
+            </div>
+          </div>
+          <div class="skill-compact-desc">環境、社會、管治三維度評級</div>
+          <div class="skill-context">你持有嘅 <span class="personal-highlight">AAPL</span> ESG 評級 <span class="personal-highlight">A</span></div>
+          <div class="skill-social">1,200 人啟用</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 2: Skill Detail ========== -->
+  <div class="screen" id="screen-skill-detail">
+    <div class="screen-header-with-back">
+      <button class="back-btn" onclick="showScreen('screen-skills-store')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="chat-thread-title">技能詳情</span>
+    </div>
+    <div class="screen-content">
+      <div class="detail-hero">
+        <div class="detail-icon" style="background: rgba(28,188,212,0.12); color: var(--accent-teal);">EC</div>
+        <div class="detail-name">業績解碼器</div>
+        <div class="detail-creator">edgen+ 官方 · 已自動啟用</div>
+      </div>
+
+      <div class="detail-stats-row">
+        <div class="detail-stat">
+          <div class="detail-stat-value text-green">67.3%</div>
+          <div class="detail-stat-label">勝率</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-value text-green">+8.3%</div>
+          <div class="detail-stat-label">平均回報</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-value">138</div>
+          <div class="detail-stat-label">提示次數</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-value">3.2K</div>
+          <div class="detail-stat-label">用戶啟用</div>
+        </div>
+      </div>
+
+      <button class="subscribe-btn subscribed" id="subscribeBtn" onclick="toggleSubscribe()">已自動啟用</button>
+
+      <div class="section-title">運作方式</div>
+      <div class="msg-card" style="margin-bottom: 16px;">
+        <div class="metric-row"><span class="metric-label">類型</span><span class="metric-value">分析能力</span></div>
+        <div class="metric-row"><span class="metric-label">輸入</span><span class="metric-value">業績電話會議記錄</span></div>
+        <div class="metric-row"><span class="metric-label">分析</span><span class="metric-value">語氣、用字、業績指引</span></div>
+        <div class="metric-row"><span class="metric-label">輸出</span><span class="metric-value">情緒評分 + 關鍵訊號</span></div>
+        <div class="metric-row"><span class="metric-label">觸發</span><span class="metric-value">AI CIO 自動運用</span></div>
+      </div>
+
+      <div class="section-title">近期追蹤記錄</div>
+      <div class="track-record-card">
+        <div class="track-row">
+          <div class="track-left">
+            <div><div class="track-ticker">NVDA</div><div class="track-date">2月21日</div></div>
+            <svg class="track-sparkline" viewBox="0 0 48 20"><polyline points="0,14 8,12 16,15 24,10 32,8 40,4 48,2" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+          </div>
+          <div class="track-return text-green">+12.4%</div>
+        </div>
+        <div class="track-row">
+          <div class="track-left">
+            <div><div class="track-ticker">META</div><div class="track-date">2月5日</div></div>
+            <svg class="track-sparkline" viewBox="0 0 48 20"><polyline points="0,12 8,14 16,10 24,8 32,6 40,5 48,4" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+          </div>
+          <div class="track-return text-green">+6.8%</div>
+        </div>
+        <div class="track-row">
+          <div class="track-left">
+            <div><div class="track-ticker">TSMC</div><div class="track-date">1月18日</div></div>
+            <svg class="track-sparkline" viewBox="0 0 48 20"><polyline points="0,8 8,6 16,10 24,12 32,14 40,16 48,15" fill="none" stroke="#f87171" stroke-width="1.5"/></svg>
+          </div>
+          <div class="track-return text-red">-3.2%</div>
+        </div>
+        <div class="track-row">
+          <div class="track-left">
+            <div><div class="track-ticker">AAPL</div><div class="track-date">1月12日</div></div>
+            <svg class="track-sparkline" viewBox="0 0 48 20"><polyline points="0,16 8,14 16,12 24,10 32,8 40,5 48,4" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+          </div>
+          <div class="track-return text-green">+9.1%</div>
+        </div>
+        <div class="track-row">
+          <div class="track-left">
+            <div><div class="track-ticker">GOOG</div><div class="track-date">2025年12月</div></div>
+            <svg class="track-sparkline" viewBox="0 0 48 20"><polyline points="0,14 8,10 16,12 24,8 32,6 40,7 48,5" fill="none" stroke="#34d399" stroke-width="1.5"/></svg>
+          </div>
+          <div class="track-return text-green">+5.3%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 2B: Mini App Detail ========== -->
+  <div class="screen" id="screen-mini-app-detail">
+    <div class="screen-header-with-back">
+      <button class="back-btn" onclick="showScreen('screen-skills-store')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="chat-thread-title">技能詳情</span>
+    </div>
+    <div class="screen-content">
+      <div class="detail-hero">
+        <div class="detail-icon" style="background: rgba(52,211,153,0.12); color: var(--accent-green);">SF</div>
+        <div class="detail-name">股票篩選器</div>
+        <div class="detail-creator">edgen+ 官方 · 已自動啟用</div>
+      </div>
+      <div class="detail-stats-row">
+        <div class="detail-stat"><div class="detail-stat-value">4,831</div><div class="detail-stat-label">使用次數</div></div>
+        <div class="detail-stat"><div class="detail-stat-value">2,916</div><div class="detail-stat-label">用戶啟用</div></div>
+        <div class="detail-stat"><div class="detail-stat-value">92%</div><div class="detail-stat-label">滿意度</div></div>
+      </div>
+      <button class="subscribe-btn subscribed">已自動啟用</button>
+      <div class="section-title">運作方式</div>
+      <div class="msg-card" style="margin-bottom: 16px;">
+        <div class="metric-row"><span class="metric-label">類型</span><span class="metric-value">互動工具 (Mini App)</span></div>
+        <div class="metric-row"><span class="metric-label">互動</span><span class="metric-value">篩選條件、結果列表</span></div>
+        <div class="metric-row"><span class="metric-label">觸發</span><span class="metric-value">AI CIO 在對話中彈出</span></div>
+        <div class="metric-row"><span class="metric-label">數據回流</span><span class="metric-value">篩選偏好 → AI CIO 記憶</span></div>
+      </div>
+      <div class="section-title">預覽</div>
+      <div class="mini-app-embed">
+        <div class="mini-app-header"><span class="mini-app-title">股票篩選器</span></div>
+        <div class="mini-app-body">
+          <div class="mini-app-filter-row">
+            <div class="mini-app-filter"><span class="label">板塊</span><span class="value">科技 ▾</span></div>
+            <div class="mini-app-filter"><span class="label">股息率</span><span class="value">3%+ ▾</span></div>
+          </div>
+          <div class="mini-app-filter-row">
+            <div class="mini-app-filter"><span class="label">市值</span><span class="value">大型 ▾</span></div>
+            <div class="mini-app-filter"><span class="label">排序</span><span class="value">股息率 ▾</span></div>
+          </div>
+          <div class="mini-app-result-count">12 隻股票符合條件</div>
+          <div class="mini-app-result"><div><div class="mini-app-result-ticker">AVGO</div><div class="mini-app-result-meta">Broadcom · $185B</div></div><div class="mini-app-result-yield text-green">4.18%</div></div>
+          <div class="mini-app-result"><div><div class="mini-app-result-ticker">TXN</div><div class="mini-app-result-meta">Texas Instruments · $162B</div></div><div class="mini-app-result-yield text-green">3.82%</div></div>
+          <div class="mini-app-result"><div><div class="mini-app-result-ticker">QCOM</div><div class="mini-app-result-meta">Qualcomm · $148B</div></div><div class="mini-app-result-yield text-green">3.47%</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 3: AI CIO — Unified Chat ========== -->
+  <div class="screen" id="screen-personal-agent">
+    <!-- Segment tabs (top bar) -->
+    <div class="cio-segment-tabs" style="padding-top: env(safe-area-inset-top, 8px);">
+      <button class="cio-segment-tab active" onclick="switchCioTab('timeline', this)">對話</button>
+      <button class="cio-segment-tab" onclick="switchCioTab('chats', this)">深度研究 <span class="cio-segment-badge">2</span></button>
+    </div>
+
+    <!-- TAB 1: Timeline -->
+    <div class="cio-tab-content active" id="cio-tab-timeline">
+
+    <!-- Urgent alert — must acknowledge to dismiss -->
+    <div class="urgent-alert" id="urgent-alert-1" onclick="showScreen('screen-deep-chat-tsmc')">
+      <div class="urgent-alert-icon">🔴</div>
+      <div style="flex: 1;">
+        <div class="urgent-alert-text">TSMC 跌破 $142 支撐位</div>
+        <div class="urgent-alert-sub">你持有 200 股 · 未實現盈利收窄至 +2.1%</div>
+      </div>
+      <button class="urgent-alert-action" onclick="event.stopPropagation(); dismissAlert('urgent-alert-1')">已讀</button>
+    </div>
+
+    <!-- Chat messages -->
+    <div class="chat-messages">
+
+      <!-- Date separator — 本週 -->
+      <div class="chat-date-sep"><span>2月19日 · 週三</span></div>
+
+      <!-- CIO message: Semiconductor observation -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 2月19日 10:15</div>
+          <div class="msg-row-text">你上週提到要追蹤半導體投資機會。我透過<span class="personal-highlight">業績解碼器</span>在觀察名單中識別了 3 個相關標的。要不要看看？</div>
+          <div class="msg-row-card-expand" id="semi-expand">
+            <div class="msg-row-card-expand-inner" style="border-top: none; padding-top: 0; margin-top: 4px;">
+              <div class="msg-row-card" style="margin-bottom: 6px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div class="msg-row-card-title">AVGO</div>
+                    <div class="msg-row-card-preview">Broadcom · PE 22.4 · 股息率 4.18%</div>
+                  </div>
+                  <div class="weekly-return text-green" style="font-size: 13px;">+12.3%</div>
+                </div>
+              </div>
+              <div class="msg-row-card" style="margin-bottom: 6px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div class="msg-row-card-title">TSM</div>
+                    <div class="msg-row-card-preview">TSMC · PE 18.6 · 市佔率 56%</div>
+                  </div>
+                  <div class="weekly-return text-green" style="font-size: 13px;">+8.7%</div>
+                </div>
+              </div>
+              <div class="msg-row-card" style="margin-bottom: 0;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <div>
+                    <div class="msg-row-card-title">MRVL</div>
+                    <div class="msg-row-card-preview">Marvell · PE 31.2 · AI 網絡晶片</div>
+                  </div>
+                  <div class="weekly-return text-green" style="font-size: 13px;">+15.1%</div>
+                </div>
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-top: 8px; font-weight: 400;">via 業績解碼器 · 觀察名單</div>
+            </div>
+          </div>
+          <div class="card-actions">
+            <button class="card-action-btn primary" onclick="toggleExpand('semi-expand', this)">睇下</button>
+            <button class="card-action-btn" onclick="btnFeedback(this, '已設提醒 ✓')">稍後提醒</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Q&A: quick question -->
+      <div class="msg msg-user">
+        <div class="msg-bubble">港股科技股有咩值得留意？</div>
+      </div>
+
+      <!-- CIO quick answer -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 2月19日 10:32</div>
+          <div class="msg-row-text" style="margin-bottom: 6px;">根據<span class="personal-highlight">Allen 的市場邏輯</span>同<span class="personal-highlight">宏觀翻譯器</span>嘅數據，呢幾隻值得留意：</div>
+          <div class="msg-row-card">
+            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--border-subtle);">
+              <div><span style="font-weight: 600; font-size: 13px;">9988.HK</span> <span style="font-size: 11px; color: var(--text-muted);">阿里巴巴</span></div>
+              <div class="text-green" style="font-size: 13px; font-weight: 600;">+3.2%</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--border-subtle);">
+              <div><span style="font-weight: 600; font-size: 13px;">0700.HK</span> <span style="font-size: 11px; color: var(--text-muted);">騰訊</span></div>
+              <div class="text-green" style="font-size: 13px; font-weight: 600;">+1.8%</div>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 4px 0;">
+              <div><span style="font-weight: 600; font-size: 13px;">3690.HK</span> <span style="font-size: 11px; color: var(--text-muted);">美團</span></div>
+              <div class="text-red" style="font-size: 13px; font-weight: 600;">-0.5%</div>
+            </div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px; font-weight: 400;">北水今日淨流入 ¥42 億，主要買入阿里同騰訊。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date separator — 昨天 -->
+      <div class="chat-date-sep"><span>昨天</span></div>
+
+      <!-- CIO message: Skill recommendation -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 昨天 14:22</div>
+          <div class="msg-row-text">我留意到你經常分析港股科技股。「<span class="personal-highlight">Allen 的市場邏輯</span>」可以追蹤南下資金流入，幫你捕捉北水機會。要不要啟用？</div>
+          <div class="card-actions">
+            <button class="card-action-btn primary" onclick="showScreen('screen-skill-detail')">啟用</button>
+            <button class="card-action-btn" onclick="btnFeedback(this, '好的 ✓')">唔使</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIO message: Fed rate -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 昨天 16:00</div>
+          <div class="msg-row-card">
+            <div class="msg-row-card-title">聯儲局利率決議</div>
+            <div class="msg-row-card-preview">利率維持 4.25%。科技板塊預計受惠。你的持倉中有 3 隻正面相關。</div>
+            <div class="msg-row-card-expand" id="fed-expand">
+              <div class="msg-row-card-expand-inner">
+                <div class="metric-row"><span class="metric-label">決議</span><span class="metric-value">維持 4.25%（符合預期）</span></div>
+                <div class="metric-row"><span class="metric-label">點陣圖</span><span class="metric-value text-green">年內減息 2 次</span></div>
+                <div class="metric-row"><span class="metric-label">鮑威爾語氣</span><span class="metric-value">中性偏鴿</span></div>
+                <div class="personal-context" style="margin-top: 8px;">
+                  <div class="personal-context-text">你的持倉影響：<span class="personal-highlight">NVDA +2.1%</span>、<span class="personal-highlight">META +1.3%</span>、<span class="personal-highlight">AAPL +0.8%</span>（盤後）</div>
+                </div>
+              </div>
+            </div>
+            <div class="msg-row-card-footer">
+              <span class="skill-pill">via 宏觀翻譯器</span>
+            </div>
+            <div class="card-actions">
+              <button class="card-action-btn primary" onclick="toggleCardExpand('fed-expand', this)">睇詳情</button>
+              <button class="card-action-btn" onclick="btnFeedback(this, '已收藏 ✓')">收藏</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User sends TradingView screenshot -->
+      <div class="msg-user-image">
+        <div class="msg-image-wrap">
+          <div class="chart-mock">
+            <div class="chart-mock-header">
+              <span class="chart-mock-ticker">NVDA · 日線</span>
+              <span class="chart-mock-price">$764.20 ▲</span>
+            </div>
+            <!-- Mock candlestick chart using SVG -->
+            <svg viewBox="0 0 280 120" style="width: 100%; height: auto;">
+              <!-- Grid lines -->
+              <line x1="0" y1="30" x2="280" y2="30" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+              <line x1="0" y1="60" x2="280" y2="60" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+              <line x1="0" y1="90" x2="280" y2="90" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+              <!-- Moving averages -->
+              <polyline points="10,85 30,80 50,72 70,68 90,65 110,58 130,52 150,48 170,50 190,45 210,40 230,38 250,42 270,35" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.6"/>
+              <polyline points="10,90 30,88 50,82 70,78 90,74 110,70 130,65 150,60 170,58 190,55 210,52 230,50 250,48 270,45" fill="none" stroke="#8b5cf6" stroke-width="1" opacity="0.6"/>
+              <!-- Candlesticks (simplified as bars) -->
+              <rect x="12" y="78" width="4" height="12" fill="#f87171" rx="0.5"/>
+              <rect x="22" y="72" width="4" height="14" fill="#34d399" rx="0.5"/>
+              <rect x="32" y="68" width="4" height="10" fill="#34d399" rx="0.5"/>
+              <rect x="42" y="70" width="4" height="8" fill="#f87171" rx="0.5"/>
+              <rect x="52" y="64" width="4" height="12" fill="#34d399" rx="0.5"/>
+              <rect x="62" y="60" width="4" height="14" fill="#34d399" rx="0.5"/>
+              <rect x="72" y="58" width="4" height="8" fill="#34d399" rx="0.5"/>
+              <rect x="82" y="62" width="4" height="10" fill="#f87171" rx="0.5"/>
+              <rect x="92" y="56" width="4" height="14" fill="#34d399" rx="0.5"/>
+              <rect x="102" y="52" width="4" height="10" fill="#34d399" rx="0.5"/>
+              <rect x="112" y="48" width="4" height="16" fill="#34d399" rx="0.5"/>
+              <rect x="122" y="50" width="4" height="8" fill="#f87171" rx="0.5"/>
+              <rect x="132" y="44" width="4" height="12" fill="#34d399" rx="0.5"/>
+              <rect x="142" y="42" width="4" height="10" fill="#34d399" rx="0.5"/>
+              <rect x="152" y="46" width="4" height="8" fill="#f87171" rx="0.5"/>
+              <rect x="162" y="48" width="4" height="6" fill="#f87171" rx="0.5"/>
+              <rect x="172" y="42" width="4" height="12" fill="#34d399" rx="0.5"/>
+              <rect x="182" y="38" width="4" height="10" fill="#34d399" rx="0.5"/>
+              <rect x="192" y="36" width="4" height="8" fill="#34d399" rx="0.5"/>
+              <rect x="202" y="34" width="4" height="12" fill="#34d399" rx="0.5"/>
+              <rect x="212" y="38" width="4" height="6" fill="#f87171" rx="0.5"/>
+              <rect x="222" y="40" width="4" height="8" fill="#f87171" rx="0.5"/>
+              <rect x="232" y="36" width="4" height="10" fill="#34d399" rx="0.5"/>
+              <rect x="242" y="32" width="4" height="14" fill="#34d399" rx="0.5"/>
+              <rect x="252" y="28" width="4" height="18" fill="#34d399" rx="0.5"/>
+              <!-- User-drawn trendline -->
+              <line x1="62" y1="60" x2="252" y2="28" stroke="#1cbcd4" stroke-width="1.5" stroke-dasharray="4,2" opacity="0.8"/>
+              <!-- Support line -->
+              <line x1="0" y1="85" x2="280" y2="85" stroke="#f87171" stroke-width="1" stroke-dasharray="3,3" opacity="0.5"/>
+              <!-- Labels -->
+              <text x="260" y="24" fill="#1cbcd4" font-size="7" font-weight="600">上升趨勢線</text>
+              <text x="240" y="83" fill="#f87171" font-size="7" font-weight="500">支撐 $680</text>
+              <!-- RSI area -->
+              <rect x="0" y="100" width="280" height="20" fill="rgba(255,255,255,0.03)"/>
+              <text x="4" y="108" fill="rgba(255,255,255,0.4)" font-size="6">RSI(14)</text>
+              <polyline points="10,116 30,114 50,110 70,112 90,108 110,106 130,104 150,108 170,106 190,104 210,102 230,105 250,102 270,98" fill="none" stroke="#f59e0b" stroke-width="1" opacity="0.7"/>
+              <line x1="0" y1="103" x2="280" y2="103" stroke="rgba(248,113,113,0.3)" stroke-width="0.5" stroke-dasharray="2,2"/>
+              <text x="258" y="101" fill="rgba(248,113,113,0.5)" font-size="5">70</text>
+            </svg>
+          </div>
+          <div class="msg-image-caption">呢個 pattern 你點睇？</div>
+        </div>
+      </div>
+
+      <!-- CIO reply to screenshot -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 昨天 18:40</div>
+          <div class="msg-row-text" style="margin-bottom: 8px;">我睇到你畫咗條<strong>上升趨勢線</strong>，由 12月 低位拉到而家。幾個觀察：</div>
+          <div class="msg-row-card">
+            <div class="metric-row"><span class="metric-label">趨勢</span><span class="metric-value text-green">上升通道完整</span></div>
+            <div class="metric-row"><span class="metric-label">RSI(14)</span><span class="metric-value" style="color: var(--accent-warning);">78 — 超買區</span></div>
+            <div class="metric-row"><span class="metric-label">你畫嘅支撐</span><span class="metric-value">$680（同你嘅均價一致）</span></div>
+            <div class="metric-row"><span class="metric-label">成交量</span><span class="metric-value text-green">近 3 日放量上升</span></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-weight: 400; padding: 8px 10px; background: var(--bg-elevated); border-radius: var(--radius-md);">
+              趨勢線完整但 RSI 超買，短期有回調壓力。<strong>如果回調到 $720–730</strong>（趨勢線支撐），可能係唔錯嘅加倉位。
+            </div>
+            <div class="msg-row-card-footer" style="margin-top: 6px;">
+              <span class="skill-pill">via 技術分析師</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User quick message (昨天晚) -->
+      <div class="msg msg-user">
+        <div class="msg-bubble">幫我留意 NVDA，我想睇下幾時入市加倉</div>
+      </div>
+
+      <!-- CIO quick reply -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 昨天 20:15</div>
+          <div class="msg-row-text">收到。我會幫你留意 NVDA 嘅入市時機。根據<span class="personal-highlight">業績解碼器</span>，而家遠期 PE 45 倍偏高，我會喺回調到 PE 38 倍以下或者有新催化因素時通知你。</div>
+        </div>
+      </div>
+
+      <!-- Date separator — 今天 -->
+      <div class="chat-date-sep"><span>今天</span></div>
+
+      <!-- Unread separator -->
+      <div class="unread-sep" id="unread-marker"><span>6 條未讀訊息</span></div>
+
+      <!-- CIO message: Weekly summary -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 今天 08:00</div>
+          <div class="msg-row-card" style="background: linear-gradient(135deg, rgba(28,188,212,0.08), rgba(52,211,153,0.04)); border: 1px solid rgba(28,188,212,0.2);">
+            <div style="font-size: 12px; font-weight: 600; color: var(--accent-teal); margin-bottom: 8px;">每週摘要 · 2月17–21日</div>
+            <div class="weekly-chart">
+              <svg viewBox="0 0 320 48" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="weeklyGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#34d399" stop-opacity="0.2"/>
+                    <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,32 L45,28 L90,34 L135,24 L180,20 L225,22 L270,14 L320,10 L320,48 L0,48Z" fill="url(#weeklyGrad)"/>
+                <polyline points="0,32 45,28 90,34 135,24 180,20 225,22 270,14 320,10" fill="none" stroke="#34d399" stroke-width="1.5"/>
+              </svg>
+            </div>
+            <div class="weekly-holdings">
+              <div class="weekly-holding">
+                <div class="weekly-ticker">NVDA</div>
+                <div class="weekly-return text-green">+5.2%</div>
+              </div>
+              <div class="weekly-holding">
+                <div class="weekly-ticker">TSMC</div>
+                <div class="weekly-return text-red">-2.1%</div>
+              </div>
+              <div class="weekly-holding">
+                <div class="weekly-ticker">META</div>
+                <div class="weekly-return text-green">+1.8%</div>
+              </div>
+            </div>
+            <div style="font-size: 12px; color: var(--text-muted); line-height: 1.4; font-weight: 400;">組合整體 +1.8%。本週 NVDA（週三）及 BABA（週四）公佈業績。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIO message: TSMC volume alert (urgent — CIO pushes immediately) -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 4 小時前</div>
+          <div class="msg-row-text" style="margin-bottom: 6px;">留意下，TSMC 有異動 ⚡</div>
+          <div class="msg-row-card">
+            <div class="msg-row-card-title" style="color: var(--accent-warning);">TSMC 成交量異動</div>
+            <div class="msg-row-card-preview">成交量達 20 日均量的 3.2 倍。未發現業績或新聞催化因素。你持有 200 股。</div>
+            <div class="msg-row-card-footer">
+              <span class="skill-pill">via 宏觀翻譯器</span>
+            </div>
+            <div class="deep-chat-indicator" onclick="showScreen('screen-deep-chat-tsmc')">
+              <div class="deep-chat-indicator-dot"></div>
+              <span class="deep-chat-indicator-text">深度對話</span>
+              <span class="deep-chat-indicator-preview">可能原因分析 · 需唔需要設個止損？</span>
+              <span class="deep-chat-indicator-arrow">→</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIO message: NVDA earnings — simplified card -->
+      <div class="msg-row" id="nvda-card">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 2 小時前</div>
+          <div class="msg-row-card" style="border-left: 3px solid var(--accent-green);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div class="msg-row-card-title">NVDA Q4 業績公佈</div>
+              <div class="skill-output-badge" style="background: rgba(52,211,153,0.12); color: var(--accent-green); font-size: 10px; padding: 2px 7px;">正面</div>
+            </div>
+            <div class="msg-row-card-preview">管理層語氣強烈正面。營收指引較市場共識上調 +8%。你持有 500 股，目前未實現盈利 +12.4%。</div>
+            <div class="msg-row-card-footer">
+              <span class="skill-pill">業績解碼器</span>
+            </div>
+            <div class="deep-chat-indicator" onclick="showScreen('screen-deep-chat')">
+              <div class="deep-chat-indicator-dot"></div>
+              <span class="deep-chat-indicator-text">深度對話</span>
+              <span class="deep-chat-indicator-preview">估值會不會太高了？→ CIO 建議篩選低估值標的...</span>
+              <span class="deep-chat-indicator-arrow">→</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIO message: NVDA follow-up (memory — connects to user's earlier request) -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 1 小時前</div>
+          <div class="msg-row-text">你<strong>昨晚叫我留意 NVDA 入市時機</strong>。業績公佈後股價先升後回，而家遠期 PE 回落到 <span class="personal-highlight">41 倍</span>，接近但未到你嘅目標（38 倍）。我會繼續幫你 mon 住。</div>
+          <div class="card-actions">
+            <button class="card-action-btn primary" onclick="showScreen('screen-deep-chat')">睇完整分析</button>
+            <button class="card-action-btn" onclick="btnFeedback(this, '收到 ✓')">收到</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIO message: META take profit suggestion -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 30 分鐘前</div>
+          <div class="msg-row-card" style="border-left: 3px solid var(--accent-lime);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div class="msg-row-card-title">META 到達目標價</div>
+              <div class="skill-output-badge" style="background: rgba(190,242,100,0.12); color: var(--accent-lime); font-size: 10px; padding: 2px 7px;">行動</div>
+            </div>
+            <div class="msg-row-card-preview">你 12月 以 $540 買入 100 股 META，當時設嘅目標價 $620 已到。目前報 $628，未實現盈利 <strong>+16.3%</strong>。</div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); line-height: 1.5; font-weight: 400; padding: 8px 10px; background: var(--bg-elevated); border-radius: var(--radius-md);">
+              建議：可以考慮先 take profit 一半（50 股），鎖定 +$4,400 利潤，剩餘繼續持有。
+            </div>
+            <div class="msg-row-card-footer">
+              <span class="skill-pill">via 組合管家</span>
+            </div>
+            <div class="card-actions">
+              <button class="card-action-btn primary">深入研究</button>
+              <button class="card-action-btn" onclick="btnFeedback(this, '已收藏 ✓')">收藏</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CIO urgent alert: TSMC price break (matches the top urgent bar) -->
+      <div class="msg-row">
+        <div class="msg-row-avatar">e+</div>
+        <div class="msg-row-content">
+          <div class="msg-row-meta"><strong>AI CIO</strong> · 剛剛</div>
+          <div class="msg-row-card" style="border-left: 3px solid var(--accent-red);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <div class="msg-row-card-title" style="color: var(--accent-red);">🔴 TSMC 跌破 $142 支撐位</div>
+            </div>
+            <div class="msg-row-card-preview">TSMC 跌破你之前設嘅 $142 支撐位，目前報 $139.8（-3.4%）。你持有 200 股，未實現盈利收窄至 +2.1%。</div>
+            <div class="msg-row-card-footer">
+              <span class="skill-pill">via 風險雷達</span>
+            </div>
+            <div class="card-actions">
+              <button class="card-action-btn primary" onclick="showScreen('screen-deep-chat-tsmc')">點算好？</button>
+              <button class="card-action-btn" onclick="btnFeedback(this, '已讀 ✓')">已讀</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    </div><!-- end cio-tab-timeline -->
+
+    <!-- TAB 2: Deep Chats -->
+    <div class="cio-tab-content" id="cio-tab-chats" style="padding: 16px;">
+      <button class="new-chat-btn">
+        <svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+        新對話
+      </button>
+
+      <!-- Pinned conversation -->
+      <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">已釘選</div>
+      <div class="deep-chat-item" onclick="showScreen('screen-deep-chat')">
+        <div class="deep-chat-icon" style="background: rgba(52,211,153,0.12); color: var(--accent-green);">📌</div>
+        <div class="deep-chat-info">
+          <div class="deep-chat-title">NVDA 深度研究</div>
+          <div class="deep-chat-preview">業績解碼器認為基本面強勁，但空頭辯護人指出估值風險...</div>
+        </div>
+        <div class="deep-chat-meta">2小時前</div>
+      </div>
+
+      <!-- Other conversations -->
+      <div style="font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; margin-top: 16px; text-transform: uppercase; letter-spacing: 0.5px;">最近</div>
+      <div class="deep-chat-item" onclick="showScreen('screen-deep-chat-tsmc')">
+        <div class="deep-chat-icon" style="background: rgba(251,191,36,0.12); color: var(--accent-warning);">💬</div>
+        <div class="deep-chat-info">
+          <div class="deep-chat-title">TSMC 成交量異動分析</div>
+          <div class="deep-chat-preview">成交量達 20 日均量的 3.2 倍，可能原因分析...</div>
+        </div>
+        <div class="deep-chat-meta">4小時前</div>
+      </div>
+      <div class="deep-chat-item">
+        <div class="deep-chat-icon" style="background: rgba(28,188,212,0.12); color: var(--accent-teal);">💬</div>
+        <div class="deep-chat-info">
+          <div class="deep-chat-title">港股科技股分析</div>
+          <div class="deep-chat-preview">南下資金流入趨勢及北水機會分析...</div>
+        </div>
+        <div class="deep-chat-meta">昨天</div>
+      </div>
+      <div class="deep-chat-item">
+        <div class="deep-chat-icon" style="background: rgba(190,242,100,0.12); color: var(--accent-lime);">💬</div>
+        <div class="deep-chat-info">
+          <div class="deep-chat-title">半導體行業展望</div>
+          <div class="deep-chat-preview">Q1 半導體供應鏈及需求趨勢...</div>
+        </div>
+        <div class="deep-chat-meta">2月15日</div>
+      </div>
+    </div><!-- end cio-tab-chats -->
+
+    <!-- Chat input — always visible -->
+    <div class="chat-input-bar">
+      <div class="chat-input-wrap">
+        <button class="chat-attach-btn">
+          <svg viewBox="0 0 20 20"><path d="M15.621 3.379a3.25 3.25 0 00-4.596 0L4.147 10.257a4.75 4.75 0 006.716 6.716l6.879-6.878a.75.75 0 10-1.06-1.06l-6.88 6.877a3.25 3.25 0 01-4.596-4.596l6.879-6.878a1.75 1.75 0 012.474 2.474L7.68 13.79a.25.25 0 01-.354-.354l5.757-5.757a.75.75 0 10-1.06-1.06L6.265 12.374a1.75 1.75 0 002.474 2.474l6.879-6.878a3.25 3.25 0 000-4.596z"/></svg>
+        </button>
+        <input placeholder="同 CIO 傾..." />
+      </div>
+      <button class="chat-send-btn">
+        <svg viewBox="0 0 20 20"><path d="M3.105 2.29a.75.75 0 01.814-.12l13.5 6.25a.75.75 0 010 1.36l-13.5 6.25a.75.75 0 01-1.044-.814L4.64 10.75H8.5a.75.75 0 000-1.5H4.64L2.875 3.224a.75.75 0 01.23-.934z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 3C: Deep Chat — NVDA ========== -->
+  <div class="screen" id="screen-deep-chat">
+    <div class="chat-thread-header">
+      <button class="back-btn" onclick="showScreen('screen-personal-agent')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="chat-thread-title" style="flex: 1;">NVDA 深度研究</span>
+      <span style="font-size: 12px; color: var(--accent-teal);">📌</span>
+    </div>
+    <div class="chat-messages">
+
+      <!-- CIO opens with full NVDA analysis -->
+      <div class="msg msg-agent">
+        <div class="msg-sender">AI CIO</div>
+        <div class="msg-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-size: 15px; font-weight: 700;">NVDA Q4 業績解讀</div>
+            <div class="skill-output-badge" style="background: rgba(52,211,153,0.12); color: var(--accent-green); font-size: 10px; padding: 2px 7px;">正面</div>
+          </div>
+
+          <div class="tone-meter">
+            <div class="tone-meter-label">
+              <span class="metric-label">管理層語氣</span>
+              <span class="metric-value text-green">強烈正面</span>
+            </div>
+            <div class="tone-meter-bar">
+              <div class="tone-meter-fill" style="width: 85%; background: linear-gradient(90deg, var(--accent-teal), var(--accent-green));"></div>
+            </div>
+          </div>
+          <div class="metric-row"><span class="metric-label">營收指引</span><span class="metric-value text-green">高於共識 +8%</span></div>
+          <div class="metric-row"><span class="metric-label">關鍵訊號</span><span class="metric-value">「需求可見度」提及 4 次</span></div>
+          <div class="metric-row"><span class="metric-label">較上季</span><span class="metric-value text-green">顯著改善</span></div>
+
+          <div class="personal-context">
+            <div class="personal-context-text">你持有 <span class="personal-highlight">500 股，均價 $680</span>。目前未實現盈利 <span class="personal-highlight">+12.4%</span>。</div>
+          </div>
+
+          <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-subtle);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-size: 13px; font-weight: 600;">風險評估</div>
+              <div class="skill-output-badge" style="background: rgba(251,191,36,0.12); color: var(--accent-warning); font-size: 10px; padding: 2px 7px;">注意</div>
+            </div>
+            <div class="risk-item">
+              <div class="risk-icon" style="background: rgba(248,113,113,0.12); color: var(--accent-red);">!</div>
+              <div class="risk-text">遠期本益比 45 倍，處於歷史第 92 百分位。溢價定價意味著容錯空間極小。</div>
+            </div>
+            <div class="risk-item">
+              <div class="risk-icon" style="background: rgba(251,191,36,0.12); color: var(--accent-warning);">!</div>
+              <div class="risk-text">企業端 AI 資本開支週期出現趨緩跡象。消費端需求仍然強勁。</div>
+            </div>
+            <div class="risk-item">
+              <div class="risk-icon" style="background: rgba(251,191,36,0.12); color: var(--accent-warning);">!</div>
+              <div class="risk-text">AMD MI400 預計 Q3 推出，可能壓縮數據中心 GPU 利潤率。</div>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; font-weight: 400; padding: 8px 10px; background: var(--bg-elevated); border-radius: var(--radius-md);">
+            <strong style="font-weight: 600;">業績解碼器</strong>認為基本面強勁。<strong style="font-weight: 600;">空頭辯護人</strong>指出估值風險。你的持倉目前盈利——在遠期本益比 45 倍的情況下，最初的投資論點是否仍然成立？
+          </div>
+
+          <div class="skill-source" style="margin-top: 8px;">透過 <a href="#">業績解碼器</a> · <a href="#">空頭辯護人</a></div>
+        </div>
+      </div>
+
+      <!-- User asks about valuation -->
+      <div class="msg msg-user">
+        <div class="msg-bubble">估值會不會太高了？</div>
+      </div>
+
+      <!-- CIO reply with mini app -->
+      <div class="msg msg-agent">
+        <div class="msg-sender">AI CIO</div>
+        <div style="font-size: 14px; color: var(--text-primary); line-height: 1.5; font-weight: 400; margin-bottom: 8px;">好問題。<span class="personal-highlight">業績解碼器</span>認為基本面強勁，但<span class="personal-highlight">空頭辯護人</span>指出遠期 PE 45 倍處於歷史第 92 百分位。你上次在 1月15日 也提過同樣的擔心，自那時起股價又漲了 +8%。</div>
+        <div style="font-size: 14px; color: var(--text-primary); line-height: 1.5; font-weight: 400;">如果你有興趣對沖風險，我可以幫你用篩選器找同板塊低估值的標的：</div>
+        <div class="mini-app-embed" style="margin-top: 8px;">
+          <div class="mini-app-header">
+            <span class="mini-app-title">股票篩選器</span>
+            <span class="mini-app-collapse">收合 ▴</span>
+          </div>
+          <div class="mini-app-body">
+            <div class="mini-app-filter-row">
+              <div class="mini-app-filter"><span class="label">板塊</span><span class="value">半導體 ▾</span></div>
+              <div class="mini-app-filter"><span class="label">PE</span><span class="value">&lt;30 ▾</span></div>
+            </div>
+            <div class="mini-app-result-count">8 隻股票符合條件</div>
+            <div class="mini-app-result"><div><div class="mini-app-result-ticker">AVGO</div><div class="mini-app-result-meta">Broadcom · PE 22.4</div></div><div class="mini-app-result-yield text-green">4.18%</div></div>
+            <div class="mini-app-result"><div><div class="mini-app-result-ticker">TXN</div><div class="mini-app-result-meta">Texas Instruments · PE 19.8</div></div><div class="mini-app-result-yield text-green">3.82%</div></div>
+            <div class="mini-app-result"><div><div class="mini-app-result-ticker">QCOM</div><div class="mini-app-result-meta">Qualcomm · PE 16.2</div></div><div class="mini-app-result-yield text-green">3.47%</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Typing indicator -->
+      <div class="msg msg-agent" style="margin-bottom: 8px;">
+        <div class="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Deep chat input bar -->
+    <div class="chat-input-bar">
+      <div class="chat-input-wrap">
+        <button class="chat-attach-btn">
+          <svg viewBox="0 0 20 20"><path d="M15.621 3.379a3.25 3.25 0 00-4.596 0L4.147 10.257a4.75 4.75 0 006.716 6.716l6.879-6.878a.75.75 0 10-1.06-1.06l-6.88 6.877a3.25 3.25 0 01-4.596-4.596l6.879-6.878a1.75 1.75 0 012.474 2.474L7.68 13.79a.25.25 0 01-.354-.354l5.757-5.757a.75.75 0 10-1.06-1.06L6.265 12.374a1.75 1.75 0 002.474 2.474l6.879-6.878a3.25 3.25 0 000-4.596z"/></svg>
+        </button>
+        <input placeholder="繼續對話..." />
+      </div>
+      <button class="chat-send-btn">
+        <svg viewBox="0 0 20 20"><path d="M3.105 2.29a.75.75 0 01.814-.12l13.5 6.25a.75.75 0 010 1.36l-13.5 6.25a.75.75 0 01-1.044-.814L4.64 10.75H8.5a.75.75 0 000-1.5H4.64L2.875 3.224a.75.75 0 01.23-.934z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 3D: Deep Chat — TSMC ========== -->
+  <div class="screen" id="screen-deep-chat-tsmc">
+    <div class="chat-thread-header">
+      <button class="back-btn" onclick="showScreen('screen-personal-agent')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+      </button>
+      <span class="chat-thread-title" style="flex: 1;">TSMC 成交量異動分析</span>
+    </div>
+    <div class="chat-messages">
+
+      <!-- CIO analysis -->
+      <div class="msg msg-agent">
+        <div class="msg-sender">AI CIO</div>
+        <div class="msg-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+            <div style="font-size: 15px; font-weight: 700;">TSMC 成交量異動</div>
+            <div class="skill-output-badge" style="background: rgba(251,191,36,0.12); color: var(--accent-warning); font-size: 10px; padding: 2px 7px;">留意</div>
+          </div>
+
+          <div class="metric-row"><span class="metric-label">成交量</span><span class="metric-value text-warning" style="color: var(--accent-warning);">20 日均量 × 3.2</span></div>
+          <div class="metric-row"><span class="metric-label">價格變動</span><span class="metric-value text-red">-1.8%</span></div>
+          <div class="metric-row"><span class="metric-label">新聞催化</span><span class="metric-value">未發現</span></div>
+          <div class="metric-row"><span class="metric-label">期權異動</span><span class="metric-value text-warning" style="color: var(--accent-warning);">Put/Call ratio 升至 1.4</span></div>
+
+          <div class="personal-context" style="margin-top: 8px;">
+            <div class="personal-context-text">你持有 <span class="personal-highlight">200 股，均價 $145</span>。目前未實現盈利 <span class="personal-highlight">+6.2%</span>。</div>
+          </div>
+
+          <div style="margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border-subtle);">
+            <div style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">可能原因</div>
+            <div class="risk-item">
+              <div class="risk-icon" style="background: rgba(251,191,36,0.12); color: var(--accent-warning);">1</div>
+              <div class="risk-text">機構調倉：多家大型基金近期減持半導體持倉，可能係季末 rebalance。</div>
+            </div>
+            <div class="risk-item">
+              <div class="risk-icon" style="background: rgba(251,191,36,0.12); color: var(--accent-warning);">2</div>
+              <div class="risk-text">地緣政治：台海局勢近日有新聞，但無實質升級。市場可能過度反應。</div>
+            </div>
+            <div class="risk-item">
+              <div class="risk-icon" style="background: rgba(52,211,153,0.12); color: var(--accent-green);">3</div>
+              <div class="risk-text">大單交易：Block trade 紀錄顯示有一筆 $2.3B 嘅大宗交易，可能係單一機構行為。</div>
+            </div>
+          </div>
+
+          <div style="margin-top: 10px; font-size: 13px; color: var(--text-secondary); line-height: 1.5; font-weight: 400; padding: 8px 10px; background: var(--bg-elevated); border-radius: var(--radius-md);">
+            目前無明確利空訊號。成交量異動大概率係機構調倉。建議暫時持有觀望，如果跌破 $140 支撐位再考慮減倉。
+          </div>
+
+          <div class="skill-source" style="margin-top: 8px;">透過 <a href="#">宏觀翻譯器</a> · <a href="#">風險雷達</a></div>
+        </div>
+      </div>
+
+      <!-- User question -->
+      <div class="msg msg-user">
+        <div class="msg-bubble">需唔需要設個止損？</div>
+      </div>
+
+      <!-- CIO reply -->
+      <div class="msg msg-agent">
+        <div class="msg-sender">AI CIO</div>
+        <div style="font-size: 14px; color: var(--text-primary); line-height: 1.5; font-weight: 400;">以你嘅持倉嚟講，$140 係關鍵支撐位（200日均線）。你可以考慮：</div>
+        <div class="msg-card" style="margin-top: 8px;">
+          <div class="metric-row"><span class="metric-label">建議止損</span><span class="metric-value">$138（-10% from 均價）</span></div>
+          <div class="metric-row"><span class="metric-label">支撐位</span><span class="metric-value">$140（200日均線）</span></div>
+          <div class="metric-row"><span class="metric-label">下一阻力</span><span class="metric-value text-green">$162（歷史高位）</span></div>
+        </div>
+        <div style="font-size: 14px; color: var(--text-primary); line-height: 1.5; font-weight: 400; margin-top: 8px;">要我幫你設個 $138 嘅價格提醒嗎？</div>
+        <div class="card-actions" style="margin-top: 8px;">
+          <button class="card-action-btn primary" onclick="btnFeedback(this, '已設提醒 ✓')">設價格提醒</button>
+          <button class="card-action-btn" onclick="btnFeedback(this, '好的 ✓')">暫時唔使</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Deep chat input bar -->
+    <div class="chat-input-bar">
+      <div class="chat-input-wrap">
+        <button class="chat-attach-btn">
+          <svg viewBox="0 0 20 20"><path d="M15.621 3.379a3.25 3.25 0 00-4.596 0L4.147 10.257a4.75 4.75 0 006.716 6.716l6.879-6.878a.75.75 0 10-1.06-1.06l-6.88 6.877a3.25 3.25 0 01-4.596-4.596l6.879-6.878a1.75 1.75 0 012.474 2.474L7.68 13.79a.25.25 0 01-.354-.354l5.757-5.757a.75.75 0 10-1.06-1.06L6.265 12.374a1.75 1.75 0 002.474 2.474l6.879-6.878a3.25 3.25 0 000-4.596z"/></svg>
+        </button>
+        <input placeholder="繼續對話..." />
+      </div>
+      <button class="chat-send-btn">
+        <svg viewBox="0 0 20 20"><path d="M3.105 2.29a.75.75 0 01.814-.12l13.5 6.25a.75.75 0 010 1.36l-13.5 6.25a.75.75 0 01-1.044-.814L4.64 10.75H8.5a.75.75 0 000-1.5H4.64L2.875 3.224a.75.75 0 01.23-.934z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========== TAB BAR ========== -->
+  <div class="tab-bar">
+    <button class="tab-item disabled" style="opacity: 0.3; pointer-events: none;">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg>
+      </div>
+      <div class="tab-label">Alpha</div>
+    </button>
+    <button class="tab-item active" onclick="showScreen('screen-skills-store')" id="tab-skills">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z"/></svg>
+      </div>
+      <div class="tab-label">技能</div>
+    </button>
+    <button class="tab-item disabled" style="opacity: 0.3; pointer-events: none;">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      </div>
+      <div class="tab-label">社群</div>
+    </button>
+    <button class="tab-item" onclick="showScreen('screen-personal-agent')" id="tab-agent">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-3 12H7v-2h10v2zm0-3H7V9h10v2zm0-3H7V6h10v2z"/></svg>
+        <div class="tab-badge"></div>
+      </div>
+      <div class="tab-label">CIO</div>
+    </button>
+    <button class="tab-item disabled" style="opacity: 0.3; pointer-events: none;">
+      <div class="tab-icon">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+      </div>
+      <div class="tab-label">任務</div>
+    </button>
+  </div>
+</div>
+
+<script>
+  function showScreen(screenId) {
+    const prev = document.querySelector('.screen.active');
+    const next = document.getElementById(screenId);
+    if (prev === next) return;
+
+    prev.classList.remove('active');
+    next.classList.add('active');
+
+    document.querySelectorAll('.tab-item:not([style])').forEach(t => t.classList.remove('active'));
+    if (screenId === 'screen-skills-store' || screenId === 'screen-skill-detail' || screenId === 'screen-mini-app-detail') {
+      document.getElementById('tab-skills').classList.add('active');
+    } else if (screenId === 'screen-personal-agent' || screenId === 'screen-deep-chat' || screenId === 'screen-deep-chat-tsmc') {
+      document.getElementById('tab-agent').classList.add('active');
+    }
+
+    // Auto-scroll to unread marker when entering CIO tab
+    if (screenId === 'screen-personal-agent') {
+      setTimeout(() => {
+        const marker = document.getElementById('unread-marker');
+        if (marker) {
+          marker.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }
+
+  function toggleExpand(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const isOpen = el.style.maxHeight && el.style.maxHeight !== '0px';
+    if (isOpen) {
+      el.style.maxHeight = '0px';
+      el.style.opacity = '0';
+      btn.textContent = btn.dataset.label || btn.textContent;
+    } else {
+      el.style.maxHeight = el.scrollHeight + 'px';
+      el.style.opacity = '1';
+      btn.dataset.label = btn.textContent;
+      btn.textContent = '收合';
+    }
+  }
+
+  function toggleCardExpand(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const card = el.closest('.msg-row-card');
+    const isOpen = card && card.classList.contains('expanded');
+    if (isOpen) {
+      card.classList.remove('expanded');
+      btn.textContent = btn.dataset.label || btn.textContent;
+    } else {
+      if (card) card.classList.add('expanded');
+      btn.dataset.label = btn.textContent;
+      btn.textContent = '收合';
+    }
+  }
+
+  function btnFeedback(btn, text) {
+    btn.textContent = text;
+    btn.style.opacity = '0.6';
+    btn.style.pointerEvents = 'none';
+  }
+
+  function switchCioTab(tab, btn) {
+    document.querySelectorAll('.cio-segment-tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.cio-tab-content').forEach(t => t.classList.remove('active'));
+    document.getElementById('cio-tab-' + tab).classList.add('active');
+
+    // Auto-scroll to unread when switching to timeline
+    if (tab === 'timeline') {
+      setTimeout(() => {
+        const marker = document.getElementById('unread-marker');
+        if (marker) marker.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }
+
+  function dismissAlert(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.style.maxHeight = el.offsetHeight + 'px';
+      el.style.overflow = 'hidden';
+      el.style.transition = 'max-height 0.3s ease, opacity 0.2s ease, padding 0.3s ease';
+      requestAnimationFrame(() => {
+        el.style.maxHeight = '0px';
+        el.style.opacity = '0';
+        el.style.padding = '0 16px';
+        el.style.borderBottom = 'none';
+      });
+    }
+  }
+
+  function toggleSubscribe() {
+    const btn = document.getElementById('subscribeBtn');
+    if (btn.classList.contains('subscribed')) {
+      btn.classList.remove('subscribed');
+      btn.textContent = '啟用此技能';
+    } else {
+      btn.classList.add('subscribed');
+      btn.textContent = '已自動啟用';
+    }
+  }
+</script>
+
+<!-- Language Switcher -->
+<div class="lang-switcher">
+  <a class="lang-btn" href="index-en.html">EN</a>
+  <a class="lang-btn" href="index-cn.html">简</a>
+  <a class="lang-btn active" href="index-zh.html">繁</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>edgen+ Skills & Personal Agent Demo</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+  <style>
+    /* === RESET & BASE === */
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-card: #161616;
+      --bg-elevated: #232323;
+      --border: #454545;
+      --border-subtle: #2a2a2a;
+      --accent-teal: #1ed1e9;
+      --accent-green: #00ff99;
+      --accent-red: #ff5252;
+      --accent-warning: #ffab00;
+      --accent-lime: #CCFF00;
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255,255,255,0.8);
+      --text-muted: rgba(255,255,255,0.4);
+      --radius-sm: 4px;
+      --radius-md: 6px;
+      --radius-lg: 8px;
+      --radius-xl: 12px;
+      --radius-full: 9999px;
+    }
+
+    body {
+      font-family: 'Satoshi', -apple-system, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow: hidden;
+      height: 100dvh;
+    }
+
+    /* === PHONE FRAME === */
+    .phone-frame {
+      width: 393px;
+      height: 852px;
+      margin: 20px auto;
+      background: var(--bg-primary);
+      border-radius: 40px;
+      border: 2px solid var(--border);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media (max-width: 430px) {
+      .phone-frame {
+        width: 100%;
+        height: 100dvh;
+        margin: 0;
+        border-radius: 0;
+        border: none;
+      }
+    }
+
+    /* === STATUS BAR === */
+    .status-bar {
+      height: 54px;
+      padding: 14px 24px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .status-bar .time { font-size: 15px; font-weight: 600; }
+    .status-bar .icons { display: flex; gap: 6px; font-size: 12px; color: var(--text-secondary); }
+
+    /* === SCREENS === */
+    .screen {
+      display: none;
+      flex-direction: column;
+      flex: 1;
+      overflow: hidden;
+    }
+    .screen.active { display: flex; }
+    .screen-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 16px 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .screen-content::-webkit-scrollbar { display: none; }
+
+    /* === SCREEN HEADER === */
+    .screen-header {
+      padding: 8px 16px 12px;
+      flex-shrink: 0;
+    }
+    .screen-header h1 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .screen-header p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .screen-header-with-back {
+      padding: 8px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--text-primary);
+      font-size: 20px;
+      cursor: pointer;
+      padding: 4px;
+      font-family: 'Satoshi', sans-serif;
+    }
+
+    /* === TAB BAR === */
+    .tab-bar {
+      height: 80px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding-bottom: 20px;
+      flex-shrink: 0;
+    }
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-family: 'Satoshi', sans-serif;
+      min-width: 64px;
+    }
+    .tab-item.active { color: var(--accent-teal); }
+    .tab-icon {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+    }
+    .tab-label { font-size: 10px; font-weight: 500; }
+
+    /* === SKILLS STORE (Tab 2) === */
+    .category-tabs {
+      display: flex;
+      gap: 8px;
+      padding: 0 0 16px;
+      overflow-x: auto;
+    }
+    .category-tabs::-webkit-scrollbar { display: none; }
+    .cat-tab {
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: 'Satoshi', sans-serif;
+      transition: all 0.2s;
+    }
+    .cat-tab.active {
+      background: var(--accent-teal);
+      color: #0a0a0a;
+      border-color: var(--accent-teal);
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .skill-card:hover { border-color: var(--border); }
+    .skill-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+    .skill-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .skill-card-info { flex: 1; margin-left: 12px; }
+    .skill-card-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .skill-card-creator {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .skill-badge {
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .skill-card-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+    .skill-card-stats {
+      display: flex;
+      gap: 16px;
+    }
+    .skill-stat {
+      display: flex;
+      flex-direction: column;
+    }
+    .skill-stat-value {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .skill-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* === SKILL DETAIL === */
+    .detail-hero {
+      text-align: center;
+      padding: 24px 0;
+    }
+    .detail-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 auto 12px;
+    }
+    .detail-name {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .detail-creator {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .detail-stats-row {
+      display: flex;
+      justify-content: space-around;
+      padding: 16px 0;
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      margin: 16px 0;
+    }
+    .detail-stat {
+      text-align: center;
+    }
+    .detail-stat-value {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .detail-stat-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+    .subscribe-btn {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent-teal);
+      color: #0a0a0a;
+      border: none;
+      border-radius: var(--radius-lg);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Satoshi', sans-serif;
+      margin-bottom: 20px;
+      transition: opacity 0.2s;
+    }
+    .subscribe-btn:active { opacity: 0.8; }
+    .subscribe-btn.subscribed {
+      background: var(--bg-elevated);
+      color: var(--accent-teal);
+      border: 1px solid var(--accent-teal);
+    }
+
+    .section-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+    }
+
+    .track-record-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .track-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .track-row:last-child { border-bottom: none; }
+    .track-ticker {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .track-date {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .track-return {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .text-green { color: var(--accent-green); }
+    .text-red { color: var(--accent-red); }
+    .text-teal { color: var(--accent-teal); }
+    .text-warning { color: var(--accent-warning); }
+
+    /* === PERSONAL AGENT (Tab 4) === */
+    .agent-chat-entry {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+    .agent-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--accent-teal), #0099aa);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .agent-chat-placeholder {
+      font-size: 14px;
+      color: var(--text-muted);
+      flex: 1;
+    }
+    .agent-chat-skills {
+      display: flex;
+      gap: 4px;
+    }
+    .mini-pill {
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      font-size: 10px;
+      font-weight: 600;
+      background: rgba(30,209,233,0.15);
+      color: var(--accent-teal);
+    }
+
+    .pinned-section { margin-bottom: 16px; }
+    .pinned-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .timeline-card:hover { border-color: var(--border); }
+    .timeline-card.unread { border-left: 3px solid var(--accent-teal); }
+    .timeline-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .timeline-title {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .timeline-time {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .timeline-preview {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      margin-bottom: 8px;
+    }
+    .timeline-source {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .timeline-source span { color: var(--accent-teal); font-weight: 600; }
+
+    .timeline-section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin: 16px 0 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* === CHAT THREAD (Screen 4) === */
+    .chat-thread-header {
+      padding: 8px 16px 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .chat-skills-bar {
+      display: flex;
+      gap: 6px;
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+    .skill-pill {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(30,209,233,0.15);
+      color: var(--accent-teal);
+    }
+    .add-skill-pill {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 12px;
+      font-weight: 600;
+      background: var(--bg-elevated);
+      color: var(--text-muted);
+      cursor: pointer;
+      border: 1px dashed var(--border);
+    }
+
+    .chat-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    .chat-messages::-webkit-scrollbar { display: none; }
+
+    .msg { margin-bottom: 16px; }
+    .msg-agent .msg-sender {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--accent-teal);
+      margin-bottom: 6px;
+    }
+    .msg-user { display: flex; justify-content: flex-end; }
+    .msg-user .msg-bubble {
+      background: var(--accent-teal);
+      color: #0a0a0a;
+      border-radius: 16px 16px 4px 16px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 500;
+      max-width: 80%;
+    }
+
+    .msg-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      max-width: 100%;
+    }
+
+    /* Skill output components */
+    .skill-output-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+    .skill-output-title {
+      font-size: 15px;
+      font-weight: 700;
+    }
+    .skill-output-badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .tone-meter {
+      margin-bottom: 12px;
+    }
+    .tone-meter-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+    .tone-meter-bar {
+      height: 6px;
+      background: var(--bg-elevated);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .tone-meter-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.8s ease;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 13px;
+    }
+    .metric-row:last-child { border-bottom: none; }
+    .metric-label { color: var(--text-secondary); }
+    .metric-value { font-weight: 700; }
+
+    .personal-context {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+    }
+    .personal-context-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+    .personal-highlight {
+      color: var(--accent-teal);
+      font-weight: 600;
+    }
+
+    .skill-source {
+      margin-top: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+    .skill-source a {
+      color: var(--accent-teal);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    /* Risk items */
+    .risk-item {
+      display: flex;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .risk-item:last-child { border-bottom: none; }
+    .risk-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: var(--radius-full);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .risk-text {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .chat-input-bar {
+      padding: 12px 16px 28px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .chat-input {
+      flex: 1;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 10px 14px;
+      color: var(--text-primary);
+      font-size: 14px;
+      font-family: 'Satoshi', sans-serif;
+      outline: none;
+    }
+    .chat-input::placeholder { color: var(--text-muted); }
+    .chat-send-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: var(--accent-teal);
+      border: none;
+      color: #0a0a0a;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Satoshi', sans-serif;
+    }
+
+    /* === SCREEN 5: TAB BAR OVERVIEW === */
+    .tab-overview-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .tab-overview-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .tab-overview-name {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .tab-overview-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* === ANIMATIONS === */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .screen.active .screen-content > * {
+      animation: fadeIn 0.3s ease both;
+    }
+    .screen.active .screen-content > *:nth-child(1) { animation-delay: 0s; }
+    .screen.active .screen-content > *:nth-child(2) { animation-delay: 0.05s; }
+    .screen.active .screen-content > *:nth-child(3) { animation-delay: 0.1s; }
+    .screen.active .screen-content > *:nth-child(4) { animation-delay: 0.15s; }
+    .screen.active .screen-content > *:nth-child(5) { animation-delay: 0.2s; }
+    .screen.active .screen-content > *:nth-child(6) { animation-delay: 0.25s; }
+    .screen.active .screen-content > *:nth-child(7) { animation-delay: 0.3s; }
+    .screen.active .screen-content > *:nth-child(8) { animation-delay: 0.35s; }
+    .screen.active .screen-content > *:nth-child(9) { animation-delay: 0.4s; }
+
+    /* Weekly summary */
+    .weekly-card {
+      background: linear-gradient(135deg, rgba(30,209,233,0.1), rgba(0,255,153,0.05));
+      border: 1px solid rgba(30,209,233,0.3);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      margin-bottom: 8px;
+    }
+    .weekly-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent-teal);
+      margin-bottom: 10px;
+    }
+    .weekly-holdings {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .weekly-holding {
+      flex: 1;
+      text-align: center;
+    }
+    .weekly-ticker {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .weekly-return {
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .weekly-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="icons">
+      <span>5G</span>
+      <span>100%</span>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 1: Skills Store ========== -->
+  <div class="screen active" id="screen-skills-store">
+    <div class="screen-header">
+      <h1>Skills</h1>
+      <p>AI-powered investment analysis tools</p>
+    </div>
+    <div class="screen-content">
+      <!-- Category Tabs -->
+      <div class="category-tabs">
+        <button class="cat-tab active">All</button>
+        <button class="cat-tab">Fundamental</button>
+        <button class="cat-tab">Technical</button>
+        <button class="cat-tab">Macro</button>
+        <button class="cat-tab">Sector</button>
+      </div>
+
+      <!-- Skill Cards -->
+      <div class="skill-card" onclick="showScreen('screen-skill-detail')">
+        <div class="skill-card-header">
+          <div class="skill-icon-box" style="background: rgba(30,209,233,0.15); color: var(--accent-teal);">EC</div>
+          <div class="skill-card-info">
+            <div class="skill-card-name">Earnings Decoder</div>
+            <div class="skill-card-creator">by edgen+ Official</div>
+          </div>
+          <div class="skill-badge" style="background: rgba(0,255,153,0.15); color: var(--accent-green);">67% Win</div>
+        </div>
+        <div class="skill-card-desc">Analyzes earnings call transcripts for management tone shifts, guidance changes, and evasive language patterns.</div>
+        <div class="skill-card-stats">
+          <div class="skill-stat">
+            <span class="skill-stat-value text-green">+8.3%</span>
+            <span class="skill-stat-label">Avg Return (20D)</span>
+          </div>
+          <div class="skill-stat">
+            <span class="skill-stat-value">142</span>
+            <span class="skill-stat-label">Alerts Sent</span>
+          </div>
+          <div class="skill-stat">
+            <span class="skill-stat-value">3.2K</span>
+            <span class="skill-stat-label">Subscribers</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-box" style="background: rgba(255,82,82,0.15); color: var(--accent-red);">DA</div>
+          <div class="skill-card-info">
+            <div class="skill-card-name">Devil's Advocate</div>
+            <div class="skill-card-creator">by edgen+ Official</div>
+          </div>
+          <div class="skill-badge" style="background: rgba(255,171,0,0.15); color: var(--accent-warning);">Risk</div>
+        </div>
+        <div class="skill-card-desc">Builds the strongest bear case against any stock. Finds blind spots in your thesis before the market does.</div>
+        <div class="skill-card-stats">
+          <div class="skill-stat">
+            <span class="skill-stat-value">89%</span>
+            <span class="skill-stat-label">Accuracy</span>
+          </div>
+          <div class="skill-stat">
+            <span class="skill-stat-value">2.1K</span>
+            <span class="skill-stat-label">Uses</span>
+          </div>
+          <div class="skill-stat">
+            <span class="skill-stat-value">1.8K</span>
+            <span class="skill-stat-label">Subscribers</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-box" style="background: rgba(204,255,0,0.15); color: var(--accent-lime);">MT</div>
+          <div class="skill-card-info">
+            <div class="skill-card-name">Macro Translator</div>
+            <div class="skill-card-creator">by edgen+ Official</div>
+          </div>
+          <div class="skill-badge" style="background: rgba(30,209,233,0.15); color: var(--accent-teal);">Macro</div>
+        </div>
+        <div class="skill-card-desc">Converts macro events into stock-level impact analysis. Rate decisions, geopolitics, and policy changes decoded.</div>
+        <div class="skill-card-stats">
+          <div class="skill-stat">
+            <span class="skill-stat-value text-green">+6.1%</span>
+            <span class="skill-stat-label">Avg Return (20D)</span>
+          </div>
+          <div class="skill-stat">
+            <span class="skill-stat-value">87</span>
+            <span class="skill-stat-label">Alerts Sent</span>
+          </div>
+          <div class="skill-stat">
+            <span class="skill-stat-value">2.5K</span>
+            <span class="skill-stat-label">Subscribers</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KOL Skill -->
+      <div class="timeline-section-label">Community Skills</div>
+
+      <div class="skill-card">
+        <div class="skill-card-header">
+          <div class="skill-icon-box" style="background: rgba(255,255,255,0.1); color: var(--text-primary);">AN</div>
+          <div class="skill-card-info">
+            <div class="skill-card-name">Allen's Market Logic</div>
+            <div class="skill-card-creator">by Allen Ng</div>
+          </div>
+          <div class="skill-badge" style="background: rgba(0,255,153,0.15); color: var(--accent-green);">72% Win</div>
+        </div>
+        <div class="skill-card-desc">Tracks Southbound capital flows paired with lagging price action in HK-listed equities.</div>
+        <div class="skill-card-stats">
+          <div class="skill-stat">
+            <span class="skill-stat-value text-green">+11.2%</span>
+            <span class="skill-stat-label">Avg Return (20D)</span>
+          </div>
+          <div class="skill-stat">
+            <span class="skill-stat-value">38</span>
+            <span class="skill-stat-label">Alerts Sent</span>
+          </div>
+          <div class="skill-stat">
+            <span class="skill-stat-value">891</span>
+            <span class="skill-stat-label">Subscribers</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 2: Skill Detail ========== -->
+  <div class="screen" id="screen-skill-detail">
+    <div class="screen-header-with-back">
+      <button class="back-btn" onclick="showScreen('screen-skills-store')">&larr;</button>
+      <span style="font-size: 15px; font-weight: 600;">Skill Detail</span>
+    </div>
+    <div class="screen-content">
+      <div class="detail-hero">
+        <div class="detail-icon" style="background: rgba(30,209,233,0.15); color: var(--accent-teal);">EC</div>
+        <div class="detail-name">Earnings Decoder</div>
+        <div class="detail-creator">by edgen+ Official</div>
+      </div>
+
+      <div class="detail-stats-row">
+        <div class="detail-stat">
+          <div class="detail-stat-value text-green">67%</div>
+          <div class="detail-stat-label">Win Rate</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-value text-green">+8.3%</div>
+          <div class="detail-stat-label">Avg Return</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-value">142</div>
+          <div class="detail-stat-label">Alerts</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-value">3.2K</div>
+          <div class="detail-stat-label">Subscribers</div>
+        </div>
+      </div>
+
+      <button class="subscribe-btn" id="subscribeBtn" onclick="toggleSubscribe()">Subscribe to Skill</button>
+
+      <div class="section-title">How It Works</div>
+      <div class="msg-card" style="margin-bottom: 16px;">
+        <div class="metric-row">
+          <span class="metric-label">Input</span>
+          <span class="metric-value">Earnings call transcript</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Analysis</span>
+          <span class="metric-value">Tone, language, guidance</span>
+        </div>
+        <div class="metric-row">
+          <span class="metric-label">Output</span>
+          <span class="metric-value">Sentiment score + signals</span>
+        </div>
+      </div>
+
+      <div class="section-title">Recent Track Record</div>
+      <div class="track-record-card">
+        <div class="track-row">
+          <div>
+            <div class="track-ticker">NVDA</div>
+            <div class="track-date">Feb 21, 2026</div>
+          </div>
+          <div class="track-return text-green">+12.4%</div>
+        </div>
+        <div class="track-row">
+          <div>
+            <div class="track-ticker">META</div>
+            <div class="track-date">Feb 5, 2026</div>
+          </div>
+          <div class="track-return text-green">+6.8%</div>
+        </div>
+        <div class="track-row">
+          <div>
+            <div class="track-ticker">TSMC</div>
+            <div class="track-date">Jan 18, 2026</div>
+          </div>
+          <div class="track-return text-red">-3.2%</div>
+        </div>
+        <div class="track-row">
+          <div>
+            <div class="track-ticker">AAPL</div>
+            <div class="track-date">Jan 12, 2026</div>
+          </div>
+          <div class="track-return text-green">+9.1%</div>
+        </div>
+        <div class="track-row">
+          <div>
+            <div class="track-ticker">GOOG</div>
+            <div class="track-date">Dec 28, 2025</div>
+          </div>
+          <div class="track-return text-green">+5.3%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 3: Personal Agent ========== -->
+  <div class="screen" id="screen-personal-agent">
+    <div class="screen-header">
+      <h1>Personal Agent</h1>
+    </div>
+    <div class="screen-content">
+      <!-- Big Chat Entry -->
+      <div class="agent-chat-entry" onclick="showScreen('screen-chat-thread')">
+        <div class="agent-avatar">e+</div>
+        <div class="agent-chat-placeholder">Ask anything about your portfolio...</div>
+        <div style="color: var(--text-muted); font-size: 18px;">&rarr;</div>
+      </div>
+
+      <!-- Weekly Summary -->
+      <div class="weekly-card">
+        <div class="weekly-title">Weekly Summary - Feb 17-21</div>
+        <div class="weekly-holdings">
+          <div class="weekly-holding">
+            <div class="weekly-ticker">NVDA</div>
+            <div class="weekly-return text-green">+5.2%</div>
+          </div>
+          <div class="weekly-holding">
+            <div class="weekly-ticker">TSMC</div>
+            <div class="weekly-return text-red">-2.1%</div>
+          </div>
+          <div class="weekly-holding">
+            <div class="weekly-ticker">META</div>
+            <div class="weekly-return text-green">+1.8%</div>
+          </div>
+        </div>
+        <div class="weekly-note">Portfolio +1.8% overall. 2 earnings reports this week: NVDA (Wed) and BABA (Thu).</div>
+      </div>
+
+      <!-- Pinned -->
+      <div class="pinned-section">
+        <div class="pinned-label">Pinned</div>
+        <div class="timeline-card" onclick="showScreen('screen-chat-thread')">
+          <div class="timeline-top">
+            <span class="timeline-title">NVDA Deep Research</span>
+            <span class="timeline-time" style="color: var(--accent-teal);">Ongoing</span>
+          </div>
+          <div class="timeline-preview">You asked about NVDA's valuation relative to AI capex cycle. Last updated 2 hours ago.</div>
+          <div class="timeline-source">Skills: <span>Earnings Decoder</span> + <span>Devil's Advocate</span></div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline-section-label">Today</div>
+
+      <div class="timeline-card unread" onclick="showScreen('screen-chat-thread')">
+        <div class="timeline-top">
+          <span class="timeline-title">NVDA Earnings Alert</span>
+          <span class="timeline-time">8:30</span>
+        </div>
+        <div class="timeline-preview">Q4 earnings released. Management tone strongly positive. Revenue guidance raised +8% above consensus.</div>
+        <div class="timeline-source">Via <span>Earnings Decoder</span></div>
+      </div>
+
+      <div class="timeline-card unread">
+        <div class="timeline-top">
+          <span class="timeline-title">TSMC Volume Spike</span>
+          <span class="timeline-time">7:15</span>
+        </div>
+        <div class="timeline-preview">Trading volume at 3.2x 20-day average. No earnings or news catalyst identified.</div>
+        <div class="timeline-source">Via <span>Macro Translator</span></div>
+      </div>
+
+      <div class="timeline-section-label">Yesterday</div>
+
+      <div class="timeline-card">
+        <div class="timeline-top">
+          <span class="timeline-title">Fed Rate Decision Impact</span>
+          <span class="timeline-time">16:00</span>
+        </div>
+        <div class="timeline-preview">Rates held at 4.25%. Tech sector expected to benefit. 3 holdings in your portfolio have positive exposure.</div>
+        <div class="timeline-source">Via <span>Macro Translator</span></div>
+      </div>
+
+      <div class="timeline-card">
+        <div class="timeline-top">
+          <span class="timeline-title">Allen's Skill Alert</span>
+          <span class="timeline-time">14:22</span>
+        </div>
+        <div class="timeline-preview">Southbound capital net inflow HK$3.8B into Tencent. Price action lagging sector by 4.2%.</div>
+        <div class="timeline-source">Via <span>Allen's Market Logic</span></div>
+      </div>
+
+      <div class="timeline-section-label">This Week</div>
+
+      <div class="timeline-card">
+        <div class="timeline-top">
+          <span class="timeline-title">Semiconductor Sector Watch</span>
+          <span class="timeline-time">Feb 19</span>
+        </div>
+        <div class="timeline-preview">You mentioned tracking semiconductor plays last week. 3 opportunities identified across your watchlist.</div>
+        <div class="timeline-source">Via <span>Earnings Decoder</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 4: Chat Thread ========== -->
+  <div class="screen" id="screen-chat-thread">
+    <div class="chat-thread-header">
+      <button class="back-btn" onclick="showScreen('screen-personal-agent')">&larr;</button>
+      <span style="font-size: 15px; font-weight: 600;">NVDA Earnings Alert</span>
+    </div>
+    <div class="chat-skills-bar">
+      <div class="skill-pill">Earnings Decoder</div>
+      <div class="skill-pill">Devil's Advocate</div>
+      <div class="add-skill-pill">+ Skill</div>
+    </div>
+
+    <div class="chat-messages">
+      <!-- Agent Message 1: Earnings Decoder Output -->
+      <div class="msg msg-agent">
+        <div class="msg-sender">Personal Agent  ·  8:30</div>
+        <div class="msg-card">
+          <div class="skill-output-header">
+            <div class="skill-output-title">NVDA Q4 Earnings</div>
+            <div class="skill-output-badge" style="background: rgba(0,255,153,0.15); color: var(--accent-green);">Positive</div>
+          </div>
+
+          <!-- Tone Meter -->
+          <div class="tone-meter">
+            <div class="tone-meter-label">
+              <span class="metric-label">Management Tone</span>
+              <span class="metric-value text-green">Strongly Positive</span>
+            </div>
+            <div class="tone-meter-bar">
+              <div class="tone-meter-fill" style="width: 85%; background: linear-gradient(90deg, var(--accent-teal), var(--accent-green));"></div>
+            </div>
+          </div>
+
+          <!-- Metrics -->
+          <div class="metric-row">
+            <span class="metric-label">Revenue Guidance</span>
+            <span class="metric-value text-green">+8% above consensus</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Key Signal</span>
+            <span class="metric-value">"Demand visibility" x4</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">vs Last Quarter</span>
+            <span class="metric-value text-green">Significantly improved</span>
+          </div>
+
+          <!-- Personal Context -->
+          <div class="personal-context">
+            <div class="personal-context-text">
+              You hold <span class="personal-highlight">500 shares at avg $680</span>. Currently <span class="personal-highlight">+12.4%</span> unrealized gain.
+            </div>
+          </div>
+
+          <div class="skill-source">Via <a href="#">Earnings Decoder</a></div>
+        </div>
+      </div>
+
+      <!-- User Question -->
+      <div class="msg msg-user">
+        <div class="msg-bubble">Is the valuation too stretched now?</div>
+      </div>
+
+      <!-- Agent Message 2: Devil's Advocate Output -->
+      <div class="msg msg-agent">
+        <div class="msg-sender">Personal Agent  ·  8:32</div>
+        <div class="msg-card">
+          <div class="skill-output-header">
+            <div class="skill-output-title">NVDA Risk Assessment</div>
+            <div class="skill-output-badge" style="background: rgba(255,171,0,0.15); color: var(--accent-warning);">Caution</div>
+          </div>
+
+          <!-- Risk Items -->
+          <div class="risk-item">
+            <div class="risk-icon" style="background: rgba(255,82,82,0.15); color: var(--accent-red);">!</div>
+            <div class="risk-text">Forward P/E at 45x, 92nd percentile historically. Premium pricing leaves little room for disappointment.</div>
+          </div>
+          <div class="risk-item">
+            <div class="risk-icon" style="background: rgba(255,171,0,0.15); color: var(--accent-warning);">!</div>
+            <div class="risk-text">AI capex cycle showing signs of plateauing in enterprise segment. Consumer demand remains strong.</div>
+          </div>
+          <div class="risk-item">
+            <div class="risk-icon" style="background: rgba(255,171,0,0.15); color: var(--accent-warning);">!</div>
+            <div class="risk-text">AMD MI400 launching Q3 2026 may compress margins in datacenter GPU segment.</div>
+          </div>
+
+          <!-- Personal Context -->
+          <div class="personal-context">
+            <div class="personal-context-text">
+              On <span class="personal-highlight">Jan 15</span>, you expressed concern about NVDA valuation. The stock has risen another <span class="personal-highlight">+8%</span> since then.
+            </div>
+          </div>
+
+          <div class="skill-source">Via <a href="#">Devil's Advocate</a></div>
+        </div>
+      </div>
+
+      <!-- Agent Summary -->
+      <div class="msg msg-agent">
+        <div class="msg-sender">Personal Agent  ·  8:33</div>
+        <div class="msg-card" style="background: var(--bg-elevated);">
+          <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+            <strong>Earnings Decoder</strong> sees strong fundamentals. <strong>Devil's Advocate</strong> flags valuation risk. Your position is profitable — consider whether your original thesis still holds at 45x forward P/E.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="chat-input-bar">
+      <input class="chat-input" placeholder="Ask a follow-up..." />
+      <button class="chat-send-btn">&uarr;</button>
+    </div>
+  </div>
+
+  <!-- ========== SCREEN 5: Tab Bar Overview ========== -->
+  <div class="screen" id="screen-tab-overview">
+    <div class="screen-header">
+      <h1>edgen+</h1>
+      <p>App structure overview</p>
+    </div>
+    <div class="screen-content">
+      <div class="tab-overview-item">
+        <div class="tab-overview-icon" style="background: rgba(0,255,153,0.15); color: var(--accent-green);">AP</div>
+        <div>
+          <div class="tab-overview-name">Alpha Picks</div>
+          <div class="tab-overview-desc">Quick, standardized investment picks. New user entry point.</div>
+        </div>
+      </div>
+      <div class="tab-overview-item" style="border-color: var(--accent-teal);">
+        <div class="tab-overview-icon" style="background: rgba(30,209,233,0.15); color: var(--accent-teal);">SK</div>
+        <div>
+          <div class="tab-overview-name">Skills Store</div>
+          <div class="tab-overview-desc">AI analysis tools. Browse, subscribe, and discover new skills.</div>
+        </div>
+      </div>
+      <div class="tab-overview-item">
+        <div class="tab-overview-icon" style="background: rgba(255,255,255,0.1); color: var(--text-primary);">UG</div>
+        <div>
+          <div class="tab-overview-name">Community</div>
+          <div class="tab-overview-desc">Social feed, user content, and how others use edgen+.</div>
+        </div>
+      </div>
+      <div class="tab-overview-item" style="border-color: var(--accent-teal);">
+        <div class="tab-overview-icon" style="background: rgba(30,209,233,0.15); color: var(--accent-teal);">PA</div>
+        <div>
+          <div class="tab-overview-name">Personal Agent</div>
+          <div class="tab-overview-desc">Your AI butler. Portfolio monitoring, alerts, and chat.</div>
+        </div>
+      </div>
+      <div class="tab-overview-item">
+        <div class="tab-overview-icon" style="background: rgba(204,255,0,0.15); color: var(--accent-lime);">QS</div>
+        <div>
+          <div class="tab-overview-name">Quests</div>
+          <div class="tab-overview-desc">Missions, badges, and rewards. Growth loop.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TAB BAR ========== -->
+  <div class="tab-bar">
+    <button class="tab-item disabled" style="opacity: 0.3; pointer-events: none;">
+      <div class="tab-icon">AP</div>
+      <div class="tab-label">Alpha</div>
+    </button>
+    <button class="tab-item active" onclick="showScreen('screen-skills-store')" id="tab-skills">
+      <div class="tab-icon">SK</div>
+      <div class="tab-label">Skills</div>
+    </button>
+    <button class="tab-item disabled" style="opacity: 0.3; pointer-events: none;">
+      <div class="tab-icon">UG</div>
+      <div class="tab-label">Community</div>
+    </button>
+    <button class="tab-item" onclick="showScreen('screen-personal-agent')" id="tab-agent">
+      <div class="tab-icon">PA</div>
+      <div class="tab-label">Agent</div>
+    </button>
+    <button class="tab-item disabled" style="opacity: 0.3; pointer-events: none;">
+      <div class="tab-icon">QS</div>
+      <div class="tab-label">Quests</div>
+    </button>
+  </div>
+</div>
+
+<script>
+  function showScreen(screenId) {
+    // Hide all screens
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    // Show target
+    document.getElementById(screenId).classList.add('active');
+
+    // Update tab bar active state
+    document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+    if (screenId === 'screen-skills-store' || screenId === 'screen-skill-detail') {
+      document.getElementById('tab-skills').classList.add('active');
+    } else if (screenId === 'screen-personal-agent' || screenId === 'screen-chat-thread') {
+      document.getElementById('tab-agent').classList.add('active');
+    }
+  }
+
+  function toggleSubscribe() {
+    const btn = document.getElementById('subscribeBtn');
+    if (btn.classList.contains('subscribed')) {
+      btn.classList.remove('subscribed');
+      btn.textContent = 'Subscribe to Skill';
+    } else {
+      btn.classList.add('subscribed');
+      btn.textContent = 'Subscribed';
+    }
+  }
+</script>
+
+</body>
+</html>
