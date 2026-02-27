@@ -2879,6 +2879,9 @@
     prev.classList.remove('active');
     next.classList.add('active');
 
+    // Close drawer when switching screens
+    if (typeof closeDrawer === 'function') closeDrawer();
+
     document.querySelectorAll('.tab-item:not([style])').forEach(t => t.classList.remove('active'));
     if (screenId === 'screen-skills-store' || screenId === 'screen-skill-detail' || screenId === 'screen-mini-app-detail') {
       document.getElementById('tab-skills').classList.add('active');
