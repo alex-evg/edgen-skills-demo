@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Skill Store — edgen+</title>
+  <title>MiniApp Store — edgen+</title>
   <style>
     @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&display=swap');
 
@@ -57,120 +57,6 @@
     .status-bar .icons { display: flex; align-items: center; gap: 6px; }
 
     /* ---- Section A: Gauge ---- */
-    .gauge-section {
-      padding: 8px 16px 12px;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      text-align: center;
-    }
-
-    .gauge-wrapper {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 16px;
-      padding-bottom: 0;
-    }
-
-    .gauge-glow {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 260px;
-      height: 160px;
-      border-radius: 50%;
-      background: rgba(30, 209, 233, 0.1);
-      filter: blur(50px);
-      animation: pulseGlow 3s ease-in-out infinite;
-    }
-
-    @keyframes pulseGlow {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-
-    .gauge-arc-container {
-      position: relative;
-      width: 260px;
-      height: 148px;
-      overflow: hidden;
-    }
-
-    .gauge-arc-container svg {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 260px;
-      height: 260px;
-    }
-
-    .gauge-inner-text {
-      position: absolute;
-      top: 65%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      text-align: center;
-      z-index: 1;
-    }
-
-    .gauge-label {
-      font-size: 10px;  /* Corrected from 9px to body_bold_xs token */
-      font-weight: 700;
-      color: #1ed1e9;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      white-space: nowrap;
-    }
-
-    .gauge-number {
-      font-size: 24px;  /* Corrected from 26px to headline_bold_m token */
-      font-weight: 700; /* Corrected from 900 to bold (700) — only 400/500/700 in token system */
-      color: #fff;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      white-space: nowrap;
-      margin-top: 2px;
-    }
-
-    .gauge-subtitle {
-      font-size: 12px;  /* body_medium_s */
-      font-weight: 500;
-      color: rgba(255,255,255,0.8);
-      white-space: nowrap;
-      margin-top: 2px;
-    }
-
-    /* Live Feed */
-    .live-feed {
-      padding: 2px 16px;
-    }
-
-    .feed-ticker {
-      height: 18px;
-      overflow: hidden;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .feed-ticker p {
-      font-size: 12px;  /* Corrected from 11px to body_medium_s (12px) token */
-      color: rgba(255,255,255,0.6);
-      font-weight: 500;
-      text-align: center;
-      position: absolute;
-      animation: tickerSlide 2.5s ease-in-out;
-    }
-
-    @keyframes tickerSlide {
-      0% { opacity: 0; transform: translateY(10px); }
-      10% { opacity: 1; transform: translateY(0); }
-      85% { opacity: 1; transform: translateY(0); }
-      100% { opacity: 0; transform: translateY(-10px); }
-    }
-
     /* ---- Load-in Animations ---- */
     @keyframes fadeUp {
       0% { opacity: 0; transform: translateY(16px); }
@@ -212,15 +98,7 @@
       animation: countUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    .active-traders {
-      font-size: 12px;  /* Corrected from 11px to body_medium_s (12px) token */
-      color: rgba(255,255,255,0.8);
-      font-weight: 500;
-      text-align: center;
-      margin-top: 8px;
-    }
-
-    /* ---- Section B: Recommended ---- */
+    /* ---- Section: For You ---- */
     .section-recommended {
       padding: 20px 0;
     }
@@ -372,14 +250,6 @@
       height: 18px;
     }
 
-    .active-traders-icon {
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      vertical-align: -2px;
-      margin-right: 3px;
-    }
-
     .skill-name {
       font-size: 14px;
       font-weight: 700;
@@ -446,7 +316,7 @@
 
     /* btn-add removed — no "Add to Chat" buttons */
 
-    /* ---- Section C: Analytical Armory ---- */
+    /* ---- Section: All Apps ---- */
     .section-armory {
       padding: 0 16px 24px;
     }
@@ -492,7 +362,7 @@
     /* Skill List — 2-column grid */
     .skill-list {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       gap: 12px;
     }
 
@@ -777,250 +647,6 @@
       flex-shrink: 0;
     }
 
-    /* ---- FAB (Floating Action Button) ---- */
-    .fab {
-      position: absolute;
-      bottom: 100px;
-      right: 20px;
-      width: 52px;
-      height: 52px;
-      border-radius: 9999px;
-      background: #1ed1e9;
-      color: #1A1A1A;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 55;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .fab:active {
-      transform: scale(0.93);
-    }
-    .fab svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    /* ---- Create MiniApp Page ---- */
-    .create-page {
-      position: absolute;
-      inset: 0;
-      background: #1A1A1A;
-      z-index: 90;
-      display: flex;
-      flex-direction: column;
-      transform: translateX(100%);
-      transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-    .create-page.open {
-      transform: translateX(0);
-    }
-
-    .create-page-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px 12px;
-      flex-shrink: 0;
-    }
-    .create-back {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.08);
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #fff;
-      flex-shrink: 0;
-    }
-    .create-back svg {
-      width: 20px;
-      height: 20px;
-    }
-    .create-page-title {
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-    }
-
-    .create-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 8px 20px;
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-    .create-body::-webkit-scrollbar { display: none; }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-    .form-label {
-      font-size: 13px;
-      font-weight: 700;
-      color: rgba(255,255,255,0.6);
-      margin-bottom: 8px;
-      display: block;
-    }
-    .form-input {
-      width: 100%;
-      height: 44px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 0 16px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 400;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-input:focus {
-      border-color: rgba(255,255,255,0.3);
-    }
-    .form-input::placeholder {
-      color: rgba(255,255,255,0.3);
-    }
-    .form-textarea {
-      width: 100%;
-      min-height: 100px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      padding: 12px 16px;
-      color: #fff;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 400;
-      outline: none;
-      resize: vertical;
-      transition: border-color 0.2s;
-    }
-    .form-textarea:focus {
-      border-color: rgba(255,255,255,0.3);
-    }
-    .form-textarea::placeholder {
-      color: rgba(255,255,255,0.3);
-    }
-
-    /* Visibility Toggle */
-    .visibility-options {
-      display: flex;
-      gap: 8px;
-    }
-    .visibility-option {
-      flex: 1;
-      padding: 12px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 12px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-    }
-    .visibility-option.selected {
-      background: rgba(255,255,255,0.1);
-      border-color: #fff;
-    }
-    .visibility-option-label {
-      font-size: 14px;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 4px;
-    }
-    .visibility-option-desc {
-      font-size: 11px;
-      font-weight: 400;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.4;
-    }
-    .visibility-option .visibility-icon {
-      width: 20px;
-      height: 20px;
-      margin: 0 auto 8px;
-      color: rgba(255,255,255,0.6);
-    }
-    .visibility-option.selected .visibility-icon {
-      color: #fff;
-    }
-
-    /* Aura hint */
-    .aura-hint {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-      margin-top: 12px;
-      padding: 12px;
-      background: rgba(30,209,233,0.05);
-      border: 1px solid rgba(30,209,233,0.12);
-      border-radius: 12px;
-      opacity: 0;
-      max-height: 0;
-      overflow: hidden;
-      transition: opacity 0.3s, max-height 0.3s;
-    }
-    .aura-hint.show {
-      opacity: 1;
-      max-height: 80px;
-    }
-    .aura-hint svg {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-      color: #1ed1e9;
-      margin-top: 1px;
-    }
-    .aura-hint-text {
-      font-size: 12px;
-      color: rgba(255,255,255,0.7);
-      line-height: 1.5;
-    }
-    .aura-hint-text strong {
-      color: #1ed1e9;
-      font-weight: 700;
-    }
-
-    .create-footer {
-      padding: 12px 20px 28px;
-      flex-shrink: 0;
-    }
-    .btn-create {
-      width: 100%;
-      height: 48px;
-      border-radius: 12px;
-      border: none;
-      background: #fff;
-      color: #1A1A1A;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      transition: background 0.2s, transform 0.1s;
-    }
-    .btn-create:active {
-      transform: scale(0.97);
-      background: rgba(255,255,255,0.85);
-    }
-    .btn-create:disabled {
-      opacity: 0.35;
-      cursor: default;
-    }
-    .btn-create:disabled:active {
-      transform: none;
-      background: #fff;
-    }
-
     /* ============================================================
        CIO (Agent) Tab
        ============================================================ */
@@ -1028,10 +654,42 @@
       display: none;
       flex-direction: column;
       align-items: center;
-      padding: 0 20px 100px;
+      padding: 0 20px 20px;
       min-height: 100%;
+      background: none;
+      position: relative;
     }
     .cio-page.active { display: flex; }
+
+    /* Status glow — radial wash behind orb */
+    .cio-status-glow {
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 360px;
+      height: 300px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .cio-page.active .cio-status-glow {
+      opacity: 1;
+    }
+    .cio-status-glow.attention {
+      background: radial-gradient(ellipse at 50% 40%, rgba(255,50,50,0.25) 0%, rgba(255,67,71,0.12) 35%, rgba(255,30,30,0.04) 55%, transparent 75%);
+    }
+    .cio-status-glow.good {
+      background: radial-gradient(ellipse at 50% 40%, rgba(0,255,153,0.15) 0%, rgba(30,209,233,0.06) 40%, transparent 70%);
+    }
+    .cio-status-glow.rough {
+      background: radial-gradient(ellipse at 50% 40%, rgba(255,67,71,0.18) 0%, rgba(255,50,50,0.06) 40%, transparent 70%);
+    }
+    .cio-status-glow.quiet {
+      background: radial-gradient(ellipse at 50% 40%, rgba(30,209,233,0.12) 0%, rgba(30,209,233,0.04) 40%, transparent 70%);
+    }
 
     /* ---- CIO Entrance Animations ---- */
     .cio-enter {
@@ -1076,99 +734,666 @@
     .miniapp-content { display: block; }
     .miniapp-content.hidden { display: none; }
 
+    /* ---- Fireworks behind Orb ---- */
+    .fireworks-wrap {
+      display: none;
+    }
+    .fw {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+    }
+    .fw .fw-ring {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      border-radius: 50%;
+    }
+
+    /* Firework 0 — cyan */
+    .fw0 { top: 28%; left: 22%; }
+    .fw0 .fw-ring {
+      box-shadow:
+        0 0 4px 2px rgba(30,209,233,1),
+        36px 0 3px 1px rgba(30,209,233,0.9),
+        25.5px 25.5px 3px 1px rgba(30,209,233,0.85),
+        0 36px 3px 1px rgba(30,209,233,0.9),
+        -25.5px 25.5px 3px 1px rgba(30,209,233,0.85),
+        -36px 0 3px 1px rgba(30,209,233,0.9),
+        -25.5px -25.5px 3px 1px rgba(30,209,233,0.85),
+        0 -36px 3px 1px rgba(30,209,233,0.9),
+        25.5px -25.5px 3px 1px rgba(30,209,233,0.85),
+        18px 0 2px 1px rgba(30,209,233,0.7),
+        12.7px 12.7px 2px 1px rgba(30,209,233,0.6),
+        0 18px 2px 1px rgba(30,209,233,0.7),
+        -12.7px 12.7px 2px 1px rgba(30,209,233,0.6),
+        -18px 0 2px 1px rgba(30,209,233,0.7),
+        -12.7px -12.7px 2px 1px rgba(30,209,233,0.6),
+        0 -18px 2px 1px rgba(30,209,233,0.7),
+        12.7px -12.7px 2px 1px rgba(30,209,233,0.6);
+      animation: fwBurst0 4.5s ease-out infinite;
+    }
+
+    /* Firework 1 — orange */
+    .fw1 { top: 18%; left: 72%; }
+    .fw1 .fw-ring {
+      box-shadow:
+        0 0 4px 2px rgba(255,170,50,1),
+        32px 0 3px 1px rgba(255,170,50,0.9),
+        22.6px 22.6px 3px 1px rgba(255,170,50,0.85),
+        0 32px 3px 1px rgba(255,170,50,0.9),
+        -22.6px 22.6px 3px 1px rgba(255,170,50,0.85),
+        -32px 0 3px 1px rgba(255,170,50,0.9),
+        -22.6px -22.6px 3px 1px rgba(255,170,50,0.85),
+        0 -32px 3px 1px rgba(255,170,50,0.9),
+        22.6px -22.6px 3px 1px rgba(255,170,50,0.85),
+        16px 0 2px 1px rgba(255,170,50,0.7),
+        11.3px 11.3px 2px 1px rgba(255,170,50,0.6),
+        0 16px 2px 1px rgba(255,170,50,0.7),
+        -11.3px 11.3px 2px 1px rgba(255,170,50,0.6),
+        -16px 0 2px 1px rgba(255,170,50,0.7),
+        -11.3px -11.3px 2px 1px rgba(255,170,50,0.6),
+        0 -16px 2px 1px rgba(255,170,50,0.7),
+        11.3px -11.3px 2px 1px rgba(255,170,50,0.6);
+      animation: fwBurst1 5s ease-out infinite;
+    }
+
+    /* Firework 2 — purple */
+    .fw2 { top: 68%; left: 18%; }
+    .fw2 .fw-ring {
+      box-shadow:
+        0 0 4px 2px rgba(141,142,255,1),
+        34px 0 3px 1px rgba(141,142,255,0.9),
+        24px 24px 3px 1px rgba(141,142,255,0.85),
+        0 34px 3px 1px rgba(141,142,255,0.9),
+        -24px 24px 3px 1px rgba(141,142,255,0.85),
+        -34px 0 3px 1px rgba(141,142,255,0.9),
+        -24px -24px 3px 1px rgba(141,142,255,0.85),
+        0 -34px 3px 1px rgba(141,142,255,0.9),
+        24px -24px 3px 1px rgba(141,142,255,0.85),
+        17px 0 2px 1px rgba(141,142,255,0.7),
+        12px 12px 2px 1px rgba(141,142,255,0.6),
+        0 17px 2px 1px rgba(141,142,255,0.7),
+        -12px 12px 2px 1px rgba(141,142,255,0.6),
+        -17px 0 2px 1px rgba(141,142,255,0.7),
+        -12px -12px 2px 1px rgba(141,142,255,0.6),
+        0 -17px 2px 1px rgba(141,142,255,0.7),
+        12px -12px 2px 1px rgba(141,142,255,0.6);
+      animation: fwBurst2 5.5s ease-out infinite;
+    }
+
+    /* Firework 3 — green */
+    .fw3 { top: 62%; left: 78%; }
+    .fw3 .fw-ring {
+      box-shadow:
+        0 0 4px 2px rgba(0,255,153,1),
+        30px 0 3px 1px rgba(0,255,153,0.9),
+        21.2px 21.2px 3px 1px rgba(0,255,153,0.85),
+        0 30px 3px 1px rgba(0,255,153,0.9),
+        -21.2px 21.2px 3px 1px rgba(0,255,153,0.85),
+        -30px 0 3px 1px rgba(0,255,153,0.9),
+        -21.2px -21.2px 3px 1px rgba(0,255,153,0.85),
+        0 -30px 3px 1px rgba(0,255,153,0.9),
+        21.2px -21.2px 3px 1px rgba(0,255,153,0.85),
+        15px 0 2px 1px rgba(0,255,153,0.7),
+        10.6px 10.6px 2px 1px rgba(0,255,153,0.6),
+        0 15px 2px 1px rgba(0,255,153,0.7),
+        -10.6px 10.6px 2px 1px rgba(0,255,153,0.6),
+        -15px 0 2px 1px rgba(0,255,153,0.7),
+        -10.6px -10.6px 2px 1px rgba(0,255,153,0.6),
+        0 -15px 2px 1px rgba(0,255,153,0.7),
+        10.6px -10.6px 2px 1px rgba(0,255,153,0.6);
+      animation: fwBurst3 4s ease-out infinite;
+    }
+
+    /* Firework 4 — cyan accent */
+    .fw4 { top: 12%; left: 45%; }
+    .fw4 .fw-ring {
+      box-shadow:
+        0 0 3px 2px rgba(30,209,233,0.9),
+        24px 0 2px 1px rgba(30,209,233,0.8),
+        17px 17px 2px 1px rgba(30,209,233,0.75),
+        0 24px 2px 1px rgba(30,209,233,0.8),
+        -17px 17px 2px 1px rgba(30,209,233,0.75),
+        -24px 0 2px 1px rgba(30,209,233,0.8),
+        -17px -17px 2px 1px rgba(30,209,233,0.75),
+        0 -24px 2px 1px rgba(30,209,233,0.8),
+        17px -17px 2px 1px rgba(30,209,233,0.75);
+      animation: fwBurst4 6s ease-out infinite;
+    }
+
+    /* Firework 5 — purple accent */
+    .fw5 { top: 82%; left: 52%; }
+    .fw5 .fw-ring {
+      box-shadow:
+        0 0 3px 2px rgba(141,142,255,0.9),
+        26px 0 2px 1px rgba(141,142,255,0.8),
+        18.4px 18.4px 2px 1px rgba(141,142,255,0.75),
+        0 26px 2px 1px rgba(141,142,255,0.8),
+        -18.4px 18.4px 2px 1px rgba(141,142,255,0.75),
+        -26px 0 2px 1px rgba(141,142,255,0.8),
+        -18.4px -18.4px 2px 1px rgba(141,142,255,0.75),
+        0 -26px 2px 1px rgba(141,142,255,0.8),
+        18.4px -18.4px 2px 1px rgba(141,142,255,0.75);
+      animation: fwBurst5 5.2s ease-out infinite;
+    }
+
+    /* Firework burst keyframes */
+    @keyframes fwBurst0 {
+      0%   { transform: scale(0.1); opacity: 0; }
+      30%  { transform: scale(0.1); opacity: 0; }
+      35%  { opacity: 1; }
+      100% { transform: scale(3); opacity: 0; }
+    }
+    @keyframes fwBurst1 {
+      0%   { transform: scale(0.1); opacity: 0; }
+      20%  { transform: scale(0.1); opacity: 0; }
+      25%  { opacity: 1; }
+      100% { transform: scale(2.8); opacity: 0; }
+    }
+    @keyframes fwBurst2 {
+      0%   { transform: scale(0.1); opacity: 0; }
+      40%  { transform: scale(0.1); opacity: 0; }
+      45%  { opacity: 1; }
+      100% { transform: scale(3.2); opacity: 0; }
+    }
+    @keyframes fwBurst3 {
+      0%   { transform: scale(0.1); opacity: 0; }
+      50%  { transform: scale(0.1); opacity: 0; }
+      55%  { opacity: 1; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+    @keyframes fwBurst4 {
+      0%   { transform: scale(0.1); opacity: 0; }
+      15%  { transform: scale(0.1); opacity: 0; }
+      20%  { opacity: 1; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+    @keyframes fwBurst5 {
+      0%   { transform: scale(0.1); opacity: 0; }
+      55%  { transform: scale(0.1); opacity: 0; }
+      60%  { opacity: 1; }
+      100% { transform: scale(2.6); opacity: 0; }
+    }
+
     /* ---- Breathing Orb ---- */
     .orb-container {
       position: relative;
-      width: 160px;
-      height: 160px;
-      margin: 32px auto 0;
+      width: 100px;
+      height: 100px;
+      margin: 8px auto 0;
       display: flex;
       align-items: center;
       justify-content: center;
     }
+    .orb-container::before {
+      content: '';
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,50,50,0.15) 0%, rgba(255,67,71,0.05) 50%, transparent 70%);
+      filter: blur(40px);
+      z-index: -1;
+      pointer-events: none;
+    }
+    /* Outer glow — soft multi-color ambient light */
     .orb-glow {
       position: absolute;
-      inset: -30px;
+      inset: -40px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(30,209,233,0.25) 0%, rgba(30,209,233,0.08) 40%, transparent 70%);
-      animation: orbBreathe 4s ease-in-out infinite;
+      background: radial-gradient(circle,
+        rgba(255,50,50,0.30) 0%,
+        rgba(255,67,71,0.12) 35%,
+        transparent 65%);
+      animation: orbFloat 3s ease-in-out infinite;
     }
+
+    /* Main orb sphere — glass container */
     .orb {
       position: relative;
-      width: 120px;
-      height: 120px;
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
-      background: radial-gradient(circle at 35% 30%,
-        rgba(30,209,233,0.5) 0%,
-        rgba(30,209,233,0.25) 30%,
-        rgba(20,140,160,0.15) 60%,
-        rgba(10,10,10,0.4) 100%);
-      border: 1px solid rgba(30,209,233,0.2);
-      animation: orbBreathe 4s ease-in-out infinite;
+      background: rgba(0,0,0,0.15);
+      backdrop-filter: blur(5px);
+      box-shadow:
+        0 0 30px 3px rgba(0,0,0,0.4),
+        inset 0 0 25px rgba(255,255,255,0.08),
+        inset 0 -12px 30px rgba(0,0,0,0.2);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      animation: orbFloat 3s ease-in-out infinite;
+      z-index: 50;
     }
-    .orb::before {
+
+    /* Glow pulse on orb surface */
+    .orb::after {
       content: '';
       position: absolute;
       inset: 0;
       border-radius: 50%;
-      background: radial-gradient(ellipse at 30% 20%, rgba(255,255,255,0.2) 0%, transparent 50%);
+      box-shadow: 0 0 40px rgba(255,255,255,0.08);
+      animation: orbGlowPulse 1.2s ease-in-out infinite;
       pointer-events: none;
     }
-    .orb::after {
+
+    /* Lava — the color engine */
+    .orb-lava {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      filter: blur(18px);
+      mix-blend-mode: screen;
+      animation: orbColorShift 20s infinite linear;
+      z-index: 10;
+      opacity: 1;
+    }
+    .orb-lava::before {
       content: '';
       position: absolute;
-      width: 70%;
-      height: 70%;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(30,209,233,0.3) 0%, transparent 70%);
-      animation: orbPulseInner 3s ease-in-out infinite alternate;
+      width: 120%;
+      height: 120%;
+      top: -10%;
+      left: -10%;
+      background:
+        radial-gradient(circle at 30% 30%, #ff2020 0%, transparent 45%),
+        radial-gradient(circle at 70% 30%, #ff8800 0%, transparent 45%),
+        radial-gradient(circle at 50% 65%, #cc0033 0%, transparent 45%),
+        radial-gradient(circle at 80% 55%, #aa2299 0%, transparent 45%);
+      filter: blur(6px);
+      mix-blend-mode: screen;
     }
+    .orb-lava::after {
+      content: '';
+      position: absolute;
+      width: 120%;
+      height: 120%;
+      top: -10%;
+      left: -10%;
+      background:
+        radial-gradient(circle at 40% 40%, #cc0000 0%, transparent 35%),
+        radial-gradient(circle at 60% 35%, #ff6600 0%, transparent 35%),
+        radial-gradient(circle at 50% 75%, #880044 0%, transparent 35%),
+        radial-gradient(circle at 75% 55%, #ff4400 0%, transparent 35%);
+      filter: blur(10px);
+      mix-blend-mode: screen;
+      animation: orbLavaPulse 2s ease-in-out infinite alternate;
+    }
+
     .orb-ring {
       position: absolute;
       inset: -4px;
       border-radius: 50%;
-      border: 1.5px solid rgba(30,209,233,0.15);
-      animation: orbBreathe 4s ease-in-out infinite 0.5s;
+      border: 1px solid rgba(255,255,255,0.06);
     }
     .orb-ring-outer {
       position: absolute;
       inset: -14px;
       border-radius: 50%;
-      border: 1px solid rgba(30,209,233,0.08);
-      animation: orbBreathe 4s ease-in-out infinite 1s;
+      border: 1px solid rgba(255,255,255,0.03);
     }
 
-    /* Edggy face inside orb */
+    /* Edggy face — eyes with blink and look-around */
     .orb-face {
       position: relative;
-      z-index: 2;
-      color: rgba(255,255,255,0.9);
+      z-index: 60;
+      pointer-events: none;
     }
-    .orb-face svg {
-      width: 36px;
-      height: 36px;
+    .orb-eyes {
+      position: relative;
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+    }
+    .orb-eye {
+      width: 9px;
+      height: 9px;
+      background: rgba(30,20,20,0.75);
+      border-radius: 50%;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.3);
+      animation: orbBlink 3.5s infinite;
+    }
+    .orb-eyes-wrap {
+      animation: orbDart 2.5s infinite linear;
+    }
+    .orb-mouth { display: none; }
+    /* Cheeks — soft blush */
+    .orb-cheeks {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 40px;
+      height: 10px;
+      display: flex;
+      justify-content: space-between;
+      pointer-events: none;
+    }
+    .orb-cheek {
+      width: 8px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,100,100,0.3);
+      filter: blur(2px);
+      margin-top: 2px;
     }
 
-    @keyframes orbBreathe {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.06); opacity: 0.85; }
+    /* ---- All-Clear State ---- */
+    /* Orb glow → green */
+    .cio-page.all-clear .orb-glow {
+      background: radial-gradient(circle,
+        rgba(0,255,153,0.25) 0%,
+        rgba(30,209,233,0.10) 35%,
+        transparent 65%);
+      transition: background 0.8s ease;
     }
-    @keyframes orbPulseInner {
-      0% { opacity: 0.4; transform: scale(0.8); }
-      100% { opacity: 0.7; transform: scale(1.1); }
+    .cio-page.all-clear .orb-container::before {
+      background: radial-gradient(circle, rgba(0,255,153,0.12) 0%, rgba(30,209,233,0.04) 50%, transparent 70%);
+      transition: background 0.8s ease;
     }
+    /* Lava → green/teal */
+    .cio-page.all-clear .orb-lava::before {
+      background:
+        radial-gradient(circle at 30% 30%, #00cc66 0%, transparent 45%),
+        radial-gradient(circle at 70% 30%, #1ed1e9 0%, transparent 45%),
+        radial-gradient(circle at 50% 65%, #00aa55 0%, transparent 45%),
+        radial-gradient(circle at 80% 55%, #0099cc 0%, transparent 45%);
+      transition: background 0.8s ease;
+    }
+    .cio-page.all-clear .orb-lava::after {
+      background:
+        radial-gradient(circle at 40% 40%, #00bb55 0%, transparent 35%),
+        radial-gradient(circle at 60% 35%, #1ed1e9 0%, transparent 35%),
+        radial-gradient(circle at 50% 75%, #008844 0%, transparent 35%),
+        radial-gradient(circle at 75% 55%, #00cc77 0%, transparent 35%);
+      transition: background 0.8s ease;
+    }
+    /* Eyes — normal round, but blink becomes happy crescent smile */
+    .cio-page.all-clear .orb-eye {
+      animation: orbHappyBlink 4s infinite;
+    }
+    /* Stop darting — gentle sway instead */
+    .cio-page.all-clear .orb-eyes-wrap {
+      animation: orbGentleSway 5s ease-in-out infinite;
+    }
+    @keyframes orbHappyBlink {
+      0%, 38% {
+        width: 9px; height: 9px;
+        background: rgba(30,20,20,0.75);
+        border-top: none; border-radius: 50%;
+      }
+      /* Smile squint */
+      42% {
+        width: 9px; height: 4px;
+        background: transparent;
+        border-top: 2px solid rgba(30,20,20,0.75);
+        border-radius: 50%;
+      }
+      48% {
+        width: 9px; height: 4px;
+        background: transparent;
+        border-top: 2px solid rgba(30,20,20,0.75);
+        border-radius: 50%;
+      }
+      /* Back to normal */
+      54%, 100% {
+        width: 9px; height: 9px;
+        background: rgba(30,20,20,0.75);
+        border-top: none; border-radius: 50%;
+      }
+    }
+    @keyframes orbGentleSway {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(1.5px); }
+      75% { transform: translateX(-1.5px); }
+    }
+    /* Cheeks more visible */
+    .cio-page.all-clear .orb-cheek {
+      background: rgba(255,150,150,0.45);
+      width: 9px;
+      height: 7px;
+      transition: all 0.4s ease;
+    }
+    /* Mouth — small smile */
+    .cio-page.all-clear .orb-mouth {
+      display: block;
+      width: 8px;
+      height: 4px;
+      border-bottom: 1.5px solid rgba(30,20,20,0.5);
+      border-radius: 0 0 50% 50%;
+      margin: 2px auto 0;
+    }
+    /* Orb gentle float */
+    .cio-page.all-clear .orb {
+      animation: orbHappyFloat 4s ease-in-out infinite;
+    }
+    @keyframes orbHappyFloat {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      30% { transform: translateY(-6px) rotate(1deg); }
+      60% { transform: translateY(-2px) rotate(-1deg); }
+    }
+    /* Fireworks burst */
+    .cio-page.all-clear .fireworks-wrap {
+      display: block;
+      animation: fwFadeOut 2.5s ease forwards;
+    }
+    @keyframes fwFadeOut {
+      0% { opacity: 1; }
+      70% { opacity: 1; }
+      100% { opacity: 0; display: none; }
+    }
+    /* Alert card seen state handled by per-card JS */
+
+    /* Floating bob */
+    @keyframes orbFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+    /* Hue-rotate the entire lava for continuous color shift */
+    @keyframes orbColorShift {
+      0%   { filter: blur(18px) hue-rotate(-20deg); }
+      50%  { filter: blur(18px) hue-rotate(30deg); }
+      100% { filter: blur(18px) hue-rotate(-20deg); }
+    }
+    /* Lava inner layer pulse */
+    @keyframes orbLavaPulse {
+      0%   { transform: scale(1); opacity: 0.9; }
+      100% { transform: scale(1.15); opacity: 1; }
+    }
+    /* Surface glow heartbeat */
+    @keyframes orbGlowPulse {
+      0%, 100% { box-shadow: 0 0 40px rgba(255,255,255,0.08); }
+      45%  { box-shadow: 0 0 55px rgba(255,255,255,0.15); }
+      50%  { box-shadow: 0 0 45px rgba(255,255,255,0.1); }
+      55%  { box-shadow: 0 0 60px rgba(255,255,255,0.15); }
+    }
+    /* Eye blink — irregular anxious blink */
+    @keyframes orbBlink {
+      0%, 24%  { height: 9px; }
+      25%      { height: 1px; }
+      27%, 58% { height: 9px; }
+      59%      { height: 1px; }
+      61%      { height: 9px; }
+      63%      { height: 1px; }
+      65%, 100% { height: 9px; }
+    }
+    /* Eyes — snappy left-right darts (3-frame snap, not smooth) */
+    @keyframes orbDart {
+      0%, 15%  { transform: translateX(0); }
+      16%      { transform: translateX(-5px); }
+      28%      { transform: translateX(-5px); }
+      29%      { transform: translateX(4px); }
+      38%      { transform: translateX(4px); }
+      39%      { transform: translateX(-3px); }
+      46%      { transform: translateX(-3px); }
+      47%      { transform: translateX(0); }
+      100%     { transform: translateX(0); }
+    }
+    /* Body tremor — fast subtle jitter */
+    @keyframes orbTremor {
+      0%   { transform: translate(0, 0); }
+      10%  { transform: translate(-0.3px, 0.2px); }
+      20%  { transform: translate(0.3px, -0.2px); }
+      30%  { transform: translate(-0.2px, -0.3px); }
+      40%  { transform: translate(0.3px, 0.1px); }
+      50%  { transform: translate(-0.2px, -0.2px); }
+      60%  { transform: translate(0.1px, 0.3px); }
+      70%  { transform: translate(-0.3px, 0px); }
+      80%  { transform: translate(0.2px, -0.3px); }
+      90%  { transform: translate(-0.1px, 0.2px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    /* ---- CIO Segment Tabs (removed) ---- */
+
+    /* ---- Threads List ---- */
+    .threads-list {
+      padding: 12px 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .thread-item {
+      display: flex;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      cursor: pointer;
+      transition: opacity 0.12s;
+      align-items: flex-start;
+    }
+    .thread-item:active { opacity: 0.7; }
+    .thread-item:last-of-type { border-bottom: none; }
+    .thread-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .thread-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .thread-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 3px;
+    }
+    .thread-preview {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 400;
+    }
+    .thread-meta {
+      font-size: 11px;
+      color: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+      font-weight: 400;
+      padding-top: 2px;
+    }
+    .thread-new-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 14px;
+      margin-top: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed rgba(255,255,255,0.12);
+      border-radius: 10px;
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'Satoshi', sans-serif;
+      transition: all 0.12s;
+    }
+    .thread-new-btn:active { transform: scale(0.98); }
+
+    /* ---- CIO Chat Input Bar ---- */
+    .cio-input-bar {
+      display: none;
+      position: absolute;
+      bottom: 80px;
+      left: 0;
+      right: 0;
+      padding: 12px 20px 12px;
+      align-items: center;
+      z-index: 45;
+      background: linear-gradient(to top, #1A1A1A 65%, #1A1A1AE6 85%, transparent);
+    }
+    .cio-input-bar.visible { display: flex; }
+    .cio-input-wrap {
+      flex: 1;
+      background: #1c2829;
+      border: 1.5px solid rgba(30,209,233,0.45);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 0 20px rgba(30,209,233,0.12), 0 0 6px rgba(30,209,233,0.08);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      cursor: text;
+    }
+    .cio-input-wrap:focus-within {
+      border-color: rgba(30,209,233,0.7);
+      box-shadow: 0 0 28px rgba(30,209,233,0.18), 0 0 8px rgba(30,209,233,0.12);
+    }
+    .cio-input-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: #1ed1e9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .cio-input-icon svg {
+      width: 15px;
+      height: 15px;
+      color: #000;
+    }
+    .cio-input-wrap input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 14px;
+      font-family: 'Satoshi', sans-serif;
+      outline: none;
+      font-weight: 400;
+    }
+    .cio-input-wrap input::placeholder { color: rgba(255,255,255,0.35); }
+
+    /* ---- CIO Top Bar (deprecated, kept for manage btn) ---- */
+    .cio-topbar { display: none; }
+    .cio-manage-btn { display: none; }
 
     /* ---- Hero Greeting ---- */
     .cio-greeting {
       text-align: center;
-      margin-top: 24px;
+      margin-top: 20px;
     }
     .cio-greeting h2 {
-      font-size: 22px;
+      font-size: 18px;
       font-weight: 700;
       color: #fff;
       line-height: 1.35;
@@ -1177,131 +1402,1306 @@
     .cio-greeting h2 .teal {
       color: #1ed1e9;
     }
+    .cio-greeting h2 .amber {
+      color: #FF9F0A;
+    }
+    .cio-greeting h2 .green {
+      color: #00ff99;
+    }
     .cio-greeting p {
-      font-size: 13px;
+      font-size: 12px;
       color: rgba(255,255,255,0.45);
-      margin-top: 8px;
+      margin-top: 4px;
       font-weight: 400;
     }
-
-    /* ---- View Report Button ---- */
-    .btn-report {
-      margin-top: 24px;
-      width: 100%;
-      max-width: 280px;
-      height: 52px;
-      border-radius: 14px;
-      border: none;
-      background: #fff;
-      color: #1A1A1A;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 700;
+    .cio-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 18px;
+      height: 40px;
+      padding: 0 20px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: #fff;
+      font-size: 14px;
+      font-weight: 500;
+      font-family: 'Satoshi', sans-serif;
       cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .cio-cta:hover {
+      background: rgba(255,255,255,0.10);
+      border-color: rgba(255,255,255,0.20);
+    }
+    .cio-cta:active {
+      background: rgba(255,255,255,0.08);
+      transform: scale(0.97);
+    }
+
+    /* ---- AI Input Box ---- */
+    .ai-input-wrap {
+      margin-top: 10px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      cursor: text;
+      transition: border-color 0.2s;
+    }
+    .ai-input-wrap:focus-within {
+      border-color: rgba(30,209,233,0.4);
+    }
+    .ai-input-wrap .ai-input-icon {
+      display: none;
+    }
+    .ai-input-wrap .ai-input-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+    .ai-input-wrap .ai-input-field {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.85);
+      caret-color: #1ed1e9;
+    }
+    .ai-input-wrap .ai-input-field::placeholder {
+      color: rgba(255,255,255,0.3);
+    }
+    .ai-input-wrap .ai-send-btn {
+      flex-shrink: 0;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      background: #1ed1e9;
+      color: #000;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      transition: transform 0.1s, background 0.2s;
+      cursor: pointer;
     }
-    .btn-report:active {
-      transform: scale(0.97);
-      background: rgba(255,255,255,0.85);
-    }
-    .btn-report svg {
-      width: 18px;
-      height: 18px;
+    .ai-input-wrap .ai-send-btn svg {
+      width: 14px;
+      height: 14px;
     }
 
     /* ---- Insight Stream ---- */
     .cio-stream-label {
       width: 100%;
-      margin-top: 36px;
+      margin-top: 16px;
       font-size: 13px;
-      font-weight: 600;
-      color: rgba(255,255,255,0.4);
-      text-transform: uppercase;
-      letter-spacing: 1.5px;
-      margin-bottom: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 10px;
+    }
+    .cio-stream-label .signal-count {
+      color: #fff;
+      font-weight: 700;
     }
 
-    .insight-cards {
+    /* ---- News Section Title ---- */
+    .news-section-title {
       width: 100%;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: rgba(255,255,255,0.9);
+    }
+    /* ---- Bento Briefing Scroll ---- */
+    .bento-scroll {
+      width: 100%;
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 4px;
+    }
+    .bento-scroll::-webkit-scrollbar { display: none; }
+    .bento-card {
+      min-width: 240px;
+      max-width: 260px;
+      flex-shrink: 0;
+      border-radius: 14px;
+      padding: 14px;
       display: flex;
       flex-direction: column;
       gap: 10px;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      backdrop-filter: blur(32px) saturate(1.4);
+      -webkit-backdrop-filter: blur(32px) saturate(1.4);
+      border: none;
+      scroll-snap-align: start;
+      transition: box-shadow 0.35s ease-out, transform 0.35s cubic-bezier(0.22,1,0.36,1);
+      -webkit-tap-highlight-color: transparent;
     }
-    .insight-card {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 16px;
+    .bento-card:active {
+      transform: scale(0.97);
+    }
+    /* Gradient border via mask */
+    .bento-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
       border-radius: 14px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: background 0.2s;
+      padding: 1px;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+      transition: opacity 0.3s;
     }
-    .insight-card:active {
-      background: rgba(255,255,255,0.07);
+    /* Bottom glow bleed */
+    .bento-card::after {
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 32px;
+      border-radius: 50%;
+      filter: blur(18px);
+      pointer-events: none;
+      opacity: 0.4;
+      transition: opacity 0.3s;
     }
 
-    .insight-badge {
+    /* General card style */
+    .bento-card {
+      background: linear-gradient(165deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0.01) 100%);
+      box-shadow: none;
+    }
+    .bento-card::before {
+      background: linear-gradient(145deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.03) 100%);
+    }
+    .bento-card::after { display: none; }
+
+    /* Header row */
+    .bento-header {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+    }
+    .bento-header .bento-icon {
+      display: flex;
+      align-items: center;
+      color: rgba(255,255,255,0.5);
+    }
+    .bento-header .bento-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .bento-card .bento-title { color: rgba(255,255,255,0.85); }
+    .bento-header .bento-badge {
+      margin-left: auto;
+      font-size: 11px;
+      font-weight: 500;
+      color: #1ed1e9;
+      cursor: pointer;
+      line-height: 1;
+    }
+    /* News items */
+    .bento-news {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .bento-news-item {
+      font-size: 12px;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.55);
+    }
+    .bento-news-item::before {
+      content: '·';
+      margin-right: 4px;
+      opacity: 0.5;
+    }
+
+    /* ---- Ticker Filter Pills ---- */
+    .cio-filters {
+      width: 100%;
+      display: flex;
+      gap: 8px;
+      margin-top: 24px;
+      overflow-x: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .cio-filters::-webkit-scrollbar { display: none; }
+    .cio-filter-pill {
       flex-shrink: 0;
-      width: 40px;
-      height: 40px;
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 9999px;
+      font-size: 12px;
+      font-weight: 600;
+      border: none;
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.8);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .cio-filter-pill.active {
+      background: #fff;
+      color: #1A1A1A;
+    }
+    .cio-filter-pill .pill-count {
+      margin-left: 4px;
+      opacity: 0.5;
+    }
+    .cio-filter-pill.has-alert {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding-left: 10px;
+    }
+    .cio-filter-pill.has-alert::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #FF4347;
+      box-shadow: 0 0 4px rgba(255,67,71,0.6);
+      flex-shrink: 0;
+    }
+
+    /* ---- AI CIO Feed ---- */
+    .feed-section {
+      width: 100%;
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      position: relative;
+    }
+    /* Feed item wrapper — timeline layout */
+    .feed-item {
+      display: flex;
+      gap: 14px;
+      align-items: stretch;
+      position: relative;
+    }
+    /* Timeline rail (left column) */
+    .feed-rail {
+      width: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex-shrink: 0;
+      position: relative;
+    }
+    /* Dot on the timeline */
+    .feed-rail-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      flex-shrink: 0;
+      margin-top: 6px;
+      z-index: 1;
+    }
+    /* Alert dot — red with glow pulse */
+    .alert-dot {
+      width: 10px !important;
+      height: 10px !important;
+      background: #FF4347 !important;
+      border-color: transparent !important;
+      box-shadow: 0 0 8px rgba(255,67,71,0.6), 0 0 16px rgba(255,67,71,0.25);
+      animation: alertDotPulse 1.8s ease-in-out infinite;
+    }
+    .alert-dot.dismissed {
+      width: 8px !important;
+      height: 8px !important;
+      background: rgba(255,255,255,0.2) !important;
+      border-color: rgba(255,255,255,0.15) !important;
+      box-shadow: none;
+      animation: none;
+      transition: all 0.5s ease;
+    }
+    @keyframes alertDotPulse {
+      0%, 100% { box-shadow: 0 0 6px rgba(255,67,71,0.5), 0 0 14px rgba(255,67,71,0.2); transform: scale(1); }
+      50% { box-shadow: 0 0 12px rgba(255,67,71,0.8), 0 0 24px rgba(255,67,71,0.3); transform: scale(1.15); }
+    }
+    /* Vertical line */
+    .feed-rail-line {
+      width: 1px;
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+    }
+    /* Hide line on last item */
+    .feed-item:last-child .feed-rail-line {
+      background: none;
+    }
+    /* Feed body */
+    .feed-body {
+      flex: 1;
+      min-width: 0;
+      padding-bottom: 20px;
+    }
+    .feed-meta {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 4px;
+    }
+    .feed-meta .feed-author {
+      color: rgba(255,255,255,0.7);
+      font-weight: 600;
+    }
+    .feed-intro {
+      font-size: 14px;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+    .feed-intro strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+    .feed-intro .hl-brand {
+      color: #1ED1E9;
+      font-weight: 700;
+    }
+    /* Feed card (inner content block) */
+    .feed-card {
       border-radius: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.05);
+      margin-bottom: 8px;
+      position: relative;
+    }
+    /* Accent left border — only alert gets color */
+    .feed-card.accent-green { border-left: none; }
+    .feed-card.accent-red { border-left: 3px solid #FF4347; }
+    .feed-card.accent-cyan { border-left: none; }
+    .feed-card.accent-orange { border-left: none; }
+
+    .feed-card-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .feed-card-title .feed-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+    .feed-badge.action { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+    .feed-badge.positive { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+    .feed-badge.alert { background: rgba(255,67,71,0.15); color: #FF4347; }
+
+    .feed-card-text {
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.5;
+    }
+    .feed-card-text strong {
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+    .feed-card-text .gain { color: #00FF99; font-weight: 700; }
+    .feed-card-text .loss { color: #FF4347; font-weight: 700; }
+
+    /* Suggestion box inside card */
+    .feed-suggestion {
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      font-size: 13px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.5;
+    }
+    .feed-suggestion strong {
+      color: #FFFFFF;
+    }
+
+    /* Data table inside card */
+    .feed-table {
+      width: 100%;
+    }
+    .feed-table-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .feed-table-row:first-child { padding-top: 0; }
+    .feed-table-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .feed-table-label {
+      font-size: 13px;
+      color: rgba(255,255,255,0.4);
+    }
+    .feed-table-value {
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFFFFF;
+    }
+    .feed-table-value.green { color: #00FF99; }
+    .feed-table-value.red { color: #FF4347; }
+    .feed-table-value.orange { color: #FD8016; }
+
+    /* Stock rows inside card */
+    .feed-stock-row {
+      display: flex;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .feed-stock-row:last-child { border-bottom: none; }
+    .feed-stock-ticker {
+      font-size: 14px;
+      font-weight: 700;
+      color: #FFFFFF;
+      min-width: 72px;
+    }
+    .feed-stock-name {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      flex: 1;
+    }
+    .feed-stock-change {
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .feed-stock-change.up { color: #00FF99; }
+    .feed-stock-change.down { color: #FF4347; }
+    .feed-stock-note {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      margin-top: 8px;
+      line-height: 1.4;
+    }
+
+    /* Via source tag */
+    .feed-source {
+      display: inline-flex;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #1ED1E9;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid rgba(30,209,233,0.2);
+      background: rgba(30,209,233,0.05);
+      margin-bottom: 8px;
+    }
+    /* Action buttons row */
+    .feed-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .feed-action-btn {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+      transition: all 0.2s;
+    }
+    .feed-action-btn.primary {
+      background: rgba(30,209,233,0.20);
+      color: #fff;
+    }
+    .feed-action-btn.primary:hover {
+      background: rgba(30,209,233,0.30);
+    }
+    .feed-action-btn.primary:active {
+      background: rgba(30,209,233,0.10);
+    }
+    .feed-action-btn.secondary {
+      background: rgba(255,255,255,0.10);
+      color: rgba(255,255,255,1);
+    }
+    .feed-action-btn.secondary:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    .feed-action-btn.secondary:active {
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.8);
+    }
+    /* Deep dive prompt */
+    .feed-deepdive {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      cursor: pointer;
+    }
+    .feed-deepdive .dd-label {
+      color: rgba(255,255,255,0.55);
+      font-weight: 600;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .feed-deepdive .dd-text {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .feed-deepdive .dd-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: #1ed1e9;
+      flex-shrink: 0;
+    }
+    .feed-deepdive .dd-arrow {
+      margin-left: auto;
+      color: rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       Community Tab — AI Thinking Cinematic Animation
+       ============================================================ */
+    .community-page {
+      display: none;
+      position: relative;
+      width: 100%;
+      min-height: calc(844px - 52px - 80px);
+      overflow: hidden;
+      background: #000;
+    }
+    .community-page.active { display: block; }
+
+    .thinking-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .thinking-query {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      z-index: 10;
+      padding: 32px 24px 20px;
+      text-align: left;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .thinking-query.visible { opacity: 1; }
+    .thinking-query-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      margin-bottom: 8px;
+    }
+    .thinking-query-text {
+      font-size: 17px;
+      font-weight: 600;
+      line-height: 1.4;
+      color: rgba(255,255,255,0.85);
+    }
+    .thinking-query-stats {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.35);
+      margin-top: 10px;
+      transition: opacity 0.6s ease;
+    }
+    .thinking-query-stats.hidden { opacity: 0; }
+
+    /* Scan text inside sphere */
+    .scan-text-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 24px 40px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+    .scan-text-overlay.visible { opacity: 1; }
+    .scan-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.35);
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 8px;
+    }
+    .scan-line {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.65;
+      opacity: 0;
+      transform: translateY(4px);
+      animation: scanIn 0.35s ease forwards;
+    }
+    .scan-line.bright {
+      color: rgba(255,255,255,0.9);
+      font-weight: 500;
+    }
+    @keyframes scanIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Result overlay */
+    .thinking-result {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.8);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.8s ease;
+    }
+    .thinking-result.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .thinking-result-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .thinking-result-sub {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 24px;
+      text-align: center;
+      padding: 0 32px;
+    }
+    .thinking-result-btn {
+      height: 44px;
+      padding: 0 28px;
+      border-radius: 12px;
+      border: none;
+      background: #fff;
+      color: #1A1A1A;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    /* ---- Alpha Chat Flow ---- */
+    /* Phase visibility */
+    .community-page .alpha-input-bar { display: none; }
+    .community-page .alpha-chat { display: none; }
+    .community-page.phase-input .alpha-input-bar { display: flex; }
+    .community-page.phase-input .thinking-canvas { opacity: 0 !important; }
+    .community-page.phase-input .thinking-query,
+    .community-page.phase-input .scan-text-overlay,
+    .community-page.phase-input .thinking-result { opacity: 0 !important; pointer-events: none !important; }
+    .community-page.phase-answer .thinking-query,
+    .community-page.phase-answer .scan-text-overlay,
+    .community-page.phase-answer .thinking-result { opacity: 0 !important; pointer-events: none !important; }
+    .community-page.phase-answer .alpha-chat { display: flex; }
+    .community-page.phase-answer .thinking-canvas { opacity: 0.15; transition: opacity 1s ease; }
+
+    .alpha-chat {
+      position: absolute;
+      inset: 0;
+      z-index: 15;
+      flex-direction: column;
+      padding: 16px 16px 88px;
+      overflow-y: auto;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .alpha-chat::-webkit-scrollbar { display: none; }
+
+    /* User message — right aligned */
+    .alpha-msg.user {
+      align-self: flex-end;
+      max-width: 85%;
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px 16px 4px 16px;
+      padding: 10px 14px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+      line-height: 1.45;
+    }
+
+    /* CIO message — left aligned */
+    .alpha-msg.cio {
+      align-self: flex-start;
+      max-width: 92%;
+      margin-bottom: 12px;
+    }
+    .alpha-msg-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .alpha-msg-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #1ed1e9, #00ff99);
       display: flex;
       align-items: center;
       justify-content: center;
+      flex-shrink: 0;
     }
-    .insight-badge svg {
-      width: 20px;
-      height: 20px;
+    .alpha-msg-avatar svg { width: 12px; height: 12px; }
+    .alpha-msg-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
     }
-    .insight-badge.macro {
-      background: rgba(30,209,233,0.12);
-      color: #1ed1e9;
+    .alpha-msg-body {
+      background: rgba(255,255,255,0.06);
+      border-radius: 4px 16px 16px 16px;
+      padding: 14px 16px;
     }
-    .insight-badge.sentiment {
-      background: rgba(255,170,50,0.12);
-      color: #ffaa32;
-    }
-    .insight-badge.technical {
-      background: rgba(141,142,255,0.12);
-      color: #8d8eff;
-    }
-    .insight-badge.fundamental {
-      background: rgba(0,255,153,0.12);
-      color: #00ff99;
-    }
-
-    .insight-body {
-      flex: 1;
-      min-width: 0;
-    }
-    .insight-label {
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.8px;
-      margin-bottom: 4px;
-    }
-    .insight-label.macro { color: #1ed1e9; }
-    .insight-label.sentiment { color: #ffaa32; }
-    .insight-label.technical { color: #8d8eff; }
-    .insight-label.fundamental { color: #00ff99; }
-
-    .insight-text {
+    .alpha-msg-body h3 {
       font-size: 14px;
-      font-weight: 400;
-      color: rgba(255,255,255,0.8);
-      line-height: 1.45;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 8px;
+      line-height: 1.35;
     }
-    .insight-time {
-      font-size: 11px;
-      color: rgba(255,255,255,0.3);
+    .alpha-msg-body h3:not(:first-child) {
+      margin-top: 14px;
+    }
+    .alpha-msg-body p {
+      font-size: 13px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.55;
+      margin: 0 0 6px;
+    }
+    .alpha-msg-body .hl-teal { color: #1ed1e9; font-weight: 600; }
+    .alpha-msg-body .hl-red { color: #FF4347; font-weight: 600; }
+    .alpha-msg-body .hl-green { color: #00ff99; font-weight: 600; }
+    .alpha-msg-body .hl-white { color: #fff; font-weight: 600; }
+
+    /* Thinking indicator in chat */
+    .alpha-thinking-indicator {
+      align-self: flex-start;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      margin-bottom: 8px;
+    }
+    .alpha-thinking-dots {
+      display: flex;
+      gap: 4px;
+    }
+    .alpha-thinking-dots span {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: rgba(30,209,233,0.6);
+      animation: alphaDotPulse 1.4s infinite;
+    }
+    .alpha-thinking-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .alpha-thinking-dots span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes alphaDotPulse {
+      0%, 100% { opacity: 0.3; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1); }
+    }
+    .alpha-thinking-label {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      font-weight: 500;
+    }
+
+    /* Answer reveal animation */
+    .alpha-msg-body > * {
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+    .alpha-msg-body > *.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Ask again button */
+    .alpha-again-btn {
+      align-self: center;
+      margin-top: 16px;
+      padding: 8px 20px;
+      border-radius: 9999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: rgba(255,255,255,0.6);
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Satoshi', sans-serif;
+      cursor: pointer;
+      transition: all 0.15s;
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    .alpha-again-btn.visible {
+      opacity: 1;
+      transform: translateY(0);
+      transition: opacity 0.5s ease 0.3s, transform 0.5s ease 0.3s;
+    }
+    .alpha-again-btn:active { transform: scale(0.96); }
+
+    /* Alpha input bar — positioned at bottom */
+    .alpha-input-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 12px 20px 16px;
+      z-index: 25;
+      background: linear-gradient(to top, #1A1A1A 65%, #1A1A1AE6 85%, transparent);
+      align-items: center;
+    }
+    .alpha-input-bar .cio-input-wrap {
+      flex: 1;
+    }
+    .alpha-send-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: none;
+      background: #1ed1e9;
+      color: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      transition: transform 0.15s;
+    }
+    .alpha-send-btn:active { transform: scale(0.9); }
+
+    /* ---- Social / Community Page (Medium-inspired) ---- */
+    .social-page {
+      display: none;
+      flex-direction: column;
+      min-height: calc(844px - 52px - 80px);
+      background: #1A1A1A;
+    }
+    .social-page.active { display: flex; }
+
+    .social-header {
+      padding: 20px 20px 0;
+    }
+    .social-header h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: -0.3px;
+    }
+
+    /* Sub-tabs (Feed | Analysis) — underline style */
+    .social-subtabs {
+      display: flex;
+      gap: 24px;
+      padding: 16px 20px 0;
+    }
+    .social-subtab {
+      padding: 8px 0;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.35);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .social-subtab.active {
+      color: #fff;
+      font-weight: 600;
+      border-bottom-color: #1ed1e9;
+    }
+
+    /* ---- Mixed Feed ---- */
+    .discovery-feed {
+      display: flex;
+      flex-direction: column;
+      padding: 0 20px 24px;
+    }
+
+    /* ==== Shared post frame — divider separated ==== */
+    .fc {
+      background: none;
+      border: none;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      padding-bottom: 14px;
+    }
+    .fc:last-child { border-bottom: none; }
+    /* Shared header: avatar + name/source + badge + time */
+    .fc-head {
+      display: flex; align-items: center; gap: 8px;
+      padding: 14px 0 0;
+    }
+    .fc-av {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #2A2A2A;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; flex-shrink: 0;
+    }
+    .fc-name {
+      font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7);
+    }
+    .fc-time {
+      font-size: 10px; color: rgba(255,255,255,0.2);
+      margin-left: auto; flex-shrink: 0;
+    }
+    /* Shared footer: tickers + actions */
+    .fc-foot {
+      display: flex; align-items: center; gap: 6px;
+      padding: 8px 0;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .fc-ticker {
+      font-size: 10px; font-weight: 700;
+      color: rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.05);
+      padding: 2px 6px; border-radius: 3px;
+    }
+    .fc-try {
+      font-size: 10px; font-weight: 600;
+      color: rgba(30,209,233,0.7);
+      background: none; border: 1px solid rgba(30,209,233,0.2);
+      padding: 3px 8px; border-radius: 5px;
+      cursor: pointer; font-family: inherit;
+      margin-left: auto;
+    }
+    /* App badge in header */
+    .fc-app-badge {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.3px;
+      color: rgba(30,209,233,0.7);
+      background: rgba(30,209,233,0.08);
+      padding: 2px 6px; border-radius: 4px;
+    }
+
+    /* ==== Result card — hero number + viz ==== */
+    .fc-hero {
+      padding: 8px 0 6px;
+      display: flex; align-items: flex-end; gap: 10px;
+    }
+    .fc-big {
+      font-size: 28px; font-weight: 800; line-height: 1.1;
+      letter-spacing: -0.5px;
+    }
+    .fc-big.green { color: #00ff99; }
+    .fc-big.red { color: #ff5252; }
+    .fc-big.teal { color: #1ed1e9; }
+    .fc-big.orange { color: #ffab00; }
+    .fc-big.purple { color: #b388ff; }
+    .fc-sub {
+      font-size: 12px; color: rgba(255,255,255,0.35);
+      line-height: 1.4; padding-bottom: 4px;
+    }
+    /* Viz: growth curve */
+    .fc-viz { padding: 0 0 8px; }
+    .fc-viz svg { display: block; }
+    /* Viz: debate bar */
+    .fc-debate {
+      display: flex; height: 6px; border-radius: 3px; overflow: hidden;
+      margin: 0 0 4px;
+    }
+    .fc-debate-bull { background: rgba(0,255,153,0.5); }
+    .fc-debate-bear { background: rgba(255,82,82,0.5); }
+    .fc-debate-lbl {
+      display: flex; justify-content: space-between;
+      padding: 0 0 6px;
+      font-size: 10px; font-weight: 600;
+    }
+    .fc-debate-lbl .bull { color: #00ff99; }
+    .fc-debate-lbl .bear { color: #ff5252; }
+    /* Viz: element / badge */
+    .fc-badge-zone {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 0 8px;
+    }
+    .fc-badge-icon { font-size: 28px; }
+    .fc-badge-info {
+      font-size: 11px; color: rgba(255,255,255,0.4); line-height: 1.5;
+    }
+    /* Viz: streak dots */
+    .fc-streak {
+      display: flex; gap: 3px; padding: 0 0 8px;
+    }
+    .fc-streak-dot {
+      width: 20px; height: 20px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9px; font-weight: 700;
+    }
+    .fc-streak-dot.win { background: rgba(0,255,153,0.15); color: #00ff99; }
+    .fc-streak-dot.loss { background: rgba(255,82,82,0.15); color: #ff5252; }
+
+    /* ==== Compact activity card ==== */
+    .fc--compact .fc-body {
+      padding: 8px 0 10px;
+      font-size: 13px; line-height: 1.5;
+      color: rgba(255,255,255,0.5);
+    }
+    .fc--compact .fc-body strong {
+      color: rgba(255,255,255,0.75); font-weight: 600;
+    }
+    .fc--compact .fc-body .fc-app-link {
+      color: rgba(30,209,233,0.8); font-weight: 600;
+    }
+
+    /* ==== Blog card ==== */
+    .fc-title {
+      font-size: 15px; font-weight: 700; color: #fff;
+      line-height: 1.35; letter-spacing: -0.2px;
+      padding: 8px 0 4px;
+    }
+    .fc-excerpt {
+      font-size: 12px; line-height: 1.5; color: rgba(255,255,255,0.35);
+      padding: 0;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .fc-blog-tickers {
+      display: flex; gap: 4px; padding: 4px 0 0;
+    }
+    .fc-actions {
+      display: flex; align-items: center; gap: 16px;
+      padding: 10px 0;
+      border-top: 1px solid rgba(255,255,255,0.04);
       margin-top: 6px;
     }
+    .fc-act {
+      display: flex; align-items: center; gap: 4px;
+      font-size: 11px; color: rgba(255,255,255,0.25);
+      background: none; border: none; cursor: pointer;
+      font-family: inherit;
+    }
+    .fc-act svg { width: 14px; height: 14px; }
+    .fc-discuss {
+      margin-left: auto;
+      font-size: 10px; font-weight: 600;
+      color: rgba(30,209,233,0.7);
+      background: none; border: 1px solid rgba(30,209,233,0.2);
+      padding: 3px 8px; border-radius: 5px;
+      cursor: pointer; font-family: inherit;
+      display: flex; align-items: center; gap: 3px;
+    }
+    .fc-discuss svg { width: 10px; height: 10px; }
+
+    /* ==== News card ==== */
+    .fc--news .fc-head {
+      padding-bottom: 0;
+    }
+    .fc-source {
+      font-size: 12px; font-weight: 600; color: rgba(30,209,233,0.6);
+    }
+    .fc--news .fc-title {
+      font-size: 14px; padding-top: 6px;
+    }
+    .fc--news .fc-foot {
+      padding-top: 6px; padding-bottom: 8px;
+    }
+
+    /* ---- News feed ---- */
+    .news-feed {
+      display: flex;
+      flex-direction: column;
+      padding: 8px 20px 24px;
+    }
+    .news-item {
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-source {
+      font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.35);
+    }
+    .news-title {
+      font-size: 15px; font-weight: 700; color: #fff;
+      line-height: 1.35; letter-spacing: -0.2px;
+    }
+    .news-snippet {
+      font-size: 12px; line-height: 1.5;
+      color: rgba(255,255,255,0.4);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .news-bottom {
+      display: flex; align-items: center; gap: 8px;
+      padding-top: 2px;
+    }
+    .news-ticker {
+      font-size: 10px; font-weight: 600;
+      padding: 2px 6px; border-radius: 3px;
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.4);
+    }
+    .news-time {
+      margin-left: auto;
+      font-size: 10px; color: rgba(255,255,255,0.2);
+    }
+
+    /* ---- Blog / Analysis cards (Medium stack) ---- */
+    .analysis-feed {
+      display: flex;
+      flex-direction: column;
+      padding: 4px 20px 24px;
+    }
+
+    .blog-card {
+      padding: 18px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      cursor: pointer;
+    }
+    .blog-card:last-child { border-bottom: none; }
+
+    .blog-author {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .blog-author-avatar {
+      width: 20px; height: 20px;
+      border-radius: 50%;
+      background: #2A2A2A;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; flex-shrink: 0;
+    }
+    .blog-author-name {
+      font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.45);
+    }
+    .blog-author-badge {
+      font-size: 8px; font-weight: 700; padding: 1px 4px;
+      border-radius: 3px; letter-spacing: 0.3px;
+    }
+    .blog-author-badge.analyst { background: rgba(30,209,233,0.08); color: rgba(30,209,233,0.7); }
+    .blog-author-badge.contributor { background: rgba(0,255,153,0.06); color: rgba(0,255,153,0.6); }
+    .blog-author-badge.kol { background: rgba(255,171,0,0.08); color: rgba(255,171,0,0.7); }
+    .blog-dot {
+      width: 2px; height: 2px; border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+    }
+    .blog-time {
+      font-size: 11px; color: rgba(255,255,255,0.25);
+    }
+
+    .blog-title {
+      font-size: 16px; font-weight: 700; color: #fff;
+      line-height: 1.35;
+      letter-spacing: -0.2px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .blog-excerpt {
+      font-size: 13px; line-height: 1.55;
+      color: rgba(255,255,255,0.4);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .blog-bottom {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-top: 4px;
+    }
+
+    .blog-tickers {
+      display: flex; gap: 4px;
+    }
+    .blog-ticker {
+      font-size: 10px; font-weight: 600;
+      padding: 2px 6px; border-radius: 3px;
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.4);
+    }
+
+    .blog-meta {
+      display: flex; align-items: center; gap: 10px;
+      margin-left: auto;
+      font-size: 11px; color: rgba(255,255,255,0.25);
+    }
+    .blog-meta-item {
+      display: flex; align-items: center; gap: 3px;
+    }
+    .blog-meta-item svg { width: 11px; height: 11px; }
+
+    .blog-discuss-btn {
+      display: flex; align-items: center; gap: 4px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.45);
+      font-size: 10px; font-weight: 600;
+      cursor: pointer; font-family: inherit;
+      transition: all 0.2s;
+    }
+    .blog-discuss-btn:active {
+      border-color: rgba(30,209,233,0.3);
+      color: #1ed1e9;
+    }
+    .blog-discuss-btn svg { width: 10px; height: 10px; }
+
   </style>
 </head>
 <body>
@@ -1336,71 +2736,12 @@
   <div class="scroll-area">
 
     <!-- ========== MINIAPP TAB CONTENT ========== -->
-    <div class="miniapp-content" id="miniappContent">
+    <div class="miniapp-content hidden" id="miniappContent">
 
-    <!-- ========== A. Potency Gauge ========== -->
-    <section class="gauge-section">
-      <div class="gauge-wrapper">
-        <div class="gauge-glow"></div>
-
-        <!-- SVG Gauge Arc -->
-        <div class="gauge-arc-container anim-scale-in" style="animation-delay: 0.15s">
-          <svg viewBox="0 0 200 200" fill="none">
-            <defs>
-              <linearGradient id="gaugeGrad" x1="0%" y1="50%" x2="100%" y2="50%">
-                <stop offset="0%" stop-color="#1ed1e9" stop-opacity="0.5" />
-                <stop offset="50%" stop-color="#1ed1e9" />
-                <stop offset="100%" stop-color="#00FF99" stop-opacity="0.8" />
-              </linearGradient>
-              <filter id="arcGlow" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="4" result="blur"/>
-                <feMerge>
-                  <feMergeNode in="blur"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-            </defs>
-            <!-- Track (background) -->
-            <path
-              d="M 16 100 A 84 84 0 0 1 184 100"
-              stroke="rgba(255,255,255,0.05)"
-              stroke-width="14"
-              stroke-linecap="round"
-              fill="none"
-            />
-            <!-- Active arc (82%) -->
-            <path
-              d="M 16 100 A 84 84 0 0 1 184 100"
-              stroke="url(#gaugeGrad)"
-              stroke-width="14"
-              stroke-linecap="round"
-              fill="none"
-              stroke-dasharray="263.9"
-              stroke-dashoffset="47.5"
-              filter="url(#arcGlow)"
-            />
-            <!-- Needle dot -->
-            <circle cx="170" cy="50" r="5" fill="#00FF99" filter="url(#arcGlow)" opacity="0.9" />
-          </svg>
-          <div class="gauge-inner-text">
-            <div class="gauge-label">Peak Performance</div>
-            <div class="gauge-number anim-count-up" style="animation-delay: 0.4s">1,240,851</div>
-            <div class="gauge-subtitle anim-fade-up" style="animation-delay: 0.55s">Skills Installed</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live Feed -->
-      <div class="live-feed">
-        <div class="feed-ticker" id="feedTicker"></div>
-        <div class="active-traders anim-fade-up" style="animation-delay: 0.7s"><svg class="active-traders-icon" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>53,611 active traders online</div>
-      </div>
-    </section>
-
-    <!-- ========== B. Recommended Skills ========== -->
+    <!-- ========== For You ========== -->
     <section class="section-recommended">
       <div class="section-header anim-fade-up" style="animation-delay: 0.3s">
-        <div class="section-title">Recommended Skills</div>
+        <div class="section-title">For You</div>
         <svg class="chevron-right" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.8)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
           <polyline points="9 18 15 12 9 6" />
         </svg>
@@ -1410,7 +2751,7 @@
 
     <!-- ========== C. Analytical Armory ========== -->
     <section class="section-armory">
-      <div class="section-title anim-fade-up" style="margin-bottom: 12px; animation-delay: 0.5s">Analytical Armory</div>
+      <div class="section-title anim-fade-up" style="margin-bottom: 12px; animation-delay: 0.5s">All Apps</div>
       <div class="filter-pills anim-fade-up" style="animation-delay: 0.6s" id="filterPills"></div>
       <div class="skill-list" id="skillList"></div>
     </section>
@@ -1420,19 +2761,36 @@
     <!-- ========== CIO (AGENT) TAB CONTENT ========== -->
     <div class="cio-page" id="cioPage">
 
+      <!-- Status glow (attention/good/rough/quiet) -->
+      <div class="cio-status-glow attention"></div>
+
       <!-- Breathing AI Orb -->
       <div class="orb-container cio-enter" data-cio-delay="0">
+        <!-- Fireworks background -->
+        <div class="fireworks-wrap">
+          <div class="fw fw0"><div class="fw-ring"></div></div>
+          <div class="fw fw1"><div class="fw-ring"></div></div>
+          <div class="fw fw2"><div class="fw-ring"></div></div>
+          <div class="fw fw3"><div class="fw-ring"></div></div>
+          <div class="fw fw4"><div class="fw-ring"></div></div>
+          <div class="fw fw5"><div class="fw-ring"></div></div>
+        </div>
         <div class="orb-glow"></div>
         <div class="orb-ring-outer"></div>
         <div class="orb-ring"></div>
         <div class="orb">
+          <div class="orb-lava"></div>
           <div class="orb-face">
-            <!-- Edggy face — friendly bot icon -->
-            <svg viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="14" r="1.5" fill="currentColor" stroke="none"/>
-              <circle cx="24" cy="14" r="1.5" fill="currentColor" stroke="none"/>
-              <path d="M12 22c2 2.5 10 2.5 12 0"/>
-            </svg>
+            <div class="orb-eyes-wrap">
+              <div class="orb-eyes">
+                <div class="orb-eye"></div>
+                <div class="orb-eye"></div>
+              </div>
+            </div>
+            <div class="orb-cheeks">
+              <div class="orb-cheek"></div>
+              <div class="orb-cheek"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -1440,118 +2798,237 @@
       <!-- Hero Greeting — words revealed one by one -->
       <div class="cio-greeting cio-enter" data-cio-delay="300" id="cioGreeting">
         <h2 id="cioGreetingText"></h2>
-        <p class="cio-enter" data-cio-delay="2200">Last analysed 12 min ago</p>
+        <p class="cio-enter" data-cio-delay="2100">Last analysed 12 min ago</p>
       </div>
 
-      <!-- View Report Button -->
-      <button class="btn-report cio-enter" data-cio-delay="2400" id="btnReport">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
-        View My Report
-      </button>
+      <!-- Ticker Filter Pills -->
+      <div class="cio-filters cio-enter" data-cio-delay="2300" id="cioFilters">
+        <button class="cio-filter-pill active" data-filter="all">All</button>
+        <button class="cio-filter-pill has-alert" data-filter="TSMC">TSMC<span class="pill-count">2</span></button>
+        <button class="cio-filter-pill" data-filter="NVDA">NVDA<span class="pill-count">2</span></button>
+        <button class="cio-filter-pill" data-filter="META">META<span class="pill-count">1</span></button>
+      </div>
 
-      <!-- Insight Stream -->
-      <div class="cio-stream-label cio-enter" data-cio-delay="2700">Your Briefing</div>
+      <!-- AI CIO Feed -->
+      <div class="feed-section" id="cioFeed">
 
-      <div class="insight-cards">
-        <!-- Macro -->
-        <div class="insight-card cio-enter" data-cio-delay="2900">
-          <div class="insight-badge macro">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-          </div>
-          <div class="insight-body">
-            <div class="insight-label macro">Macro</div>
-            <div class="insight-text">Fed minutes signal a hawkish hold — your bond-heavy allocation may face headwinds this quarter.</div>
-            <div class="insight-time">2 hours ago</div>
+        <!-- 1: TSMC Support Break (Alert - Red) -->
+        <div class="feed-item feed-item-alert cio-enter" data-cio-delay="2600" data-tickers="TSMC">
+          <div class="feed-rail"><div class="feed-rail-dot alert-dot"></div><div class="feed-rail-line"></div></div>
+          <div class="feed-body">
+            <div class="feed-meta"><span class="feed-author">Risk Radar</span> · Just now</div>
+            <div class="feed-card accent-red">
+              <div class="feed-card-title">TSMC broke below $142 support <span class="feed-badge alert">Alert</span></div>
+              <div class="feed-card-text">TSMC broke below your $142 support level. Currently at <strong>$139.8</strong> (<span class="loss">-3.4%</span>). You hold 200 shares, unrealized gain narrowed to <span class="gain">+2.1%</span>.</div>
+              <div class="feed-actions">
+                <button class="feed-action-btn primary">What now?</button>
+                <button class="feed-action-btn secondary" onclick="dismissAlert(this)">Got it</button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Sentiment -->
-        <div class="insight-card cio-enter" data-cio-delay="3100">
-          <div class="insight-badge sentiment">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>
-          </div>
-          <div class="insight-body">
-            <div class="insight-label sentiment">Sentiment</div>
-            <div class="insight-text">Social buzz on $NVDA surging +340% — retail FOMO is peaking, watch for a pullback entry.</div>
-            <div class="insight-time">45 min ago</div>
-          </div>
-        </div>
-
-        <!-- Technical -->
-        <div class="insight-card cio-enter" data-cio-delay="3300">
-          <div class="insight-badge technical">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-          </div>
-          <div class="insight-body">
-            <div class="insight-label technical">Technical</div>
-            <div class="insight-text">$AAPL forming a golden cross on the daily — a breakout above $198 could trigger a momentum move.</div>
-            <div class="insight-time">1 hour ago</div>
+        <!-- 2: META Target Hit — 30 min ago -->
+        <div class="feed-item cio-enter" data-cio-delay="2700" data-tickers="META">
+          <div class="feed-rail"><div class="feed-rail-dot"></div><div class="feed-rail-line"></div></div>
+          <div class="feed-body">
+            <div class="feed-meta"><span class="feed-author">Portfolio Manager</span> · 30 min ago</div>
+            <div class="feed-card accent-green">
+              <div class="feed-card-title">META hit target price <span class="feed-badge action">Action</span></div>
+              <div class="feed-card-text">You bought 100 shares of META at $540 in December. Your target of $620 has been hit. Currently at <strong>$628</strong>, unrealized gain <span class="gain">+16.3%</span>.</div>
+              <div class="feed-suggestion">Suggestion: Consider taking profit on half (50 shares), locking in <strong>+$4,400</strong> gains. Hold the rest.</div>
+              <div class="feed-actions">
+                <button class="feed-action-btn primary">Deep dive</button>
+                <button class="feed-action-btn secondary">Save</button>
+              </div>
+            </div>
           </div>
         </div>
 
-        <!-- Fundamental -->
-        <div class="insight-card cio-enter" data-cio-delay="3500">
-          <div class="insight-badge fundamental">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
-          </div>
-          <div class="insight-body">
-            <div class="insight-label fundamental">Fundamental</div>
-            <div class="insight-text">$TSLA's P/E ratio compressed to 48x — now below 5-year average. Earnings next week may re-rate.</div>
-            <div class="insight-time">3 hours ago</div>
+        <!-- 3: NVDA Q4 Earnings — 2 hours ago -->
+        <div class="feed-item cio-enter" data-cio-delay="2800" data-tickers="NVDA">
+          <div class="feed-rail"><div class="feed-rail-dot"></div><div class="feed-rail-line"></div></div>
+          <div class="feed-body">
+            <div class="feed-meta"><span class="feed-author">Earnings Decoder</span> · 2 hours ago</div>
+            <div class="feed-card accent-green">
+              <div class="feed-card-title">NVDA Q4 Earnings <span class="feed-badge positive">Positive</span></div>
+              <div class="feed-card-text">Management tone strongly positive. Revenue guidance <span class="gain">+8%</span> above consensus. You hold 500 shares with <span class="gain">+12.4%</span> unrealized gain.</div>
+              <div class="feed-deepdive">
+                <span class="dd-dot"></span>
+                <span class="dd-label">Deep dive</span>
+                <span class="dd-text">Is valuation too high? → CIO sugges...</span>
+                <span class="dd-arrow">→</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- 4: TSMC Volume Anomaly — 4 hours ago -->
+        <div class="feed-item cio-enter" data-cio-delay="2900" data-tickers="TSMC">
+          <div class="feed-rail"><div class="feed-rail-dot"></div><div class="feed-rail-line"></div></div>
+          <div class="feed-body">
+            <div class="feed-meta"><span class="feed-author">Volume Scanner</span> · 4 hours ago</div>
+            <div class="feed-intro">Heads up — unusual activity on TSMC</div>
+            <div class="feed-card accent-orange">
+              <div class="feed-card-title">TSMC Volume Anomaly</div>
+              <div class="feed-card-text">Volume at 3.2x the 20-day average. No earnings or news catalyst found. You hold 200 shares.</div>
+              <div class="feed-deepdive">
+                <span class="dd-dot"></span>
+                <span class="dd-label">Deep dive</span>
+                <span class="dd-text">Possible causes · Should you set a sto...</span>
+                <span class="dd-arrow">→</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5: NVDA Technical Analysis -->
+        <div class="feed-item cio-enter" data-cio-delay="3000" data-tickers="NVDA">
+          <div class="feed-rail"><div class="feed-rail-dot"></div><div class="feed-rail-line"></div></div>
+          <div class="feed-body">
+            <div class="feed-meta"><span class="feed-author">Technical Analyst</span> · Yesterday, 18:40</div>
+            <div class="feed-intro">Your <strong>ascending trendline</strong> from the December low to now. A few observations:</div>
+            <div class="feed-card">
+              <div class="feed-table">
+                <div class="feed-table-row">
+                  <span class="feed-table-label">Trend</span>
+                  <span class="feed-table-value green">Ascending channel intact</span>
+                </div>
+                <div class="feed-table-row">
+                  <span class="feed-table-label">RSI(14)</span>
+                  <span class="feed-table-value orange">78 — Overbought</span>
+                </div>
+                <div class="feed-table-row">
+                  <span class="feed-table-label">Your support</span>
+                  <span class="feed-table-value">$680 (matches your avg cost)</span>
+                </div>
+                <div class="feed-table-row">
+                  <span class="feed-table-label">Volume</span>
+                  <span class="feed-table-value red">Rising on volume for 3 days</span>
+                </div>
+              </div>
+              <div class="feed-suggestion">Trendline intact but RSI overbought — short-term pullback pressure. If it pulls back to <strong>$720–730</strong> (trendline support), could be a good add point.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 6: Fed Rate Decision -->
+        <div class="feed-item cio-enter" data-cio-delay="3100">
+          <div class="feed-rail"><div class="feed-rail-dot"></div><div class="feed-rail-line"></div></div>
+          <div class="feed-body">
+            <div class="feed-meta"><span class="feed-author">Macro Translator</span> · Yesterday, 16:00</div>
+            <div class="feed-card">
+              <div class="feed-card-title">Fed Rate Decision</div>
+              <div class="feed-card-text">Rate held at 4.25%. Tech sector expected to benefit. 3 of your holdings are positively correlated.</div>
+              <div class="feed-actions">
+                <button class="feed-action-btn primary">Details</button>
+                <button class="feed-action-btn secondary">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 7: China Northbound Flow -->
+        <div class="feed-item cio-enter" data-cio-delay="3200">
+          <div class="feed-rail"><div class="feed-rail-dot"></div><div class="feed-rail-line"></div></div>
+          <div class="feed-body">
+            <div class="feed-meta"><span class="feed-author">Northbound Flow</span> · Feb 19, 10:32</div>
+            <div class="feed-intro">Based on flow data, these are worth watching:</div>
+            <div class="feed-card">
+              <div class="feed-stock-row">
+                <span class="feed-stock-ticker">9988.HK</span>
+                <span class="feed-stock-name">Alibaba</span>
+                <span class="feed-stock-change up">+3.2%</span>
+              </div>
+              <div class="feed-stock-row">
+                <span class="feed-stock-ticker">0700.HK</span>
+                <span class="feed-stock-name">Tencent</span>
+                <span class="feed-stock-change up">+1.8%</span>
+              </div>
+              <div class="feed-stock-row">
+                <span class="feed-stock-ticker">3690.HK</span>
+                <span class="feed-stock-name">Meituan</span>
+                <span class="feed-stock-change down">-0.5%</span>
+              </div>
+              <div class="feed-stock-note">Northbound net inflow ¥4.2B today, mainly buying Alibaba and Tencent.</div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
     </div><!-- /cio-page -->
 
-  </div>
+    <!-- ========== ALPHA TAB — AI THINKING CINEMATIC ========== -->
+    <div class="community-page active phase-input" id="communityPage">
+      <canvas class="thinking-canvas" id="thinkingCanvas"></canvas>
 
-  <!-- FAB -->
-  <button class="fab" id="fabCreate">
-    <!-- Heroicons: plus (outline) -->
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-  </button>
+      <!-- User query (shown at start of thinking) -->
+      <div class="thinking-query" id="thinkingQuery">
+        <div class="thinking-query-label">Analyzing</div>
+        <div class="thinking-query-text" id="thinkingQueryText">Should I buy Nongfu Spring? Analyze risks and competition.</div>
+        <div class="thinking-query-stats" id="thinkingQueryStats">Scanning from 17,195 nodes · 18,466 edges</div>
+      </div>
 
-  <!-- Create MiniApp Page -->
-  <div class="create-page" id="createPage">
-    <div class="create-page-header">
-      <button class="create-back" id="createBack">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><polyline points="12 19 5 12 12 5"/></svg>
-      </button>
-      <div class="create-page-title">Build MiniApp</div>
-    </div>
-    <div class="create-body">
-      <div class="form-group">
-        <label class="form-label">MiniApp Name</label>
-        <input class="form-input" id="inputName" type="text" placeholder="e.g. Sector Rotation Scanner" maxlength="40" />
+      <!-- Scan text (shown when zoomed into sphere) -->
+      <div class="scan-text-overlay" id="scanOverlay">
+        <div class="scan-label" id="scanLabel">Reading</div>
+        <div id="scanLines"></div>
       </div>
-      <div class="form-group">
-        <label class="form-label">Description</label>
-        <textarea class="form-textarea" id="inputDesc" placeholder="Describe what your MiniApp does and how it helps traders..." maxlength="280"></textarea>
+
+      <!-- Result overlay (hidden — replaced by chat answer) -->
+      <div class="thinking-result" id="thinkingResult">
+        <div class="thinking-result-title">Analysis Complete</div>
+        <div class="thinking-result-sub" id="thinkingResultSub"></div>
+        <button class="thinking-result-btn" id="thinkingResultBtn">View Results</button>
       </div>
-      <div class="form-group">
-        <label class="form-label">Visibility</label>
-        <div class="visibility-options">
-          <div class="visibility-option selected" data-vis="private" id="visPrivate">
-            <svg class="visibility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-            <div class="visibility-option-label">Private</div>
-            <div class="visibility-option-desc">Only you can use it in AI Chat</div>
+
+      <!-- Alpha Chat (user + CIO messages) -->
+      <div class="alpha-chat" id="alphaChat"></div>
+
+      <!-- Alpha Input Bar -->
+      <div class="alpha-input-bar" id="alphaInputBar">
+        <div class="cio-input-wrap">
+          <div class="cio-input-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5L12 3z"/><path d="M18 14l.7 2.3L21 17l-2.3.7L18 20l-.7-2.3L15 17l2.3-.7L18 14z"/></svg>
           </div>
-          <div class="visibility-option" data-vis="public" id="visPublic">
-            <svg class="visibility-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-            <div class="visibility-option-label">Public</div>
-            <div class="visibility-option-desc">Published to MiniApp Store</div>
-          </div>
-        </div>
-        <div class="aura-hint" id="auraHint">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-          <div class="aura-hint-text">Earn <strong>Aura</strong> reputation when other traders install your MiniApp. More downloads = more Aura.</div>
+          <input type="text" id="alphaInput" value="Should I buy Nongfu Spring?" />
+          <button class="alpha-send-btn" id="alphaSendBtn" onclick="window.alphaSend()">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M3.105 2.29a.75.75 0 01.814-.12l13.5 6.25a.75.75 0 010 1.36l-13.5 6.25a.75.75 0 01-1.044-.814L4.64 10.75H8.5a.75.75 0 000-1.5H4.64L2.875 3.224a.75.75 0 01.23-.934z"/></svg>
+          </button>
         </div>
       </div>
-    </div>
-    <div class="create-footer">
-      <button class="btn-create" id="btnCreate" disabled>Create MiniApp</button>
-    </div>
+    </div><!-- /community-page -->
+
+    <!-- ========== COMMUNITY TAB — SOCIAL DISCOVERY FEED ========== -->
+    <div class="social-page" id="socialPage">
+      <div class="social-header anim-fade-up" style="animation-delay:0.05s">
+        <h2>Discover</h2>
+      </div>
+
+      <!-- Sub-tabs: Feed | Blogs | News -->
+      <div class="social-subtabs anim-fade-up" style="animation-delay:0.1s">
+        <button class="social-subtab active" data-social-tab="feed">Feed</button>
+        <button class="social-subtab" data-social-tab="blogs">Blogs</button>
+        <button class="social-subtab" data-social-tab="news">News</button>
+      </div>
+
+      <!-- Feed view (Instagram style) -->
+      <div id="socialFeedView">
+        <div class="discovery-feed" id="discoveryFeed"></div>
+      </div>
+
+      <!-- Blogs view -->
+      <div id="socialBlogsView" style="display:none;">
+        <div class="analysis-feed" id="analysisFeed"></div>
+      </div>
+
+      <!-- News view -->
+      <div id="socialNewsView" style="display:none;">
+        <div class="news-feed" id="newsFeed"></div>
+      </div>
+    </div><!-- /social-page -->
+
   </div>
 
   <!-- Snackbar -->
@@ -1567,22 +3044,32 @@
     <div class="drawer-body" id="drawerBody"></div>
     <div class="drawer-footer">
       <button class="btn-add-chat" id="btnAddChat">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        Add to Chat
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        Open
       </button>
+    </div>
+  </div>
+
+  <!-- CIO Chat Input Bar (positioned above nav) -->
+  <div class="cio-input-bar" id="cioInputBar">
+    <div class="cio-input-wrap">
+      <div class="cio-input-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5L12 3z"/><path d="M18 14l.7 2.3L21 17l-2.3.7L18 20l-.7-2.3L15 17l2.3-.7L18 14z"/></svg>
+      </div>
+      <input type="text" placeholder="What should I do?" />
     </div>
   </div>
 
   <!-- Bottom Navigation -->
   <div class="bottom-nav">
-    <button class="nav-tab">
+    <button class="nav-tab active">
       <!-- Heroicons: arrow-trending-up (outline) — Alpha -->
       <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18 9 11.25l4.306 4.306a11.95 11.95 0 0 1 5.814-5.518l2.74-1.22m0 0-5.94-2.281m5.94 2.28-2.28 5.941"/>
       </svg>
       <span class="nav-label">Alpha</span>
     </button>
-    <button class="nav-tab active">
+    <button class="nav-tab">
       <!-- Heroicons: squares-2x2 (outline) — Miniapp -->
       <svg class="nav-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
         <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1 2.25 2.25V18a2.25 2.25 0 0 1-2.25 2.25H6A2.25 2.25 0 0 1 3.75 18v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25a2.25 2.25 0 0 1-2.25-2.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z"/>
@@ -1611,61 +3098,73 @@
 // ============================================================
 // Data
 // ============================================================
-var LIVE_FEED_ITEMS = [
-  'New Install \u00B7 Technical Signal Scanner',
-  'New Install \u00B7 Whale Flow Tracker',
-  'New Install \u00B7 Earnings Beat Predictor',
-  'New Install \u00B7 IPO Strategy Advisor',
-  'New Install \u00B7 Macro Pulse Monitor',
-  'New Install \u00B7 Sector Rotation AI',
-  'New Install \u00B7 Options Flow Analyzer',
-  'New Install \u00B7 Smart Money Detector',
-];
-
-// Lucide-style stroke icons — glassmorphism applied via CSS container
+// SVG icons (Lucide) for mini apps
 var ICONS = {
-  // Fish (whale proxy) — Lucide: activity/wave
-  whale: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>',
-  // BarChart — Lucide: bar-chart-3
-  barChart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>',
-  // TrendingUp — Lucide: trending-up
-  trendingUp: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>',
-  // Globe — Lucide: globe
-  globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>',
-  // Zap — Lucide: zap
-  zap: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></svg>',
-  // Dollar — Lucide: circle-dollar-sign
-  dollar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>',
-  // Calendar — Lucide: calendar-days
-  calendar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>',
-  // Landmark — Lucide: landmark
-  landmark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="22" y2="22"/><line x1="6" x2="6" y1="18" y2="11"/><line x1="10" x2="10" y1="18" y2="11"/><line x1="14" x2="14" y1="18" y2="11"/><line x1="18" x2="18" y1="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>',
-  // BarChart2 — Lucide: bar-chart-2
-  barChart2: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg>',
-  // Eye — Lucide: eye
-  eye: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"/><circle cx="12" cy="12" r="3"/></svg>',
-  // Users (kept for social proof context)
-  users: '<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.6)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  // Scale — stock comparator
+  comparator: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></svg>',
+  // Sparkles — feng shui
+  fengshui: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></svg>',
+  // Clock/rewind — time machine
+  timemachine: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></svg>',
+  // Swords — bull vs bear debate
+  bullbear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" x2="19" y1="19" y2="13"/><line x1="16" x2="20" y1="16" y2="20"/><line x1="19" x2="21" y1="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" x2="9" y1="14" y2="18"/><line x1="7" x2="4" y1="17" y2="20"/><line x1="3" x2="5" y1="19" y2="21"/></svg>',
+  // Calculator — DCF
+  dcf: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg>',
+  // Search — earnings screener
+  screener: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>',
+  // Layers — portfolio x-ray
+  xray: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>',
+  // Calendar — dividend
+  dividend: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></svg>',
+  // Moon — mercury retrograde
+  retrograde: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>',
+  // Orbit — lunar patterns
+  lunar: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><path d="M10.4 21.9a10 10 0 0 0 9.941-15.416"/><path d="M13.5 2.1a10 10 0 0 0-9.841 15.416"/></svg>',
+  // Layers/cards — tarot
+  tarot: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="12" height="18" x="6" y="3" rx="2"/><path d="m15.5 7.5-3 3-3-3"/><path d="m8.5 16.5 3-3 3 3"/></svg>',
+  // Trophy — trader rank
+  rank: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>',
+  // Dice — earnings roulette
+  roulette: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="12" height="12" x="2" y="10" rx="2" ry="2"/><path d="m17.92 14 3.5-3.5a2.24 2.24 0 0 0 0-3l-5-4.92a2.24 2.24 0 0 0-3 0L10 6"/><path d="M6 18h.01"/><path d="M10 14h.01"/><path d="M15 6h.01"/><path d="M18 9h.01"/></svg>',
+  // Share — P&L card
+  plcard: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>',
+  // Shield — stop loss
+  stoploss: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m14.5 9-5 5"/><path d="m9.5 9 5 5"/></svg>',
+  // Rocket — IPO calendar
+  ipo: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09Z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2Z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',
 };
 
-
-var RECOMMENDED_SKILLS = [
-  { id:'1', name:'Whale Flow Tracker', icon: ICONS.whale, description:'Track institutional money flow and whale wallet movements in real-time. Get alerts on significant position changes.', usersCount:'45.2k+', category:'Whale Tracker' },
-  { id:'2', name:'Earnings Beat AI', icon: ICONS.barChart, description:'Predict earnings surprises with 70% accuracy using AI-driven analysis of fundamentals and sentiment.', usersCount:'38.7k+', category:'Technical' },
-  { id:'3', name:'IPO Strategy Pro', icon: ICONS.trendingUp, description:'Automated IPO analysis with entry/exit strategies. Covers HK and US markets with real-time scoring.', usersCount:'29.1k+', category:'IPO' },
-  { id:'4', name:'Macro Pulse', icon: ICONS.globe, description:'Monitor global macro indicators and their impact on your portfolio. Fed decisions, CPI, and more.', usersCount:'22.4k+', category:'Macro' },
+var RECOMMENDED_APPS = [
+  { id:'1', name:'Stock Comparator', icon: ICONS.comparator, description:'Compare two stocks side by side — fundamentals, technicals, and momentum.', usersCount:'45.2k+', category:'Tools' },
+  { id:'2', name:'Feng Shui Picks', icon: ICONS.fengshui, description:'Your bazi meets the market — which sectors align with your element this year.', usersCount:'38.7k+', category:'Fun' },
+  { id:'3', name:'Time Machine', icon: ICONS.timemachine, description:'What if you bought NVDA 5 years ago? See any stock\'s hypothetical returns.', usersCount:'29.1k+', category:'Social' },
+  { id:'4', name:'Bull vs Bear', icon: ICONS.bullbear, description:'AI debates both sides of any stock — you be the judge.', usersCount:'33.8k+', category:'Tools' },
 ];
 
-var ALL_SKILLS = RECOMMENDED_SKILLS.concat([
-  { id:'5', name:'Technical Signal Scanner', icon: ICONS.zap, description:'Scan 5,000+ stocks for technical breakout patterns. RSI, MACD, and custom indicator alerts.', usersCount:'51.3k+', category:'Technical' },
-  { id:'6', name:'Smart Money Flow', icon: ICONS.dollar, description:'Detect dark pool activity and unusual options flow. Follow the smart money before major moves.', usersCount:'33.8k+', category:'Whale Tracker' },
-  { id:'7', name:'IPO Calendar Alert', icon: ICONS.calendar, description:'Never miss an IPO window. Automated alerts with subscription deadlines and allocation estimates.', usersCount:'18.9k+', category:'IPO' },
-  { id:'8', name:'Rate Decision Tracker', icon: ICONS.landmark, description:'Track central bank decisions globally. Predict rate moves and position ahead of announcements.', usersCount:'15.6k+', category:'Macro' },
-  { id:'9', name:'Volume Profile AI', icon: ICONS.barChart2, description:'Advanced volume analysis with support/resistance zones. Identify high-probability reversal levels.', usersCount:'27.5k+', category:'Technical' },
-  { id:'10', name:'Insider Trade Monitor', icon: ICONS.eye, description:'Real-time SEC filing alerts for insider buys and sells. Filter by conviction level and size.', usersCount:'20.1k+', category:'Whale Tracker' },
-]);
+var ALL_APPS = [
+  // Analysis
+  { id:'5', name:'DCF Calculator', icon: ICONS.dcf, description:'Plug in your assumptions, get a fair value estimate instantly.', usersCount:'51.3k+', category:'Analysis' },
+  { id:'6', name:'Earnings Screener', icon: ICONS.screener, description:'Filter pre- and post-earnings movers by surprise %, sector, cap.', usersCount:'27.5k+', category:'Analysis' },
+  { id:'7', name:'Portfolio X-Ray', icon: ICONS.xray, description:'See your real exposure — sector, geography, concentration risk.', usersCount:'22.4k+', category:'Analysis' },
+  { id:'8', name:'Dividend Calendar', icon: ICONS.dividend, description:'Which of your holdings pay next? Never miss an ex-date.', usersCount:'18.9k+', category:'Analysis' },
+  // Fun
+  { id:'2', name:'Feng Shui Picks', icon: ICONS.fengshui, description:'Your bazi meets the market — which sectors align with your element this year.', usersCount:'38.7k+', category:'Fun' },
+  { id:'9', name:'Mercury Retrograde Index', icon: ICONS.retrograde, description:'Does Mercury retrograde actually move markets? The data says...', usersCount:'15.6k+', category:'Fun' },
+  { id:'10', name:'Lunar Market Patterns', icon: ICONS.lunar, description:'CNY rally, Ghost Month dip — historical patterns by lunar calendar.', usersCount:'20.1k+', category:'Fun' },
+  { id:'11', name:'Tarot Investor', icon: ICONS.tarot, description:'Draw a card, get an AI-interpreted market outlook. For fun only.', usersCount:'12.3k+', category:'Fun' },
+  // Social
+  { id:'12', name:'Trader Rank', icon: ICONS.rank, description:'Analyze your trading habits and get ranked: Bronze → Challenger → King.', usersCount:'41.2k+', category:'Social' },
+  { id:'13', name:'Earnings Roulette', icon: ICONS.roulette, description:'Guess beat or miss before earnings. Compete with friends.', usersCount:'24.8k+', category:'Social' },
+  { id:'14', name:'P&L Card', icon: ICONS.plcard, description:'Generate a shareable card of your portfolio performance.', usersCount:'19.5k+', category:'Social' },
+  { id:'3', name:'Time Machine', icon: ICONS.timemachine, description:'What if you bought NVDA 5 years ago? See any stock\'s hypothetical returns.', usersCount:'29.1k+', category:'Social' },
+  // Tools
+  { id:'1', name:'Stock Comparator', icon: ICONS.comparator, description:'Compare two stocks side by side — fundamentals, technicals, and momentum.', usersCount:'45.2k+', category:'Tools' },
+  { id:'15', name:'Stop Loss Calculator', icon: ICONS.stoploss, description:'Calculate optimal stop loss based on volatility and risk tolerance.', usersCount:'16.7k+', category:'Tools' },
+  { id:'4', name:'Bull vs Bear', icon: ICONS.bullbear, description:'AI debates both sides of any stock — you be the judge.', usersCount:'33.8k+', category:'Tools' },
+  { id:'16', name:'IPO Calendar', icon: ICONS.ipo, description:'Track upcoming IPOs, grey market premiums, allocation deadlines.', usersCount:'14.2k+', category:'Tools' },
+];
 
-var FILTER_CATEGORIES = ['All', 'Technical', 'Whale Tracker', 'IPO', 'Macro'];
+var FILTER_CATEGORIES = ['All', 'Analysis', 'Fun', 'Social', 'Tools'];
 
 // ============================================================
 // Render Functions
@@ -1735,7 +3234,7 @@ function renderSkillListItem(skill) {
 (function init() {
   // --- Recommended cards ---
   var scrollContainer = document.getElementById('recommendedScroll');
-  scrollContainer.innerHTML = RECOMMENDED_SKILLS.map(renderSkillCard).join('');
+  scrollContainer.innerHTML = RECOMMENDED_APPS.map(renderSkillCard).join('');
 
   // --- Filter pills ---
   var activeFilter = 'All';
@@ -1763,27 +3262,15 @@ function renderSkillListItem(skill) {
     listIdx = 0;
     var listEl = document.getElementById('skillList');
     var filtered = activeFilter === 'All'
-      ? ALL_SKILLS
-      : ALL_SKILLS.filter(function(s) { return s.category === activeFilter; });
+      ? ALL_APPS
+      : ALL_APPS.filter(function(s) { return s.category === activeFilter; });
 
     if (filtered.length === 0) {
-      listEl.innerHTML = '<div class="empty-state">No skills found in this category.</div>';
+      listEl.innerHTML = '<div class="empty-state">No apps found in this category.</div>';
     } else {
       listEl.innerHTML = filtered.map(renderSkillListItem).join('');
     }
   }
-
-  // --- Live feed ticker ---
-  var feedIdx = 0;
-  var tickerEl = document.getElementById('feedTicker');
-
-  function showNextFeed() {
-    tickerEl.innerHTML = '<p key="' + feedIdx + '">' + LIVE_FEED_ITEMS[feedIdx] + '</p>';
-    feedIdx = (feedIdx + 1) % LIVE_FEED_ITEMS.length;
-  }
-
-  showNextFeed();
-  setInterval(showNextFeed, 2500);
 
   // --- Skill Detail Drawer ---
   var drawerOverlay = document.getElementById('drawerOverlay');
@@ -1791,8 +3278,8 @@ function renderSkillListItem(skill) {
   var drawerBody = document.getElementById('drawerBody');
 
   function findSkillById(id) {
-    for (var i = 0; i < ALL_SKILLS.length; i++) {
-      if (ALL_SKILLS[i].id === id) return ALL_SKILLS[i];
+    for (var i = 0; i < ALL_APPS.length; i++) {
+      if (ALL_APPS[i].id === id) return ALL_APPS[i];
     }
     return null;
   }
@@ -1803,7 +3290,7 @@ function renderSkillListItem(skill) {
   var snackbarTimer = null;
 
   function showSnackbar(name) {
-    snackbarText.textContent = name + ' added to Chat';
+    snackbarText.textContent = name + ' opened';
     snackbarEl.classList.add('show');
     clearTimeout(snackbarTimer);
     snackbarTimer = setTimeout(function() {
@@ -1860,18 +3347,16 @@ function renderSkillListItem(skill) {
   var navTabs = document.querySelectorAll('.nav-tab');
   var miniappContent = document.getElementById('miniappContent');
   var cioPage = document.getElementById('cioPage');
-  var fabEl = document.getElementById('fabCreate');
 
   // Greeting words for word-by-word reveal
   var CIO_GREETING_WORDS = [
     { text: 'Hey', cls: '' },
     { text: 'Louis,', cls: 'teal' },
     { br: true },
-    { text: "I've", cls: '' },
-    { text: 'been', cls: '' },
-    { text: 'watching', cls: '' },
+    { text: 'TSMC', cls: 'amber' },
+    { text: 'needs', cls: '' },
     { text: 'your', cls: '' },
-    { text: 'portfolio.', cls: '' },
+    { text: 'eye.', cls: '' },
   ];
 
   function playCioEntrance() {
@@ -1893,7 +3378,7 @@ function renderSkillListItem(skill) {
         return;
       }
       var span = document.createElement('span');
-      span.className = 'word' + (w.cls === 'teal' ? ' teal' : '');
+      span.className = 'word' + (w.cls ? ' ' + w.cls : '');
       span.textContent = w.text + ' ';
       greetH2.appendChild(span);
       wordSpans.push(span);
@@ -1915,27 +3400,162 @@ function renderSkillListItem(skill) {
     });
   }
 
+  // ---- Per-card Alert Dismiss ----
+  var CIO_ALLCLEAR_WORDS = [
+    { text: 'Hey', cls: '' },
+    { text: 'Louis,', cls: 'teal' },
+    { br: true },
+    { text: "you're", cls: '' },
+    { text: 'all', cls: '' },
+    { text: 'caught', cls: '' },
+    { text: 'up.', cls: 'green' },
+  ];
+
+  function checkAllAlertsDismissed() {
+    var remaining = cioPage.querySelectorAll('.alert-dot:not(.dismissed)');
+    if (remaining.length === 0) {
+      // All alerts acknowledged → orb goes happy
+      var glow = cioPage.querySelector('.cio-status-glow');
+      glow.classList.remove('attention');
+      glow.classList.add('good');
+      cioPage.classList.add('all-clear');
+
+      // Update greeting
+      setTimeout(function() {
+        var greetH2 = document.getElementById('cioGreetingText');
+        greetH2.innerHTML = '';
+        var wordSpans = [];
+        CIO_ALLCLEAR_WORDS.forEach(function(w) {
+          if (w.br) {
+            var brEl = document.createElement('span');
+            brEl.className = 'word-br';
+            greetH2.appendChild(brEl);
+            return;
+          }
+          var span = document.createElement('span');
+          span.className = 'word' + (w.cls ? ' ' + w.cls : '');
+          span.textContent = w.text + ' ';
+          greetH2.appendChild(span);
+          wordSpans.push(span);
+        });
+        wordSpans.forEach(function(span, i) {
+          setTimeout(function() { span.classList.add('revealed'); }, i * 100);
+        });
+      }, 300);
+
+      var lastP = cioPage.querySelector('.cio-greeting p');
+      if (lastP) lastP.textContent = 'Last analysed just now';
+
+      // Remove red dot from TSMC pill
+      var tsmcPill = cioPage.querySelector('.cio-filter-pill[data-filter="TSMC"]');
+      if (tsmcPill) tsmcPill.classList.remove('has-alert');
+    }
+  }
+
+  window.dismissAlert = function(btn) {
+    var feedItem = btn.closest('.feed-item-alert');
+    if (!feedItem) return;
+
+    // 1. Dismiss the timeline dot
+    var dot = feedItem.querySelector('.alert-dot');
+    if (dot) dot.classList.add('dismissed');
+
+    // 2. Mute the card
+    var card = feedItem.querySelector('.feed-card.accent-red');
+    if (card) card.style.borderLeftColor = 'rgba(255,255,255,0.06)';
+
+    // 3. Badge stays as "Alert" — no change
+
+    // 4. Button → Noted
+    btn.textContent = 'Noted';
+    btn.style.opacity = '0.4';
+    btn.style.pointerEvents = 'none';
+
+    // 5. Check if all alerts are dismissed
+    checkAllAlertsDismissed();
+  };
+
+  // Reset alert state when re-entering CIO tab
+  var origPlayCio = playCioEntrance;
+  playCioEntrance = function() {
+    cioPage.classList.remove('all-clear');
+    var glow = cioPage.querySelector('.cio-status-glow');
+    glow.classList.remove('good');
+    glow.classList.add('attention');
+    // Restore alert dots
+    cioPage.querySelectorAll('.alert-dot').forEach(function(d) { d.classList.remove('dismissed'); });
+    // Restore alert card borders
+    cioPage.querySelectorAll('.feed-card.accent-red').forEach(function(c) { c.style.borderLeftColor = ''; });
+    // Restore Got it buttons
+    cioPage.querySelectorAll('.feed-item-alert .feed-action-btn.secondary').forEach(function(b) {
+      b.textContent = 'Got it';
+      b.style.opacity = '';
+      b.style.pointerEvents = '';
+    });
+    // Restore TSMC pill alert dot
+    var tsmcPill = cioPage.querySelector('.cio-filter-pill[data-filter="TSMC"]');
+    if (tsmcPill) tsmcPill.classList.add('has-alert');
+    var lastP = cioPage.querySelector('.cio-greeting p');
+    if (lastP) lastP.textContent = 'Last analysed 12 min ago';
+    origPlayCio();
+  };
+
+  // ---- CIO Ticker Filter Pills ----
+  (function() {
+    var filters = document.getElementById('cioFilters');
+    if (!filters) return;
+    var pills = filters.querySelectorAll('.cio-filter-pill');
+    var feed = document.getElementById('cioFeed');
+    if (!feed) return;
+    var items = feed.querySelectorAll('.feed-item');
+
+    pills.forEach(function(pill) {
+      pill.addEventListener('click', function() {
+        pills.forEach(function(p) { p.classList.remove('active'); });
+        pill.classList.add('active');
+        var filter = pill.getAttribute('data-filter');
+
+        items.forEach(function(item) {
+          var tickers = item.getAttribute('data-tickers') || '';
+          if (filter === 'all' || tickers.indexOf(filter) !== -1) {
+            item.style.display = '';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+      });
+    });
+  })();
+
+  var communityPage = document.getElementById('communityPage');
+  var socialPage = document.getElementById('socialPage');
+
   navTabs.forEach(function(tab, idx) {
     tab.addEventListener('click', function() {
       navTabs.forEach(function(t) { t.classList.remove('active'); });
       tab.classList.add('active');
 
-      // idx: 0=Alpha, 1=Miniapp, 2=Agent(CIO), 3=Community
-      if (idx === 2) {
-        miniappContent.classList.add('hidden');
-        cioPage.classList.add('active');
-        fabEl.style.display = 'none';
-        // Play entrance animations
-        setTimeout(playCioEntrance, 50);
+      // idx: 0=Alpha(thinking), 1=Miniapp, 2=Agent(CIO), 3=Community(social)
+      // Hide all pages first
+      miniappContent.classList.add('hidden');
+      cioPage.classList.remove('active');
+      communityPage.classList.remove('active');
+      socialPage.classList.remove('active');
+      document.getElementById('cioInputBar').classList.remove('visible');
+      if (window.thinkingStop) window.thinkingStop();
+
+      if (idx === 0) {
+        communityPage.classList.add('active');
+        if (window.resetAlpha) window.resetAlpha();
       } else if (idx === 1) {
         miniappContent.classList.remove('hidden');
-        cioPage.classList.remove('active');
-        fabEl.style.display = '';
-      } else {
-        // Other tabs — hide both for now, show miniapp as fallback
-        miniappContent.classList.add('hidden');
-        cioPage.classList.remove('active');
-        fabEl.style.display = 'none';
+      } else if (idx === 2) {
+        cioPage.classList.add('active');
+        document.getElementById('cioInputBar').classList.add('visible');
+        setTimeout(playCioEntrance, 50);
+      } else if (idx === 3) {
+        socialPage.classList.add('active');
+        if (window.replaySocialAnims) window.replaySocialAnims();
       }
 
       // Scroll back to top
@@ -1943,64 +3563,1309 @@ function renderSkillListItem(skill) {
     });
   });
 
-  // --- Create MiniApp Page ---
-  var createPage = document.getElementById('createPage');
-  var fabBtn = document.getElementById('fabCreate');
-  var createBackBtn = document.getElementById('createBack');
-  var inputName = document.getElementById('inputName');
-  var inputDesc = document.getElementById('inputDesc');
-  var btnCreate = document.getElementById('btnCreate');
-  var visPrivate = document.getElementById('visPrivate');
-  var visPublic = document.getElementById('visPublic');
-  var auraHint = document.getElementById('auraHint');
-  var selectedVisibility = 'private';
-
-  fabBtn.addEventListener('click', function() {
-    createPage.classList.add('open');
+  // Close drawer when switching tabs
+  navTabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      closeDrawer();
+    });
   });
+})();
 
-  createBackBtn.addEventListener('click', function() {
-    createPage.classList.remove('open');
-  });
+// ============================================================
+// Community / Social Discovery Feed
+// ============================================================
+(function initSocialFeed() {
+  // Mixed feed — all items use shared .fc card frame
+  var FEED = [
+    { type: 'result', app: 'Time Machine', avatar: '👩‍💼', name: 'Sarah K.', time: '2m',
+      viz: 'curve', big: '+3,218%', bigClass: 'green', sub: '$NVDA · bought 5 years ago',
+      tickers: ['$NVDA'] },
+    { type: 'compact', avatar: '👨‍🔬', html: '<strong>David R.</strong> started following <strong>Sarah K.</strong> and <strong>Marcus Chen</strong>', time: '5m' },
+    { type: 'blog', avatar: '👨‍💼', name: 'Marcus Chen', badge: 'analyst', time: '8m',
+      title: 'NVDA Fair Value After Blackwell Ramp — A DCF Deep Dive',
+      excerpt: 'Ran three scenarios with different data center growth assumptions. Base case suggests 12% upside from current levels.',
+      tickers: ['$NVDA', '$AMD'], likes: 142, comments: 37 },
+    { type: 'result', app: 'Bull vs Bear', avatar: '👩‍🚀', name: 'Kim W.', time: '14m',
+      viz: 'debate', big: '62–38', bigClass: 'green', sub: '$TSLA · Bull wins',
+      bull: 62, bear: 38, tickers: ['$TSLA'] },
+    { type: 'news', source: 'Bloomberg', time: '18m',
+      title: 'Fed Holds Rates Steady, Signals Two Cuts Later This Year',
+      tickers: ['$SPY', '$TLT'] },
+    { type: 'result', app: 'Feng Shui Picks', avatar: '👩‍🎨', name: 'Jenny L.', time: '22m',
+      viz: 'element', big: '+18% YTD', bigClass: 'green', sub: 'Wood element → Energy sector',
+      element: '🌳', elementName: 'Wood → Fire', sectors: 'Solar · Clean Energy · EV', tickers: [] },
+    { type: 'compact', avatar: '👩‍🔬', html: '<strong>Lisa M.</strong> liked <strong>Marcus Chen</strong>\'s blog: "NVDA Fair Value After Blackwell"', time: '25m' },
+    { type: 'compact', avatar: '👩‍🔬', html: '<strong>Lisa M.</strong> reached <strong style="color:#ffab00">Gold III</strong> on Trader Rank — top 8%', time: '28m' },
+    { type: 'blog', avatar: '👩‍🔬', name: 'Priya Sharma', badge: 'contributor', time: '30m',
+      title: 'My Hidden China Risk — Portfolio X-Ray Deep Dive',
+      excerpt: 'Thought I was diversified across 20 holdings. X-Ray showed 34% indirect China exposure through supply chains.',
+      tickers: ['$AAPL', '$NKE'], likes: 89, comments: 24 },
+    { type: 'result', app: 'Earnings Roulette', avatar: '🧑‍💼', name: 'Alex C.', time: '33m',
+      viz: 'streak', big: '7/8', bigClass: 'orange', sub: 'Ranked #12 globally',
+      streak: ['W','W','W','L','W','W','W','W'], tickers: [] },
+    { type: 'news', source: 'Reuters', time: '36m',
+      title: 'NVIDIA Unveils Next-Gen Blackwell Ultra at GTC 2026',
+      tickers: ['$NVDA'] },
+    { type: 'result', app: 'DCF Calculator', avatar: '👨‍🔬', name: 'David R.', time: '38m',
+      viz: 'simple', big: '$198', bigClass: 'teal', sub: '$AAPL fair value · 12% upside',
+      tickers: ['$AAPL'] },
+    { type: 'result', app: 'Portfolio X-Ray', avatar: '🧑‍💻', name: 'Tom H.', time: '42m',
+      viz: 'simple', big: '72%', bigClass: 'red', sub: 'Tech concentration risk detected', tickers: [] },
+    { type: 'blog', avatar: '🧑‍💻', name: 'Jason Park', badge: 'kol', time: '45m',
+      title: 'Bull vs Bear on Tesla: AI Scored 58-42 Bull',
+      excerpt: 'The bear case on robotaxi timeline is strong. But energy storage optionality keeps getting overlooked.',
+      tickers: ['$TSLA'], likes: 231, comments: 85 },
+    { type: 'result', app: 'Tarot Investor', avatar: '🧑‍🎤', name: 'Ryan P.', time: '48m',
+      viz: 'badge', big: 'The Tower', bigClass: 'purple', sub: 'Volatility ahead — card XVI',
+      badgeIcon: '🗼', tickers: [] },
+    { type: 'news', source: 'SCMP', time: '52m',
+      title: 'Alibaba Cloud Revenue Surges 32% on AI Demand',
+      tickers: ['$BABA'] },
+    { type: 'result', app: 'Stock Comparator', avatar: '👨‍💻', name: 'Mike T.', time: '55m',
+      viz: 'simple', big: '40% cheaper', bigClass: 'teal', sub: '$JD vs $BABA on P/E ratio',
+      tickers: ['$BABA', '$JD'] },
+  ];
 
-  // Visibility toggle
-  visPrivate.addEventListener('click', function() {
-    selectedVisibility = 'private';
-    visPrivate.classList.add('selected');
-    visPublic.classList.remove('selected');
-    auraHint.classList.remove('show');
-  });
-  visPublic.addEventListener('click', function() {
-    selectedVisibility = 'public';
-    visPublic.classList.add('selected');
-    visPrivate.classList.remove('selected');
-    auraHint.classList.add('show');
-  });
+  // SVG icons for blog action bar
+  var SVG = {
+    heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',
+    chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    share: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>',
+    spark: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>'
+  };
 
-  // Enable/disable Create button based on name input
-  function checkCreateBtn() {
-    btnCreate.disabled = inputName.value.trim().length === 0;
+  function renderViz(item) {
+    if (item.viz === 'curve') {
+      return '<div class="fc-viz">' +
+        '<svg viewBox="0 0 300 40" width="100%" height="40" preserveAspectRatio="none">' +
+          '<defs><linearGradient id="gcFd" x1="0" y1="0" x2="0" y2="1">' +
+            '<stop offset="0%" stop-color="#00ff99" stop-opacity="0.25"/>' +
+            '<stop offset="100%" stop-color="#00ff99" stop-opacity="0"/>' +
+          '</linearGradient></defs>' +
+          '<path d="M0 38 Q30 37 60 35 Q100 30 140 24 Q180 16 220 10 Q260 4 300 2" fill="none" stroke="#00ff99" stroke-width="1.5" opacity="0.7"/>' +
+          '<path d="M0 38 Q30 37 60 35 Q100 30 140 24 Q180 16 220 10 Q260 4 300 2 L300 40 L0 40 Z" fill="url(#gcFd)"/>' +
+        '</svg></div>';
+    }
+    if (item.viz === 'debate') {
+      return '<div class="fc-debate">' +
+          '<div class="fc-debate-bull" style="flex:' + item.bull + '"></div>' +
+          '<div class="fc-debate-bear" style="flex:' + item.bear + '"></div>' +
+        '</div>' +
+        '<div class="fc-debate-lbl"><span class="bull">Bull ' + item.bull + '%</span><span class="bear">Bear ' + item.bear + '%</span></div>';
+    }
+    if (item.viz === 'element') {
+      return '<div class="fc-badge-zone"><div class="fc-badge-icon">' + item.element + '</div>' +
+        '<div class="fc-badge-info">' + item.elementName + '<br>' + item.sectors + '</div></div>';
+    }
+    if (item.viz === 'streak') {
+      return '<div class="fc-streak">' + item.streak.map(function(s) {
+        return '<div class="fc-streak-dot ' + (s === 'W' ? 'win' : 'loss') + '">' + (s === 'W' ? '✓' : '✗') + '</div>';
+      }).join('') + '</div>';
+    }
+    if (item.viz === 'badge') {
+      return '<div class="fc-badge-zone"><div class="fc-badge-icon">' + item.badgeIcon + '</div></div>';
+    }
+    return '';
   }
-  inputName.addEventListener('input', checkCreateBtn);
 
-  // Create action
-  btnCreate.addEventListener('click', function() {
-    if (btnCreate.disabled) return;
-    var name = inputName.value.trim();
-    createPage.classList.remove('open');
-    // Reset form
-    inputName.value = '';
-    inputDesc.value = '';
-    selectedVisibility = 'private';
-    visPrivate.classList.add('selected');
-    visPublic.classList.remove('selected');
-    auraHint.classList.remove('show');
-    btnCreate.disabled = true;
-    // Show success snackbar
-    setTimeout(function() {
-      showSnackbar(name + ' created');
-    }, 350);
+  function tickerHtml(tickers) {
+    return tickers.map(function(t) { return '<span class="fc-ticker">' + t + '</span>'; }).join('');
+  }
+
+  function renderFeedItem(item, i) {
+    var d = (0.06 + i * 0.03).toFixed(3);
+
+    // All types use .fc card frame
+    if (item.type === 'result') {
+      return '<div class="fc anim-fade-up" style="animation-delay:' + d + 's">' +
+        '<div class="fc-head">' +
+          '<div class="fc-av">' + item.avatar + '</div>' +
+          '<span class="fc-name">' + item.name + '</span>' +
+          '<span class="fc-app-badge">' + item.app + '</span>' +
+          '<span class="fc-time">' + item.time + '</span>' +
+        '</div>' +
+        '<div class="fc-hero">' +
+          '<div class="fc-big ' + item.bigClass + '">' + item.big + '</div>' +
+          '<div class="fc-sub">' + item.sub + '</div>' +
+        '</div>' +
+        renderViz(item) +
+        '<div class="fc-foot">' +
+          tickerHtml(item.tickers) +
+          '<button class="fc-try">Try it</button>' +
+        '</div>' +
+      '</div>';
+    }
+
+    if (item.type === 'compact') {
+      return '<div class="fc fc--compact anim-fade-up" style="animation-delay:' + d + 's">' +
+        '<div class="fc-head">' +
+          '<div class="fc-av">' + item.avatar + '</div>' +
+          '<span class="fc-time">' + item.time + '</span>' +
+        '</div>' +
+        '<div class="fc-body">' + item.html + '</div>' +
+      '</div>';
+    }
+
+    if (item.type === 'blog') {
+      return '<div class="fc anim-fade-up" style="animation-delay:' + d + 's">' +
+        '<div class="fc-head">' +
+          '<div class="fc-av">' + item.avatar + '</div>' +
+          '<span class="fc-name">' + item.name + '</span>' +
+          '<span class="blog-author-badge ' + item.badge + '">' + item.badge + '</span>' +
+          '<span class="fc-time">' + item.time + '</span>' +
+        '</div>' +
+        '<div class="fc-title">' + item.title + '</div>' +
+        '<div class="fc-excerpt">' + item.excerpt + '</div>' +
+        '<div class="fc-blog-tickers">' + tickerHtml(item.tickers) + '</div>' +
+        '<div class="fc-actions">' +
+          '<button class="fc-act">' + SVG.heart + ' ' + item.likes + '</button>' +
+          '<button class="fc-act">' + SVG.chat + ' ' + item.comments + '</button>' +
+          '<button class="fc-act">' + SVG.share + '</button>' +
+          '<button class="fc-discuss">' + SVG.spark + ' Discuss with AI</button>' +
+        '</div>' +
+      '</div>';
+    }
+
+    if (item.type === 'news') {
+      return '<div class="fc fc--news anim-fade-up" style="animation-delay:' + d + 's">' +
+        '<div class="fc-head">' +
+          '<div class="fc-av">📰</div>' +
+          '<span class="fc-source">' + item.source + '</span>' +
+          '<span class="fc-time">' + item.time + '</span>' +
+        '</div>' +
+        '<div class="fc-title">' + item.title + '</div>' +
+        '<div class="fc-foot">' + tickerHtml(item.tickers) + '</div>' +
+      '</div>';
+    }
+    return '';
+  }
+
+  function renderFeed() {
+    var feed = document.getElementById('discoveryFeed');
+    feed.innerHTML = FEED.map(function(item, i) {
+      return renderFeedItem(item, i);
+    }).join('');
+  }
+
+  // --- Analysis / Blog data ---
+  var BLOGS = [
+    {
+      author: 'Marcus Chen', avatar: '👨‍💼', badge: 'analyst', time: '1h ago',
+      title: 'NVDA Fair Value After Blackwell Ramp — A DCF Deep Dive',
+      excerpt: 'Ran three scenarios through DCF Calculator with different data center growth assumptions. Base case suggests 12% upside from current levels.',
+      tickers: ['$NVDA', '$AMD', '$AVGO'],
+      readMin: 8, likes: 142, comments: 37,
+      fromApp: 'DCF Calculator'
+    },
+    {
+      author: 'Priya Sharma', avatar: '👩‍🔬', badge: 'contributor', time: '3h ago',
+      title: 'Portfolio X-Ray Revealed My Hidden China Risk',
+      excerpt: 'Thought I was diversified across 20 holdings. X-Ray showed 34% indirect China exposure through supply chains I hadn\'t considered.',
+      tickers: ['$AAPL', '$TSLA', '$NKE'],
+      readMin: 5, likes: 89, comments: 24,
+      fromApp: 'Portfolio X-Ray'
+    },
+    {
+      author: 'Jason Park', avatar: '🧑‍💻', badge: 'kol', time: '5h ago',
+      title: 'Bull vs Bear on Tesla: AI Scored It 58-42 Bull',
+      excerpt: 'The bear case on robotaxi timeline is strong. But energy storage optionality keeps getting overlooked. Here\'s my breakdown of the AI debate.',
+      tickers: ['$TSLA'],
+      readMin: 6, likes: 231, comments: 85,
+      fromApp: 'Bull vs Bear'
+    },
+    {
+      author: 'Sarah Lin', avatar: '👩‍💼', badge: 'analyst', time: '8h ago',
+      title: 'Earnings Roulette Data: What 200 Predictions Taught Me',
+      excerpt: 'After 200 rounds, my accuracy is 71%. Sector patterns are real — tech beats more than expected, consumer misses more. Data inside.',
+      tickers: ['$META', '$AMZN', '$WMT'],
+      readMin: 10, likes: 178, comments: 52,
+      fromApp: 'Earnings Roulette'
+    },
+    {
+      author: 'David Wong', avatar: '👨‍🔬', badge: 'contributor', time: '12h ago',
+      title: 'BABA vs JD vs PDD: Three-Way Stock Comparator',
+      excerpt: 'Compared all three across 15 fundamentals. PDD wins on growth, JD on value, BABA on cash flow. Full breakdown with charts.',
+      tickers: ['$BABA', '$JD', '$PDD'],
+      readMin: 7, likes: 115, comments: 41,
+      fromApp: 'Stock Comparator'
+    },
+    {
+      author: 'Nina Tanaka', avatar: '👩‍🎨', badge: 'contributor', time: '1d ago',
+      title: 'Mercury Retrograde vs S&P 500: 20 Years of Data',
+      excerpt: 'I pulled every retrograde period since 2004. The -1.2% average drawdown is real, but the recovery pattern is what\'s interesting.',
+      tickers: ['$SPY'],
+      readMin: 12, likes: 304, comments: 128,
+      fromApp: 'Mercury Retrograde Index'
+    }
+  ];
+
+  function renderBlogs() {
+    var feed = document.getElementById('analysisFeed');
+    feed.innerHTML = BLOGS.map(function(blog, i) {
+      return '<div class="blog-card anim-fade-up" style="animation-delay:' + (0.1 + i * 0.08) + 's">' +
+        '<div class="blog-author">' +
+          '<div class="blog-author-avatar">' + blog.avatar + '</div>' +
+          '<span class="blog-author-name">' + blog.author + '</span>' +
+          '<span class="blog-author-badge ' + blog.badge + '">' + blog.badge + '</span>' +
+          '<span class="blog-dot"></span>' +
+          '<span class="blog-time">' + blog.time + '</span>' +
+        '</div>' +
+        '<div class="blog-title">' + blog.title + '</div>' +
+        '<div class="blog-excerpt">' + blog.excerpt + '</div>' +
+        '<div class="blog-bottom">' +
+          '<div class="blog-tickers">' +
+            blog.tickers.map(function(t) { return '<span class="blog-ticker">' + t + '</span>'; }).join('') +
+          '</div>' +
+          '<div class="blog-meta">' +
+            '<span class="blog-meta-item">' + blog.readMin + ' min</span>' +
+            '<span class="blog-meta-item">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' +
+              blog.likes +
+            '</span>' +
+            '<span class="blog-meta-item">' +
+              '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>' +
+              blog.comments +
+            '</span>' +
+          '</div>' +
+        '</div>' +
+        '<button class="blog-discuss-btn">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>' +
+          'Discuss with AI' +
+        '</button>' +
+      '</div>';
+    }).join('');
+  }
+
+  // --- News data ---
+  var NEWS = [
+    {
+      source: 'Bloomberg', time: '12 min ago',
+      title: 'Fed Holds Rates Steady, Signals Two Cuts Later This Year',
+      snippet: 'The Federal Reserve kept its benchmark rate unchanged, but updated projections suggest two quarter-point cuts by December.',
+      tickers: ['$SPY', '$TLT']
+    },
+    {
+      source: 'Reuters', time: '28 min ago',
+      title: 'NVIDIA Unveils Next-Gen Blackwell Ultra at GTC 2026',
+      snippet: 'Jensen Huang announced the Blackwell Ultra GPU architecture with 2x inference performance. Data center customers already placing orders.',
+      tickers: ['$NVDA', '$AMD']
+    },
+    {
+      source: 'SCMP', time: '45 min ago',
+      title: 'Alibaba Cloud Revenue Surges 32% on AI Demand',
+      snippet: 'Cloud computing division posts fastest growth in 8 quarters as Chinese enterprises accelerate AI adoption.',
+      tickers: ['$BABA', '$9988']
+    },
+    {
+      source: 'Financial Times', time: '1h ago',
+      title: 'Tesla Robotaxi Permit Approved in 3 More US States',
+      snippet: 'Regulatory momentum builds as California, Texas, and Florida grant autonomous ride-hailing permits to Tesla.',
+      tickers: ['$TSLA']
+    },
+    {
+      source: 'WSJ', time: '2h ago',
+      title: 'Apple in Talks to Acquire AI Startup for $2B',
+      snippet: 'Acquisition would bolster Apple Intelligence capabilities ahead of WWDC announcements next month.',
+      tickers: ['$AAPL']
+    },
+    {
+      source: 'Nikkei Asia', time: '3h ago',
+      title: 'TSMC Arizona Fab Reaches 90% Yield on 3nm Process',
+      snippet: 'Milestone achievement puts US-based production on track for high-volume manufacturing by Q3.',
+      tickers: ['$TSM', '$INTC']
+    }
+  ];
+
+  function renderNews() {
+    var newsFeed = document.getElementById('newsFeed');
+    newsFeed.innerHTML = NEWS.map(function(item, i) {
+      return '<div class="news-item anim-fade-up" style="animation-delay:' + (0.1 + i * 0.07) + 's">' +
+        '<div class="news-source">' + item.source + ' · ' + item.time + '</div>' +
+        '<div class="news-title">' + item.title + '</div>' +
+        '<div class="news-snippet">' + item.snippet + '</div>' +
+        '<div class="news-bottom">' +
+          item.tickers.map(function(t) { return '<span class="news-ticker">' + t + '</span>'; }).join('') +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  // --- Sub-tab switching ---
+  var socialSubtabs = document.querySelectorAll('.social-subtab');
+  var feedView = document.getElementById('socialFeedView');
+  var blogsView = document.getElementById('socialBlogsView');
+  var newsView = document.getElementById('socialNewsView');
+  var socialViews = [feedView, blogsView, newsView];
+  var viewMap = { feed: feedView, blogs: blogsView, news: newsView };
+
+  socialSubtabs.forEach(function(tab) {
+    tab.addEventListener('click', function() {
+      socialSubtabs.forEach(function(t) { t.classList.remove('active'); });
+      tab.classList.add('active');
+      var which = tab.getAttribute('data-social-tab');
+      socialViews.forEach(function(v) { v.style.display = 'none'; });
+      var target = viewMap[which];
+      target.style.display = '';
+      // Replay animations
+      var anims = target.querySelectorAll('.anim-fade-up, .anim-slide-right');
+      anims.forEach(function(el) {
+        el.style.animation = 'none';
+        el.offsetHeight;
+        el.style.animation = '';
+      });
+    });
   });
+
+  renderFeed();
+  renderBlogs();
+  renderNews();
+
+  // Replay animations when switching to Community tab
+  window.replaySocialAnims = function() {
+    var els = document.querySelectorAll('#socialPage .anim-fade-up, #socialPage .anim-slide-right');
+    els.forEach(function(el) {
+      el.style.animation = 'none';
+      el.offsetHeight; // force reflow
+      el.style.animation = '';
+    });
+  };
+})();
+
+// ============================================================
+// AI Thinking — Cinematic 3-Scene Animation
+// ============================================================
+(function initThinking() {
+  var canvas = document.getElementById('thinkingCanvas');
+  var ctx = canvas.getContext('2d');
+  var scanOverlay = document.getElementById('scanOverlay');
+  var scanLabel = document.getElementById('scanLabel');
+  var scanLines = document.getElementById('scanLines');
+  var resultEl = document.getElementById('thinkingResult');
+  var resultSubEl = document.getElementById('thinkingResultSub');
+  var resultBtn = document.getElementById('thinkingResultBtn');
+  var queryEl = document.getElementById('thinkingQuery');
+  var queryStatsEl = document.getElementById('thinkingQueryStats');
+
+  var DPR = window.devicePixelRatio || 1;
+  var W = 390, H = 712;
+  var animId = null;
+  var isActive = false;
+
+  // ---- Easing helpers ----
+  function lerp(a, b, t) { return a + (b - a) * t; }
+  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+  function easeInOut(t) { return t < 0.5 ? 4*t*t*t : 1 - Math.pow(-2*t+2,3)/2; }
+  function clamp01(t) { return t < 0 ? 0 : t > 1 ? 1 : t; }
+
+  // ---- Background star field (3D perspective) ----
+  var STAR_COUNT = 200;
+  var stars = [];
+
+  var starEdges = []; // pairs [i,j] of connected star indices
+
+  function initStars() {
+    stars = [];
+    for (var i = 0; i < STAR_COUNT; i++) {
+      stars.push({
+        x: (Math.random() - 0.5) * 2000,
+        y: (Math.random() - 0.5) * 2000,
+        z: Math.random() * 1500 + 100,
+        size: 0.5 + Math.random() * 2,
+        ox: 0, oy: 0, oz: 0, // original positions saved after init
+      });
+    }
+    // Save original positions for edge calculations
+    for (var i = 0; i < stars.length; i++) {
+      stars[i].ox = stars[i].x;
+      stars[i].oy = stars[i].y;
+      stars[i].oz = stars[i].z;
+    }
+    // Build network: connect each star to 3 nearest neighbors
+    starEdges = [];
+    var edgeSet = {};
+    for (var i = 0; i < stars.length; i++) {
+      var dists = [];
+      for (var j = 0; j < stars.length; j++) {
+        if (j === i) continue;
+        var dx = stars[i].ox - stars[j].ox;
+        var dy = stars[i].oy - stars[j].oy;
+        var dz = stars[i].oz - stars[j].oz;
+        dists.push({ j: j, d: dx*dx + dy*dy + dz*dz });
+      }
+      dists.sort(function(a, b) { return a.d - b.d; });
+      var count = 3;
+      for (var k = 0; k < count && k < dists.length; k++) {
+        var a = Math.min(i, dists[k].j);
+        var b = Math.max(i, dists[k].j);
+        var key = a + '-' + b;
+        if (!edgeSet[key]) {
+          edgeSet[key] = true;
+          starEdges.push([a, b]);
+        }
+      }
+    }
+  }
+
+  // ---- Sphere data (the nodes AI visits) ----
+  // 4 spheres = 4 different node types from the knowledge graph
+  var SPHERES = [
+    {
+      label: 'Nongfu Spring',
+      scanLabel: 'Reading Nongfu Spring (9633.HK)',
+      lines: [
+        { text: 'HK$32.15, market cap HK$382B — China #1 packaged water' },
+        { text: 'FY2025 revenue ¥262B, net margin 21.3%' },
+        { text: 'Water segment 58% of revenue, RTD tea 26%' },
+        { text: 'RTD tea segment declined 8.2% YoY → consumer downgrade signal', bright: true },
+        { text: 'Gross margin 59.5%, compressed 1.8pp from input costs' },
+        { text: 'Free cash flow ¥48B, dividend payout 72%', bright: true },
+        { text: 'Loading 2025 annual report... 286 pages scanned' },
+      ],
+      color: [80, 200, 255],
+    },
+    {
+      label: 'China Consumer',
+      scanLabel: 'Traversing macro factor: Chinese Consumer Economy',
+      lines: [
+        { text: 'CPI +0.1% YoY — near deflationary environment' },
+        { text: 'Consumer confidence index at 86.2, 10-year low', bright: true },
+        { text: 'EDGE FOUND: Nongfu revenue correlates 0.78 with consumer confidence' },
+        { text: 'Retail sales growth decelerated to +3.5% in Q4' },
+        { text: 'Premium FMCG basket down 12%, value tier up 8%', bright: true },
+        { text: 'Youth unemployment 16.1% → suppressing discretionary spend' },
+      ],
+      color: [255, 180, 60],
+    },
+    {
+      label: 'PET Resin',
+      scanLabel: 'Scanning risk node: PET Resin Price Hike',
+      lines: [
+        { text: 'PET resin spot price surged 18% since Jan 2026', bright: true },
+        { text: 'EDGE FOUND: Nongfu bottles → Sidel (supplier) → PET resin dependency' },
+        { text: 'PET accounts for ~15% of Nongfu COGS' },
+        { text: 'Crude oil Brent at $82 — upstream pressure persists' },
+        { text: 'Nongfu self-built PET preform lines offset 40% of cost hike', bright: true },
+        { text: 'Competitor Yibao has zero vertical integration → higher exposure' },
+      ],
+      color: [255, 90, 120],
+    },
+    {
+      label: 'Yibao / Competition',
+      scanLabel: 'Mapping competitor cluster: Yibao & C\'estbon',
+      lines: [
+        { text: 'CR Beverage (Yibao parent) IPO raised HK$6.3B in 2024' },
+        { text: 'Yibao water market share 22% vs Nongfu 28%' },
+        { text: 'EDGE FOUND: PET cost hike impacts Yibao 2.3x more than Nongfu', bright: true },
+        { text: 'C\'estbon pricing undercuts Nongfu by 15% in tier-3 cities' },
+        { text: 'Nongfu natural water positioning → brand moat vs purified water', bright: true },
+        { text: 'Analyst consensus: Nongfu maintains pricing power despite competition' },
+      ],
+      color: [160, 120, 255],
+    },
+  ];
+
+  // ---- World-space positions for spheres ----
+  var SPHERE_POS = [
+    { x: -220, y: -150, z: 700 },
+    { x: 280,  y: 180,  z: 950 },
+    { x: -180, y: 250,  z: 1200 },
+    { x: 300,  y: -200, z: 1450 },
+  ];
+
+  // ---- Edge connections between spheres ----
+  var SPHERE_EDGES = [
+    [0, 1], [0, 2], [0, 3], [1, 2], [2, 3], [1, 3],
+  ];
+
+  // ---- Radial lines per sphere (hidden connections revealed on zoom) ----
+  var SPHERE_RAYS = []; // [sphereIdx] → [{dx,dy,dz,len,lead?}]
+  var LEAD_RAY_IDX = []; // [sphereIdx] → index of the ray pointing to next sphere
+  (function buildRays() {
+    for (var si = 0; si < SPHERE_POS.length; si++) {
+      var rays = [];
+      var leadIdx = -1;
+      var count = 60 + Math.floor(Math.random() * 40); // 60-100 rays
+
+      // If there's a next sphere, first ray points toward it
+      if (si < SPHERE_POS.length - 1) {
+        var from = SPHERE_POS[si], to = SPHERE_POS[si + 1];
+        var ddx = to.x - from.x, ddy = to.y - from.y, ddz = to.z - from.z;
+        var dist = Math.sqrt(ddx*ddx + ddy*ddy + ddz*ddz);
+        rays.push({
+          dx: ddx/dist, dy: ddy/dist, dz: ddz/dist,
+          len: dist, // reaches exactly to next sphere
+          lead: true
+        });
+        leadIdx = 0;
+        count--; // one less random ray
+      }
+
+      for (var r = 0; r < count; r++) {
+        var theta = Math.random() * Math.PI * 2;
+        var phi = Math.acos(2 * Math.random() - 1);
+        var dx = Math.sin(phi) * Math.cos(theta);
+        var dy = Math.sin(phi) * Math.sin(theta);
+        var dz = Math.cos(phi);
+        var len = 120 + Math.random() * 350;
+        rays.push({ dx: dx, dy: dy, dz: dz, len: len });
+      }
+      SPHERE_RAYS.push(rays);
+      LEAD_RAY_IDX.push(leadIdx);
+    }
+  })();
+
+  // ---- Camera state ----
+  var cam = { x: 0, y: 0, z: -400, fov: 400 };
+  var camTarget = { x: 0, y: 0, z: -400 };
+
+  // ---- Timeline ----
+  var startTime = 0;
+  var elapsed = 0;
+  var currentSphere = -1; // which sphere we're zoomed into (-1 = none)
+  var scannedSpheres = {}; // tracks which spheres have been fully scanned
+  // Snapshot camera position at phase transitions for smooth interpolation
+  var phaseStartCam = { x: 0, y: 0, z: -400 };
+  var lastPhaseObj = null;
+  var scanLineIdx = 0;
+  var scanTimer = null;
+  var phase = 'FLYING'; // FLYING, ZOOM_IN, SCANNING, ZOOM_OUT, CONNECTING, DONE
+
+  // Build timeline: how long each sphere scan takes
+  var SCAN_SPEED = 500; // ms per line
+  function sphereScanDuration(i) {
+    return SPHERES[i].lines.length * SCAN_SPEED + 400;
+  }
+
+  // Build full timeline
+  var timeline = [];
+  function buildTimeline() {
+    timeline = [];
+    var t = 0;
+    // Initial fly (see the star field + all nodes in distance)
+    timeline.push({ phase: 'FLYING', start: t, end: t + 2000 });
+    t += 2000;
+
+    for (var i = 0; i < SPHERES.length; i++) {
+      // Zoom into sphere
+      timeline.push({ phase: 'ZOOM_IN', sphere: i, start: t, end: t + 1200 });
+      t += 1200;
+      // Scan
+      var scanDur = sphereScanDuration(i);
+      timeline.push({ phase: 'SCANNING', sphere: i, start: t, end: t + scanDur });
+      t += scanDur;
+      // Zoom out (longer to allow lead-ray follow transition)
+      timeline.push({ phase: 'ZOOM_OUT', sphere: i, start: t, end: t + 1500 });
+      t += 1500;
+    }
+    // Connecting — all shrink + edges + pulse
+    timeline.push({ phase: 'CONNECTING', start: t, end: t + 2500 });
+    t += 2500;
+    // Done
+    timeline.push({ phase: 'DONE', start: t, end: t + 99999 });
+  }
+
+  // ---- 3D → 2D projection ----
+  function project(px, py, pz) {
+    var dx = px - cam.x;
+    var dy = py - cam.y;
+    var dz = pz - cam.z;
+    if (dz <= 10) return null; // behind camera
+    var scale = cam.fov / dz;
+    return {
+      sx: W / 2 + dx * scale,
+      sy: H / 2 + dy * scale,
+      scale: scale,
+      z: dz,
+    };
+  }
+
+  // ---- Mix two colors by t (0→white, 1→color) ----
+  function mixColor(cr, cg, cb, t) {
+    return [
+      Math.round(230 + (cr - 230) * t),
+      Math.round(235 + (cg - 235) * t),
+      Math.round(240 + (cb - 240) * t),
+    ];
+  }
+
+  // ---- Draw a glowing sphere (centered light source, no 3D offset) ----
+  // colorMix: 0 = white/silver, 1 = full color
+  function drawSphere(sx, sy, radius, color, alpha, colorMix) {
+    if (radius < 0.5) return;
+    var cm = colorMix === undefined ? 1 : colorMix;
+    var mc = mixColor(color[0], color[1], color[2], cm);
+    var cr = mc[0], cg = mc[1], cb = mc[2];
+    var a = alpha;
+    var ia = a * (radius < 40 ? 1 : 40 / radius);
+
+    // === 1. Outer glow halo (additive) ===
+    ctx.globalCompositeOperation = 'lighter';
+    var haloR = Math.min(radius * 3, 200);
+    var gh = ctx.createRadialGradient(sx, sy, radius * 0.5, sx, sy, haloR);
+    gh.addColorStop(0, 'rgba(' + cr + ',' + cg + ',' + cb + ',' + (0.18 * ia).toFixed(3) + ')');
+    gh.addColorStop(0.4, 'rgba(' + cr + ',' + cg + ',' + cb + ',' + (0.04 * ia).toFixed(3) + ')');
+    gh.addColorStop(1, 'transparent');
+    ctx.beginPath();
+    ctx.arc(sx, sy, haloR, 0, Math.PI * 2);
+    ctx.fillStyle = gh;
+    ctx.fill();
+    ctx.globalCompositeOperation = 'source-over';
+
+    // === 2. Sphere body — centered radial gradient, bright core ===
+    var gBody = ctx.createRadialGradient(sx, sy, 0, sx, sy, radius);
+    gBody.addColorStop(0,    'rgba(255,255,255,' + a.toFixed(3) + ')');
+    gBody.addColorStop(0.15, 'rgba(' + Math.min(255,cr+60) + ',' + Math.min(255,cg+60) + ',' + Math.min(255,cb+60) + ',' + a.toFixed(3) + ')');
+    gBody.addColorStop(0.5,  'rgba(' + cr + ',' + cg + ',' + cb + ',' + a.toFixed(3) + ')');
+    gBody.addColorStop(0.8,  'rgba(' + Math.floor(cr*0.4) + ',' + Math.floor(cg*0.4) + ',' + Math.floor(cb*0.4) + ',' + a.toFixed(3) + ')');
+    gBody.addColorStop(1,    'rgba(' + Math.floor(cr*0.1) + ',' + Math.floor(cg*0.1) + ',' + Math.floor(cb*0.1) + ',' + (a*0.6).toFixed(3) + ')');
+    ctx.beginPath();
+    ctx.arc(sx, sy, radius, 0, Math.PI * 2);
+    ctx.fillStyle = gBody;
+    ctx.fill();
+  }
+
+  // ---- Draw a glowing edge ----
+  function drawEdge(x1, y1, x2, y2, alpha) {
+    ctx.globalCompositeOperation = 'lighter';
+    // Soft outer
+    ctx.beginPath();
+    ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+    ctx.strokeStyle = 'rgba(255,255,255,' + (0.06 * alpha) + ')';
+    ctx.lineWidth = 6;
+    ctx.stroke();
+    // Crisp center
+    ctx.beginPath();
+    ctx.moveTo(x1, y1); ctx.lineTo(x2, y2);
+    ctx.strokeStyle = 'rgba(255,255,255,' + (0.25 * alpha) + ')';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
+  // ---- Resize ----
+  function resize() {
+    var rect = canvas.parentElement.getBoundingClientRect();
+    W = rect.width || 390;
+    H = rect.height || 712;
+    canvas.width = W * DPR;
+    canvas.height = H * DPR;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+  }
+
+  // ---- Show scan text ----
+  function showScanLines(sphereIdx) {
+    var sp = SPHERES[sphereIdx];
+    scanLabel.textContent = sp.scanLabel;
+    scanLines.innerHTML = '';
+    scanOverlay.classList.add('visible');
+    scanLineIdx = 0;
+
+    clearInterval(scanTimer);
+    scanTimer = setInterval(function() {
+      if (scanLineIdx >= sp.lines.length) {
+        clearInterval(scanTimer);
+        return;
+      }
+      var lineData = sp.lines[scanLineIdx];
+      var el = document.createElement('div');
+      el.className = 'scan-line' + (lineData.bright ? ' bright' : '');
+      el.textContent = lineData.text;
+      scanLines.appendChild(el);
+      // Keep max 5 lines visible
+      while (scanLines.children.length > 5) {
+        scanLines.removeChild(scanLines.firstChild);
+      }
+      scanLineIdx++;
+    }, SCAN_SPEED);
+  }
+
+  function hideScanLines() {
+    scanOverlay.classList.remove('visible');
+    clearInterval(scanTimer);
+  }
+
+  // ---- Main draw loop ----
+  function draw() {
+    if (!isActive) return;
+    elapsed = Date.now() - startTime;
+
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, W, H);
+
+    var t = elapsed * 0.001; // seconds
+
+    // ---- Determine current timeline phase ----
+    var curPhase = null;
+    for (var ti = 0; ti < timeline.length; ti++) {
+      if (elapsed >= timeline[ti].start && elapsed < timeline[ti].end) {
+        curPhase = timeline[ti];
+        break;
+      }
+    }
+    if (!curPhase) { animId = requestAnimationFrame(draw); return; }
+
+    var phaseProgress = clamp01((elapsed - curPhase.start) / (curPhase.end - curPhase.start));
+    // Snapshot camera at start of each new phase
+    if (curPhase !== lastPhaseObj) {
+      phaseStartCam.x = cam.x;
+      phaseStartCam.y = cam.y;
+      phaseStartCam.z = cam.z;
+      lastPhaseObj = curPhase;
+    }
+    phase = curPhase.phase;
+
+    // ---- Camera logic per phase ----
+    if (phase === 'FLYING') {
+      // Slow drift forward through star field
+      camTarget.z = -400 + phaseProgress * 200;
+      camTarget.x = Math.sin(t * 0.3) * 30;
+      camTarget.y = Math.cos(t * 0.2) * 20;
+      // Show user query (stays until DONE)
+      if (phaseProgress > 0.1 && !queryEl.classList.contains('visible')) {
+        queryEl.classList.add('visible');
+      }
+    } else if (phase === 'ZOOM_IN') {
+      var sp = SPHERE_POS[curPhase.sphere];
+      var ep = easeInOut(phaseProgress);
+      // Smooth from wherever camera was at phase start → sphere close-up
+      camTarget.x = lerp(phaseStartCam.x, sp.x, ep);
+      camTarget.y = lerp(phaseStartCam.y, sp.y, ep);
+      camTarget.z = lerp(phaseStartCam.z, sp.z - 200, ep);
+      // Show scan text at 80% zoom
+      if (phaseProgress > 0.8 && currentSphere !== curPhase.sphere) {
+        currentSphere = curPhase.sphere;
+        showScanLines(curPhase.sphere);
+      }
+    } else if (phase === 'SCANNING') {
+      var sp2 = SPHERE_POS[curPhase.sphere];
+      camTarget.x = sp2.x + Math.sin(t * 0.5) * 8;
+      camTarget.y = sp2.y + Math.cos(t * 0.4) * 6;
+      camTarget.z = sp2.z - 200;
+    } else if (phase === 'ZOOM_OUT') {
+      var sp3 = SPHERE_POS[curPhase.sphere];
+      var si = curPhase.sphere;
+      var ep2 = easeInOut(phaseProgress);
+
+      if (si < SPHERE_POS.length - 1) {
+        // Follow lead ray toward next sphere — one continuous motion
+        var nextSp = SPHERE_POS[si + 1];
+        // End position: pull back to safe z that sees BOTH spheres
+        var safeZ = Math.min(sp3.z, nextSp.z) - 350;
+        var endX = lerp(sp3.x, nextSp.x, 0.4);
+        var endY = lerp(sp3.y, nextSp.y, 0.4);
+        camTarget.x = lerp(phaseStartCam.x, endX, ep2);
+        camTarget.y = lerp(phaseStartCam.y, endY, ep2);
+        camTarget.z = lerp(phaseStartCam.z, safeZ, ep2);
+      } else {
+        // Last sphere: zoom out to overview
+        camTarget.x = lerp(phaseStartCam.x, 0, ep2);
+        camTarget.y = lerp(phaseStartCam.y, 0, ep2);
+        camTarget.z = lerp(phaseStartCam.z, -500, ep2);
+      }
+      if (phaseProgress < 0.1) {
+        hideScanLines();
+        currentSphere = -1;
+      }
+    } else if (phase === 'CONNECTING') {
+      camTarget.x = Math.sin(t * 0.2) * 15;
+      camTarget.y = Math.cos(t * 0.15) * 10;
+      camTarget.z = -500;
+    } else if (phase === 'DONE') {
+      if (phaseProgress < 0.01) {
+        queryEl.classList.remove('visible');
+        if (window.showAlphaAnswer) {
+          window.showAlphaAnswer();
+        } else {
+          resultSubEl.textContent = SPHERES.length + ' dimensions analyzed across 17,195 knowledge nodes';
+          resultEl.classList.add('visible');
+        }
+      }
+    }
+
+    // Smooth camera
+    cam.x = lerp(cam.x, camTarget.x, 0.06);
+    cam.y = lerp(cam.y, camTarget.y, 0.06);
+    cam.z = lerp(cam.z, camTarget.z, 0.06);
+
+    // ---- Draw stars as light points (NOT spheres) ----
+    var starSpeed = (phase === 'ZOOM_IN') ? 3 : (phase === 'FLYING' ? 1.5 : 0.3);
+    stars.forEach(function(s) {
+      s.z -= starSpeed;
+      if (s.z < 10) {
+        s.z = 1500;
+        s.x = (Math.random() - 0.5) * 2000;
+        s.y = (Math.random() - 0.5) * 2000;
+      }
+      var p = project(s.x, s.y, s.z);
+      if (!p || p.sx < -20 || p.sx > W + 20 || p.sy < -20 || p.sy > H + 20) return;
+      var rad = Math.min(2.5, s.size * p.scale * 12); // cap at 2.5px
+      var a = clamp01(1 - s.z / 1500) * 0.7;
+      if (rad < 0.2) return;
+
+      // Subtle glow bloom
+      ctx.globalCompositeOperation = 'lighter';
+      var glowR = rad * 5;
+      var sg = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, glowR);
+      sg.addColorStop(0, 'rgba(180,200,220,' + (a * 0.15).toFixed(3) + ')');
+      sg.addColorStop(1, 'transparent');
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, glowR, 0, Math.PI * 2);
+      ctx.fillStyle = sg;
+      ctx.fill();
+      ctx.globalCompositeOperation = 'source-over';
+
+      // Bright core dot
+      ctx.beginPath();
+      ctx.arc(p.sx, p.sy, rad, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(210,220,235,' + a.toFixed(3) + ')';
+      ctx.fill();
+    });
+
+    // ---- Draw star network edges (faint web — the universe is connected) ----
+    ctx.globalCompositeOperation = 'lighter';
+    starEdges.forEach(function(e) {
+      var s1 = stars[e[0]], s2 = stars[e[1]];
+      var p1 = project(s1.x, s1.y, s1.z);
+      var p2 = project(s2.x, s2.y, s2.z);
+      if (!p1 || !p2) return;
+      // Only draw if both endpoints are on-screen-ish
+      if (p1.sx < -50 || p1.sx > W+50 || p1.sy < -50 || p1.sy > H+50) return;
+      if (p2.sx < -50 || p2.sx > W+50 || p2.sy < -50 || p2.sy > H+50) return;
+      var avgZ = (p1.z + p2.z) / 2;
+      var a = clamp01(1 - avgZ / 2000) * 0.06; // very faint
+      if (a < 0.005) return;
+      ctx.beginPath();
+      ctx.moveTo(p1.sx, p1.sy);
+      ctx.lineTo(p2.sx, p2.sy);
+      ctx.strokeStyle = 'rgba(150,170,200,' + a.toFixed(4) + ')';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
+    });
+    ctx.globalCompositeOperation = 'source-over';
+
+    // ---- Draw sphere edges (only glow during CONNECTING/DONE) ----
+    {
+      // Sphere connecting lines: HIDDEN until CONNECTING phase (the discovery moment)
+      var baseEdgeAlpha;
+      if (phase === 'CONNECTING') {
+        baseEdgeAlpha = easeOut(phaseProgress); // 0 → 1.0 (fade in)
+      } else if (phase === 'DONE') {
+        baseEdgeAlpha = 1;
+      } else {
+        baseEdgeAlpha = 0; // hidden until discovery
+      }
+
+      if (baseEdgeAlpha > 0) {
+        SPHERE_EDGES.forEach(function(e) {
+          var p1 = project(SPHERE_POS[e[0]].x, SPHERE_POS[e[0]].y, SPHERE_POS[e[0]].z);
+          var p2 = project(SPHERE_POS[e[1]].x, SPHERE_POS[e[1]].y, SPHERE_POS[e[1]].z);
+          if (!p1 || !p2) return;
+          drawEdge(p1.sx, p1.sy, p2.sx, p2.sy, baseEdgeAlpha);
+        });
+      }
+
+      // Pulse flash at 60% through connecting
+      if (phase === 'CONNECTING' && phaseProgress > 0.55 && phaseProgress < 0.7) {
+        var pulseA = 1 - Math.abs(phaseProgress - 0.625) / 0.075;
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = 'rgba(255,255,255,' + (pulseA * 0.08) + ')';
+        ctx.fillRect(0, 0, W, H);
+        ctx.globalCompositeOperation = 'source-over';
+      }
+    }
+
+    // ---- Draw spheres ----
+    // Sort by z (far to near) for painter's algorithm
+    var sphereOrder = SPHERE_POS.map(function(sp, i) {
+      var p = project(sp.x, sp.y, sp.z);
+      return { i: i, p: p, z: p ? p.z : 99999 };
+    });
+    sphereOrder.sort(function(a, b) { return b.z - a.z; });
+
+    sphereOrder.forEach(function(item) {
+      var i = item.i;
+      var p = item.p;
+      if (!p) return;
+
+      // Is this sphere currently being focused or already scanned?
+      var isBeingZoomed = (phase === 'ZOOM_IN' && curPhase.sphere === i);
+      var isBeingScanned = (phase === 'SCANNING' && curPhase.sphere === i);
+      var isZoomingOut = (phase === 'ZOOM_OUT' && curPhase.sphere === i);
+      var isDiscovered = scannedSpheres[i] || isBeingZoomed || isBeingScanned || isZoomingOut;
+
+      if (!isDiscovered) {
+        // ---- Undiscovered: render as a regular star point ----
+        var starA = clamp01(1 - p.z / 1500) * 0.6;
+        if (starA < 0.02) return;
+        var starR = Math.min(2.5, 1.5 * p.scale * 12);
+        // Subtle glow
+        ctx.globalCompositeOperation = 'lighter';
+        var sg = ctx.createRadialGradient(p.sx, p.sy, 0, p.sx, p.sy, starR * 5);
+        sg.addColorStop(0, 'rgba(180,200,220,' + (starA * 0.15).toFixed(3) + ')');
+        sg.addColorStop(1, 'transparent');
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, starR * 5, 0, Math.PI * 2);
+        ctx.fillStyle = sg;
+        ctx.fill();
+        ctx.globalCompositeOperation = 'source-over';
+        // Bright dot
+        ctx.beginPath();
+        ctx.arc(p.sx, p.sy, starR, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(210,220,235,' + starA.toFixed(3) + ')';
+        ctx.fill();
+        return; // skip sphere rendering
+      }
+
+      // ---- Discovered: render as 3D sphere ----
+      var fullR = Math.min(55, 12 * p.scale * 55);
+      var radius, alpha, cm;
+
+      if (isBeingZoomed) {
+        // Grow from star-size to full sphere during zoom
+        var grow = easeOut(phaseProgress);
+        radius = lerp(3, fullR, grow);
+        alpha = lerp(0.6, 0.95, grow);
+        cm = clamp01(phaseProgress - 0.7) / 0.3 * 0.15; // hint of color at end
+      } else if (isBeingScanned) {
+        radius = fullR;
+        alpha = 1;
+        cm = 0.15 + easeOut(phaseProgress) * 0.85; // 0.15 → 1.0
+      } else if (isZoomingOut) {
+        radius = fullR;
+        alpha = clamp01(1 - p.z / 2000) * 0.9;
+        cm = 1;
+        scannedSpheres[i] = true;
+      } else {
+        // Already scanned — full color, normal size
+        radius = fullR;
+        alpha = clamp01(1 - p.z / 2000) * 0.9;
+        cm = 1;
+      }
+
+      drawSphere(p.sx, p.sy, radius, SPHERES[i].color, alpha, cm);
+
+      // ---- Radial lines: revealed when zooming into this sphere ----
+      // ---- Normal radial lines (not lead ray — lead ray drawn separately below) ----
+      var rayAlpha = 0;
+      if (isBeingZoomed) {
+        rayAlpha = easeOut(clamp01((phaseProgress - 0.3) / 0.7));
+      } else if (isBeingScanned) {
+        rayAlpha = 1;
+      } else if (isZoomingOut) {
+        rayAlpha = 1 - easeOut(phaseProgress); // fade out
+      }
+      if (rayAlpha > 0.01) {
+        var spR = SPHERE_POS[i];
+        var rays = SPHERE_RAYS[i];
+        var leadI = LEAD_RAY_IDX[i];
+        var mc = mixColor(SPHERES[i].color[0], SPHERES[i].color[1], SPHERES[i].color[2], cm);
+        ctx.globalCompositeOperation = 'lighter';
+        for (var ri = 0; ri < rays.length; ri++) {
+          if (ri === leadI) continue; // skip lead ray here
+          var ray = rays[ri];
+          var ex = spR.x + ray.dx * ray.len;
+          var ey = spR.y + ray.dy * ray.len;
+          var ez = spR.z + ray.dz * ray.len;
+          var pe = project(ex, ey, ez);
+          if (!pe) continue;
+          var ra = rayAlpha * 0.12 * clamp01(1 - pe.z / 2500);
+          if (ra < 0.003) continue;
+          var grad = ctx.createLinearGradient(p.sx, p.sy, pe.sx, pe.sy);
+          grad.addColorStop(0, 'rgba(' + mc[0] + ',' + mc[1] + ',' + mc[2] + ',' + (ra * 2).toFixed(4) + ')');
+          grad.addColorStop(0.3, 'rgba(' + mc[0] + ',' + mc[1] + ',' + mc[2] + ',' + ra.toFixed(4) + ')');
+          grad.addColorStop(1, 'transparent');
+          ctx.beginPath();
+          ctx.moveTo(p.sx, p.sy); ctx.lineTo(pe.sx, pe.sy);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      // Label: fade in during ZOOM_IN, visible during SCANNING, fade out during ZOOM_OUT
+      var labelAlpha = 0;
+      if (isBeingZoomed) {
+        labelAlpha = easeOut(clamp01((phaseProgress - 0.4) / 0.4)); // fade in from 40-80%
+      } else if (isBeingScanned) {
+        labelAlpha = 1;
+      } else if (isZoomingOut) {
+        labelAlpha = 1 - easeOut(clamp01(phaseProgress / 0.4)); // fade out in first 40%
+      } else if (scannedSpheres[i]) {
+        // Already scanned — show label at distance
+        labelAlpha = clamp01(1 - p.z / 2000) * 0.6;
+      }
+      if (labelAlpha > 0.02 && radius > 3) {
+        var fontSize = Math.min(14, Math.max(9, radius * 0.4));
+        // When zoomed in close, use bigger font
+        if (isBeingScanned || (isBeingZoomed && phaseProgress > 0.6)) {
+          fontSize = 13;
+        }
+        ctx.font = '600 ' + fontSize + 'px Satoshi, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillStyle = 'rgba(255,255,255,' + (labelAlpha * 0.85).toFixed(3) + ')';
+        ctx.fillText(SPHERES[i].label, p.sx, p.sy - radius - 8);
+      }
+    });
+
+    // ---- Draw lead ray connecting current sphere to next (persists across phases) ----
+    // Determine which lead ray should be visible and how bright
+    for (var li = 0; li < SPHERE_POS.length - 1; li++) {
+      var leadBright = 0; // 0→1: how much of the line is highlighted (from source end)
+      var leadGrow = 1;   // 0→1: line extends from source to dest
+      var leadVisible = false;
+
+      if (phase === 'ZOOM_OUT' && curPhase.sphere === li) {
+        // Line grows AND highlights from source toward dest
+        leadGrow = easeOut(clamp01((phaseProgress - 0.2) / 0.6));
+        leadBright = leadGrow; // highlight follows the growing tip
+        leadVisible = leadGrow > 0.01;
+      } else if (phase === 'ZOOM_IN' && curPhase.sphere === li + 1) {
+        leadGrow = 1;
+        leadBright = 1;
+        leadVisible = true;
+      } else if (phase === 'SCANNING' && curPhase.sphere === li + 1) {
+        leadGrow = 1;
+        leadBright = 1 - easeOut(clamp01(phaseProgress / 0.4));
+        leadVisible = true;
+      } else if (scannedSpheres[li] && scannedSpheres[li + 1]) {
+        leadGrow = 1;
+        leadBright = 0;
+        leadVisible = true;
+      }
+      if (!leadVisible) continue;
+
+      var fromSp = SPHERE_POS[li];
+      var toSp = SPHERE_POS[li + 1];
+      var endX = lerp(fromSp.x, toSp.x, leadGrow);
+      var endY = lerp(fromSp.y, toSp.y, leadGrow);
+      var endZ = lerp(fromSp.z, toSp.z, leadGrow);
+      var pFrom = project(fromSp.x, fromSp.y, fromSp.z);
+      var pTo = project(endX, endY, endZ);
+      // If source is behind camera, clip line to near plane
+      if (!pFrom && pTo) {
+        var nearZ = cam.z + 15;
+        var dx = endX - fromSp.x, dy = endY - fromSp.y, dz = endZ - fromSp.z;
+        if (Math.abs(dz) > 0.01) {
+          var t_clip = (nearZ - fromSp.z) / dz;
+          if (t_clip > 0 && t_clip < 1) {
+            pFrom = project(fromSp.x + dx * t_clip, fromSp.y + dy * t_clip, nearZ);
+          }
+        }
+      }
+      // If dest is behind camera, clip line to near plane
+      if (pFrom && !pTo) {
+        var nearZ2 = cam.z + 15;
+        var dx2 = endX - fromSp.x, dy2 = endY - fromSp.y, dz2 = endZ - fromSp.z;
+        if (Math.abs(dz2) > 0.01) {
+          var t_clip2 = (nearZ2 - fromSp.z) / dz2;
+          if (t_clip2 > 0 && t_clip2 < 1) {
+            pTo = project(fromSp.x + dx2 * t_clip2, fromSp.y + dy2 * t_clip2, nearZ2);
+          }
+        }
+      }
+      if (!pFrom || !pTo) continue;
+
+      var mc = mixColor(SPHERES[li].color[0], SPHERES[li].color[1], SPHERES[li].color[2], 1);
+      var dimAlpha = 0.04; // faint network level
+
+      ctx.globalCompositeOperation = 'lighter';
+
+      if (leadBright > 0.01) {
+        // Draw highlighted portion: source → leadBright%, then faint for the rest
+        // Use gradient: bright at source, transitions to dim at the retreat boundary
+        var midStop = clamp01(leadBright);
+        var la = 0.6;
+        var grad = ctx.createLinearGradient(pFrom.sx, pFrom.sy, pTo.sx, pTo.sy);
+        grad.addColorStop(0, 'rgba(' + mc[0] + ',' + mc[1] + ',' + mc[2] + ',' + la.toFixed(4) + ')');
+        if (midStop < 0.99) {
+          grad.addColorStop(midStop * 0.8, 'rgba(' + mc[0] + ',' + mc[1] + ',' + mc[2] + ',' + (la * 0.5).toFixed(4) + ')');
+          grad.addColorStop(midStop, 'rgba(150,170,200,' + dimAlpha.toFixed(4) + ')');
+          grad.addColorStop(1, 'rgba(150,170,200,' + dimAlpha.toFixed(4) + ')');
+        } else {
+          grad.addColorStop(0.5, 'rgba(' + mc[0] + ',' + mc[1] + ',' + mc[2] + ',' + (la * 0.5).toFixed(4) + ')');
+          grad.addColorStop(1, 'rgba(255,255,255,' + (la * 0.3).toFixed(4) + ')');
+        }
+        // Thick glow
+        ctx.beginPath();
+        ctx.moveTo(pFrom.sx, pFrom.sy); ctx.lineTo(pTo.sx, pTo.sy);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        // Crisp center for highlighted portion
+        ctx.beginPath();
+        ctx.moveTo(pFrom.sx, pFrom.sy); ctx.lineTo(pTo.sx, pTo.sy);
+        var cGrad = ctx.createLinearGradient(pFrom.sx, pFrom.sy, pTo.sx, pTo.sy);
+        cGrad.addColorStop(0, 'rgba(255,255,255,0.25)');
+        cGrad.addColorStop(midStop, 'rgba(255,255,255,0.25)');
+        if (midStop < 0.99) {
+          cGrad.addColorStop(Math.min(1, midStop + 0.01), 'transparent');
+          cGrad.addColorStop(1, 'transparent');
+        }
+        ctx.strokeStyle = cGrad;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      } else {
+        // Fully dim — faint network line
+        ctx.beginPath();
+        ctx.moveTo(pFrom.sx, pFrom.sy); ctx.lineTo(pTo.sx, pTo.sy);
+        ctx.strokeStyle = 'rgba(150,170,200,' + dimAlpha.toFixed(4) + ')';
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    animId = requestAnimationFrame(draw);
+  }
+
+  // ---- Start / Stop ----
+  function start() {
+    if (isActive) return;
+    isActive = true;
+    resize();
+    initStars();
+    buildTimeline();
+    currentSphere = -1;
+    scannedSpheres = {};
+    lastPhaseObj = null;
+    phaseStartCam = { x: 0, y: 0, z: -400 };
+    cam.x = 0; cam.y = 0; cam.z = -400;
+    camTarget.x = 0; camTarget.y = 0; camTarget.z = -400;
+    hideScanLines();
+    queryEl.classList.remove('visible');
+    queryStatsEl.classList.remove('hidden');
+    resultEl.classList.remove('visible');
+    startTime = Date.now();
+    draw();
+  }
+
+  function stop() {
+    isActive = false;
+    if (animId) cancelAnimationFrame(animId);
+    animId = null;
+    hideScanLines();
+  }
+
+  resultBtn.addEventListener('click', function() {
+    resultEl.classList.remove('visible');
+    stop();
+    setTimeout(start, 300);
+  });
+
+  window.thinkingStart = start;
+  window.thinkingStop = stop;
+
+  // Don't auto-start — Alpha now starts in input phase
+  window.thinkingStartIdle = function() {
+    // Start canvas with just stars (no spheres) for ambient bg
+    // For now just leave canvas blank in input phase
+  };
+})();
+
+// ============================================================
+// Alpha Tab — Full Demo Flow
+// ============================================================
+(function initAlphaFlow() {
+  var communityPage = document.getElementById('communityPage');
+  var alphaChat = document.getElementById('alphaChat');
+  var alphaInput = document.getElementById('alphaInput');
+
+  var ANSWER_HTML =
+    '<h3>Hold — risks outweigh near-term upside.</h3>' +
+    '<p>Nongfu Spring (<span class="hl-white">9633.HK</span>) has <span class="hl-teal">60%+</span> gross margins and dominant market share in packaged water. But three factors give me pause:</p>' +
+    '<h3>Competition intensifying</h3>' +
+    '<p>Yibao and C\'estbon are gaining share in the ¥2-3 segment. Volume growth slowed to <span class="hl-red">+4.2%</span> YoY vs <span class="hl-teal">+11%</span> last year.</p>' +
+    '<h3>Valuation stretched</h3>' +
+    '<p>Trading at <span class="hl-white">38x</span> forward PE vs 5-year average of 32x. EPS growth of <span class="hl-red">+9%</span> doesn\'t justify the premium.</p>' +
+    '<h3>What I\'d do</h3>' +
+    '<p>Don\'t own it → wait for a pullback to <span class="hl-teal">HK$32-34</span> range. Already hold → keep position, don\'t add here.</p>';
+
+  function setAlphaPhase(phase) {
+    communityPage.classList.remove('phase-input', 'phase-thinking', 'phase-answer');
+    communityPage.classList.add('phase-' + phase);
+  }
+
+  function resetAlpha() {
+    if (window.thinkingStop) window.thinkingStop();
+    setAlphaPhase('input');
+    alphaChat.innerHTML = '';
+    if (alphaInput) alphaInput.value = 'Should I buy Nongfu Spring?';
+    // Reset canvas opacity
+    var canvas = document.getElementById('thinkingCanvas');
+    if (canvas) canvas.style.opacity = '';
+  }
+
+  // Send handler
+  window.alphaSend = function() {
+    var question = alphaInput.value.trim();
+    if (!question) return;
+
+    // Show user bubble
+    alphaChat.innerHTML =
+      '<div class="alpha-msg user">' + question + '</div>' +
+      '<div class="alpha-thinking-indicator">' +
+        '<div class="alpha-thinking-dots"><span></span><span></span><span></span></div>' +
+        '<span class="alpha-thinking-label">Analyzing...</span>' +
+      '</div>';
+
+    // Switch to thinking phase
+    setAlphaPhase('thinking');
+
+    // Start thinking animation
+    if (window.thinkingStart) {
+      setTimeout(window.thinkingStart, 100);
+    }
+  };
+
+  // Called by thinking DONE phase
+  window.showAlphaAnswer = function() {
+    setAlphaPhase('answer');
+
+    // Build chat with user msg + CIO answer
+    alphaChat.innerHTML =
+      '<div class="alpha-msg user">' + (alphaInput.value || 'Should I buy Nongfu Spring?') + '</div>' +
+      '<div class="alpha-msg cio">' +
+        '<div class="alpha-msg-header">' +
+          '<div class="alpha-msg-avatar"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.5 5.5L19 10l-5.5 1.5L12 17l-1.5-5.5L5 10l5.5-1.5L12 3z"/></svg></div>' +
+          '<span class="alpha-msg-name">CIO</span>' +
+        '</div>' +
+        '<div class="alpha-msg-body" id="alphaAnswerBody">' + ANSWER_HTML + '</div>' +
+      '</div>' +
+      '<button class="alpha-again-btn" id="alphaAgainBtn">Ask another question</button>';
+
+    // Stagger reveal each element in the answer
+    var bodyEls = document.querySelectorAll('#alphaAnswerBody > *');
+    bodyEls.forEach(function(el, i) {
+      setTimeout(function() { el.classList.add('revealed'); }, 200 + i * 250);
+    });
+
+    // Show "ask again" button after answer streams in
+    var againBtn = document.getElementById('alphaAgainBtn');
+    setTimeout(function() {
+      againBtn.classList.add('visible');
+    }, 200 + bodyEls.length * 250 + 300);
+
+    againBtn.addEventListener('click', function() {
+      resetAlpha();
+    });
+
+    // Scroll chat to bottom as content appears
+    setTimeout(function() {
+      alphaChat.scrollTop = alphaChat.scrollHeight;
+    }, 500);
+    // Keep scrolling as items reveal
+    var scrollInterval = setInterval(function() {
+      alphaChat.scrollTop = alphaChat.scrollHeight;
+    }, 300);
+    setTimeout(function() { clearInterval(scrollInterval); }, 200 + bodyEls.length * 250 + 500);
+  };
+
+  // Export resetAlpha for tab switching
+  window.resetAlpha = resetAlpha;
 })();
 </script>
 
